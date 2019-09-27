@@ -1,0 +1,35 @@
+package tk.themcbros.interiormod.init;
+
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import tk.themcbros.interiormod.InteriorMod;
+
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
+public class InteriorItems {
+
+	private static final List<Item> ITEMS = Lists.newArrayList();
+	
+	public static final BlockItem CHAIR = registerItem("chair", new BlockItem(InteriorBlocks.CHAIR, new Item.Properties().group(ItemGroup.DECORATIONS)));
+	
+	private static <T extends Item> T registerItem(String registryName, T item) {
+		item.setRegistryName(InteriorMod.getId(registryName));
+		ITEMS.add(item);
+		return item;
+	}
+	
+	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = InteriorMod.MOD_ID)
+	public static class Registration {
+		@SubscribeEvent
+		public static void onItemRegistry(final RegistryEvent.Register<Item> event) {
+			ITEMS.forEach(item -> event.getRegistry().register(item));
+		}
+	}
+	
+}

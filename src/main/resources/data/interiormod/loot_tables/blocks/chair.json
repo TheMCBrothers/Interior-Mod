@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+	  "name": "chair",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_nbt",
+              "source": "block_entity",
+              "ops": [
+                {
+                  "source": "texture",
+                  "target": "textures.texture",
+                  "op": "replace"
+                },
+                {
+                  "source": "seatTexture",
+                  "target": "textures.seatTexture",
+                  "op": "replace"
+                }
+              ]
+            }
+          ],
+          "name": "interiormod:chair"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ]
+}
