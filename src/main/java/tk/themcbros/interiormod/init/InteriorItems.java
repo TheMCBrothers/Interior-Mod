@@ -16,6 +16,7 @@ public class InteriorItems {
 	private static final List<Item> ITEMS = Lists.newArrayList();
 	
 	public static final BlockItem CHAIR = registerItem("chair", new BlockItem(InteriorBlocks.CHAIR, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
+	public static final BlockItem TABLE = registerItem("table", new BlockItem(InteriorBlocks.TABLE, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
 	
 	private static <T extends Item> T registerItem(String registryName, T item) {
 		item.setRegistryName(InteriorMod.getId(registryName));

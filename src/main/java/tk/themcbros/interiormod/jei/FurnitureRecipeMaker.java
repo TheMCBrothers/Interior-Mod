@@ -24,8 +24,8 @@ public class FurnitureRecipeMaker {
         for(IFurnitureMaterial secondary : FurnitureRegistry.MATERIALS.getKeys()) {
             for(IFurnitureMaterial primary : FurnitureRegistry.MATERIALS.getKeys()) {
                 
-                Ingredient primaryIngredient = secondary.getIngredient();
-                Ingredient secondaryIngredient = primary.getIngredient();
+                Ingredient primaryIngredient = primary.getIngredient();
+                Ingredient secondaryIngredient = secondary.getIngredient();
                 NonNullList<Ingredient> inputs = NonNullList.from(Ingredient.EMPTY,
                 		primaryIngredient, Ingredient.EMPTY, Ingredient.EMPTY,
                 		primaryIngredient, secondaryIngredient, secondaryIngredient,

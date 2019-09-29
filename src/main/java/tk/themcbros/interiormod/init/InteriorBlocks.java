@@ -11,12 +11,14 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import tk.themcbros.interiormod.InteriorMod;
 import tk.themcbros.interiormod.blocks.ChairBlock;
+import tk.themcbros.interiormod.blocks.TableBlock;
 
 public class InteriorBlocks {
 
 	private static final List<Block> BLOCKS = Lists.newArrayList();
 	
-	public static final ChairBlock CHAIR = registerBlock("chair", new ChairBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1f)));
+	public static final ChairBlock CHAIR = registerBlock("chair", new ChairBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(.5f)));
+	public static final TableBlock TABLE = registerBlock("table", new TableBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(.5f)));
 	
 	private static <T extends Block> T registerBlock(String registryName, T block) {
 		block.setRegistryName(InteriorMod.getId(registryName));

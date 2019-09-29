@@ -1,8 +1,12 @@
+unreleased:
+- Added Tables
+- Fixed JEI recipe
+
 1.0.1:
 - Added Item Group
 - Added crafting recipe for the chair
 - Added JEI support
-- Experementing with the chair
+- Experimenting with the chair
 - Created IFurnitureMaterial with registry
 
 1.0.0:
