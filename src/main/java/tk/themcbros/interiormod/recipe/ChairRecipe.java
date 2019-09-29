@@ -22,24 +22,27 @@ public class ChairRecipe extends SpecialRecipe implements IShapedRecipe<Crafting
 	@Override
     public boolean matches(CraftingInventory inv, World worldIn) {
 		IFurnitureMaterial primaryId = IFurnitureMaterial.NULL;
-		IFurnitureMaterial secondaryId = IFurnitureMaterial.NULL;
+        IFurnitureMaterial secondaryId = IFurnitureMaterial.NULL;
         
         for(int col = 0; col < 3; ++col) {
             for(int row = 0; row < 3; ++row) {
-                if((col == 1 && row == 1)) {
-                	IFurnitureMaterial id = FurnitureRegistry.MATERIALS.getFromStack(inv.getStackInSlot(col + row * inv.getWidth()));
-                    if(id == IFurnitureMaterial.NULL || (primaryId != IFurnitureMaterial.NULL && id != primaryId))
-                        return false;
-                        
-                    primaryId = id;
-                }
-                else {
-                	IFurnitureMaterial id = FurnitureRegistry.MATERIALS.getFromStack(inv.getStackInSlot(col + row * inv.getWidth()));
-                    if(id == IFurnitureMaterial.NULL || (primaryId != IFurnitureMaterial.NULL && id != secondaryId))
-                        return false;
-                    
-                    secondaryId = id;
-                }
+            	
+            	if ((col == 0 && row >= 0 && row < 3) || (col == 2 && row > 0 && row < 3)) {
+            		IFurnitureMaterial id = FurnitureRegistry.MATERIALS.getFromStack(inv.getStackInSlot(col + row * inv.getWidth()));
+            		if(id == IFurnitureMaterial.NULL || (primaryId != IFurnitureMaterial.NULL && id != primaryId))
+            			return false;
+            		
+            		primaryId = id;
+            	} else if (col >= 1 && col < 3 && row == 1) {
+            		IFurnitureMaterial id = FurnitureRegistry.MATERIALS.getFromStack(inv.getStackInSlot(col + row * inv.getWidth()));
+            		if(id == IFurnitureMaterial.NULL || (secondaryId != IFurnitureMaterial.NULL && id != secondaryId))
+            			return false;
+            		
+            		secondaryId = id;
+            	} else {
+            		if(!inv.getStackInSlot(col + row * inv.getWidth()).isEmpty())
+            			return false;
+            	}
             }
         }
 
