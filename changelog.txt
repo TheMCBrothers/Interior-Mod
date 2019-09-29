@@ -1,0 +1,10 @@
+1.0.1:
+- Added Item Group
+- Added crafting recipe for the chair
+- Added JEI support
+- Experementing with the chair
+- Created IFurnitureMaterial with registry
+
+1.0.0:
+- Initial release
+- Added chairs

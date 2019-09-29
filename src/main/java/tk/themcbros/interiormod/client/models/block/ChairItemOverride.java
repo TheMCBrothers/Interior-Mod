@@ -7,6 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.world.World;
+import tk.themcbros.interiormod.furniture.FurnitureRegistry;
+import tk.themcbros.interiormod.furniture.IFurnitureMaterial;
 
 public class ChairItemOverride extends ItemOverrideList {
 
@@ -15,9 +17,9 @@ public class ChairItemOverride extends ItemOverrideList {
 		if(modelOriginal instanceof ChairModel) {
 			CompoundNBT tag = stack.getChildTag("textures");
 			if(tag != null) {
-				String seatTexture = tag.getString("seatTexture");
-				String texture = tag.getString("texture");
-				return ((ChairModel) modelOriginal).getCustomModel(texture, seatTexture, Direction.NORTH);
+				IFurnitureMaterial primary = FurnitureRegistry.MATERIALS.get(tag.getString("primary"));
+				IFurnitureMaterial secondary = FurnitureRegistry.MATERIALS.get(tag.getString("secondary"));
+				return ((ChairModel) modelOriginal).getCustomModel(primary, secondary, Direction.NORTH);
 			}
 		}
 		

@@ -5,6 +5,8 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import tk.themcbros.interiormod.InteriorMod;
+import tk.themcbros.interiormod.furniture.FurnitureRegistry;
+import tk.themcbros.interiormod.furniture.FurnitureRegistryEvent;
 
 public class CommonProxy {
 
@@ -24,6 +26,7 @@ public class CommonProxy {
 	
 	protected void postInit(InterModProcessEvent event) {
 		InteriorMod.LOGGER.info("CommonProxy postInit");
+		FMLJavaModLoadingContext.get().getModEventBus().post(new FurnitureRegistryEvent(FurnitureRegistry.MATERIALS));
 	}
 	
 }

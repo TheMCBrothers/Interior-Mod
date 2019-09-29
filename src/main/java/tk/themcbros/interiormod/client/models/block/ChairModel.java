@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import javax.vecmath.Matrix4f;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.tuple.Triple;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -25,12 +26,13 @@ import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IEnviromentBlockReader;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.common.model.TRSRTransformation;
+import tk.themcbros.interiormod.furniture.FurnitureRegistry;
+import tk.themcbros.interiormod.furniture.IFurnitureMaterial;
 import tk.themcbros.interiormod.tileentity.ChairTileEntity;
 
 @SuppressWarnings("deprecation")
@@ -43,7 +45,7 @@ public class ChairModel implements IBakedModel {
 	private IBakedModel bakedModel;
 	
 	private final VertexFormat format;
-	private final Map<String, IBakedModel> cache = Maps.newHashMap();
+	private final Map<Triple<String, String, Direction>, IBakedModel> cache = Maps.newHashMap();
 
 	public ChairModel(ModelLoader modelLoader, BlockModel model, IBakedModel bakedModel, VertexFormat format) {
 		this.modelLoader = modelLoader;
@@ -52,18 +54,21 @@ public class ChairModel implements IBakedModel {
 		this.format = format;
 	}
 	
-	public IBakedModel getCustomModel(@Nonnull ResourceLocation texture, @Nonnull ResourceLocation seatTexture, @Nonnull Direction facing) {
-		if(texture == null) texture = new ResourceLocation("block/oak_planks");
-		if(seatTexture == null) seatTexture = new ResourceLocation("block/oak_log");
+	public IBakedModel getCustomModel(@Nonnull IFurnitureMaterial primary, @Nonnull IFurnitureMaterial secondary, @Nonnull Direction facing) {
+		if(primary == null) primary = FurnitureRegistry.MATERIALS.getKeys().get(0);
+		if(secondary == null) secondary = FurnitureRegistry.MATERIALS.getKeys().get(0);
 		if(facing == null) facing = Direction.NORTH;
 		
-		return this.getCustomModel(texture.toString(), seatTexture.toString(), facing);
+		String primaryTex = primary.getTexture();
+		String secondaryTex = secondary.getTexture();
+		
+		return this.getCustomModel(primaryTex, secondaryTex, facing);
 	}
 	
-	public IBakedModel getCustomModel(@Nonnull String texture, @Nonnull String seatTexture, @Nonnull Direction facing) {
+	public IBakedModel getCustomModel(@Nonnull String primary, @Nonnull String secondary, @Nonnull Direction facing) {
 		IBakedModel customModel = this.bakedModel;
 
-		String key = texture + "," + seatTexture + "," + facing.toString();
+		Triple<String, String, Direction> key = Triple.of(primary, secondary, facing);
 
 		IBakedModel possibleModel = this.cache.get(key);
 
@@ -82,9 +87,9 @@ public class ChairModel implements IBakedModel {
 			newModel.name = this.model.name;
 			newModel.parent = this.model.parent;
 
-			newModel.textures.put("seat", seatTexture);
-			newModel.textures.put("texture", texture);
-			newModel.textures.put("particle", texture);
+			newModel.textures.put("seat", secondary);
+			newModel.textures.put("texture", primary);
+			newModel.textures.put("particle", primary);
 
 			customModel = newModel.bake(this.modelLoader, ModelLoader.defaultTextureGetter(),
 					TRSRTransformation.getRotation(facing), this.format);
@@ -96,45 +101,45 @@ public class ChairModel implements IBakedModel {
 	
 	@Override
 	public List<BakedQuad> getQuads(BlockState state, Direction side, Random rand) {
-		return this.getCustomModel("block/oak_planks", "block/oak_log", Direction.NORTH).getQuads(state, side, rand);
+		return this.getCustomModel(FurnitureRegistry.MATERIALS.getKeys().get(0), FurnitureRegistry.MATERIALS.getKeys().get(0), Direction.NORTH).getQuads(state, side, rand);
 	}
 	
 	@Override
 	public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull Random rand,
 			@Nonnull IModelData data) {
-		ResourceLocation casing = data.getData(ChairTileEntity.TEXTURE);
-		ResourceLocation bedding = data.getData(ChairTileEntity.SEAT_TEXTURE);
+		IFurnitureMaterial primary = data.getData(ChairTileEntity.MATERIAL);
+		IFurnitureMaterial secondary = data.getData(ChairTileEntity.SEAT_MATERIAL);
 		Direction facing = data.getData(ChairTileEntity.FACING);
-		return this.getCustomModel(casing, bedding, facing).getQuads(state, side, rand);
+		return this.getCustomModel(primary, secondary, facing).getQuads(state, side, rand);
 	}
 
 	@Override
 	public TextureAtlasSprite getParticleTexture(@Nonnull IModelData data) {
-		ResourceLocation casing = data.getData(ChairTileEntity.TEXTURE);
-		ResourceLocation bedding = data.getData(ChairTileEntity.SEAT_TEXTURE);
+		IFurnitureMaterial primary = data.getData(ChairTileEntity.MATERIAL);
+		IFurnitureMaterial secondary = data.getData(ChairTileEntity.SEAT_MATERIAL);
 		Direction facing = data.getData(ChairTileEntity.FACING);
-		return this.getCustomModel(casing, bedding, facing).getParticleTexture();
+		return this.getCustomModel(primary, secondary, facing).getParticleTexture();
 	}
 	
 	@Override
 	public IModelData getModelData(@Nonnull IEnviromentBlockReader world, @Nonnull BlockPos pos,
 			@Nonnull BlockState state, @Nonnull IModelData tileData) {
-		ResourceLocation texture = new ResourceLocation("block/oak_planks");
-		ResourceLocation seatTexture = new ResourceLocation("block/oak_log");
+		IFurnitureMaterial primary = FurnitureRegistry.MATERIALS.getKeys().get(0);
+		IFurnitureMaterial secondary = FurnitureRegistry.MATERIALS.getKeys().get(0);
 		Direction facing = Direction.NORTH;
 
 		TileEntity tile = world.getTileEntity(pos);
 		if (tile instanceof ChairTileEntity) {
-			texture = ((ChairTileEntity) tile).getTexture();
-			seatTexture = ((ChairTileEntity) tile).getSeatTexture();
+			primary = ((ChairTileEntity) tile).getMaterial();
+			secondary = ((ChairTileEntity) tile).getSeatMaterial();
 		}
 
 		if (state.has(BlockStateProperties.HORIZONTAL_FACING)) {
 			facing = state.get(BlockStateProperties.HORIZONTAL_FACING);
 		}
 
-		tileData.setData(ChairTileEntity.TEXTURE, texture);
-		tileData.setData(ChairTileEntity.SEAT_TEXTURE, seatTexture);
+		tileData.setData(ChairTileEntity.MATERIAL, primary);
+		tileData.setData(ChairTileEntity.SEAT_MATERIAL, secondary);
 		tileData.setData(ChairTileEntity.FACING, facing);
 		return tileData;
 	}

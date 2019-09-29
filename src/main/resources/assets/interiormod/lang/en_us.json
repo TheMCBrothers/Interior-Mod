@@ -1,4 +1,5 @@
 {
 	"block.interiormod.chair": "Chair",
-	"entity.interiormod.seat": "Seat"
+	"entity.interiormod.seat": "Seat",
+	"itemGroup.interiormod": "TheMCBrothers Interior Mod"
 }
