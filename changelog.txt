@@ -1,5 +1,6 @@
 1.0.2:
-- Added Tables
+- Added Tables (not complete)
+- Added correct display names to items
 - Fixed JEI recipe
 
 1.0.1:
