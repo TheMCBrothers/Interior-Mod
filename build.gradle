@@ -234,7 +234,7 @@ curseforge {
             displayName = "${modname} - ${minecraft_version}-${version}"
             relations {
 	            optionalLibrary 'themcbros-useless-mod'
-	            optionalLibrary 'biomesoplenty'
+	            optionalLibrary 'biomes-o-plenty'
 	        }
         }
     }
