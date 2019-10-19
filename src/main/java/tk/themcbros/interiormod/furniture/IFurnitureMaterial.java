@@ -15,7 +15,7 @@ public interface IFurnitureMaterial {
 	/**
 	 * The translation key using for the tooltip
 	 */
-	public ITextComponent getTooltip();
+	public ITextComponent getDisplayName();
 
 	/**
 	 * The string saved to the item NBT and tileentity NBT, used for material
@@ -41,8 +41,8 @@ public interface IFurnitureMaterial {
 	public static IFurnitureMaterial NULL = new IFurnitureMaterial() {
 		
 		@Override
-		public ITextComponent getTooltip() {
-			return new TranslationTextComponent("closet.null");
+		public ITextComponent getDisplayName() {
+			return new TranslationTextComponent("mat.interiormod.null");
 		}
 		
 		@Override
@@ -64,8 +64,8 @@ public interface IFurnitureMaterial {
 			}
 
 			@Override
-			public ITextComponent getTooltip() {
-				return new TranslationTextComponent("furniture.interiormod.null");
+			public ITextComponent getDisplayName() {
+				return new TranslationTextComponent("mat.interiormod.null");
 			}
 
 			@Override

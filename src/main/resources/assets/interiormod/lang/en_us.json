@@ -1,5 +1,17 @@
 {
+	"mat.interiormod.null": "Null",
+	"mat.interiormod.minecraft.oak_planks": "Oak",
+	"mat.interiormod.minecraft.spruce_planks": "Spruce",
+	"mat.interiormod.minecraft.birch_planks": "Birch",
+	"mat.interiormod.minecraft.jungle_planks": "Jungle",
+	"mat.interiormod.minecraft.acacia_planks": "Acacia",
+	"mat.interiormod.minecraft.dark_oak_planks": "Dark Oak",
+	
 	"block.interiormod.chair": "Chair",
+	"block.interiormod.chair.name": "%s Chair",
+	"block.interiormod.table": "Table",
+	"block.interiormod.table.name": "%s Table",
+	
 	"entity.interiormod.seat": "Seat",
 	"itemGroup.interiormod": "TheMCBrothers Interior Mod"
 }

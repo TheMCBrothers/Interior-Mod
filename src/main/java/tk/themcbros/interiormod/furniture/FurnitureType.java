@@ -10,7 +10,8 @@ import tk.themcbros.interiormod.init.InteriorBlocks;
 
 public enum FurnitureType implements IStringSerializable {
 
-	CHAIR(() -> InteriorBlocks.CHAIR);
+	CHAIR(() -> InteriorBlocks.CHAIR),
+	TABLE(() -> InteriorBlocks.TABLE);
 	
 	private final Supplier<Block> blockSupplier;
 	
@@ -25,6 +26,10 @@ public enum FurnitureType implements IStringSerializable {
 	
 	public ItemStack getStack() {
 		return new ItemStack(this.blockSupplier.get());
+	}
+	
+	public Block getBlock() {
+		return this.blockSupplier.get();
 	}
 	
 }

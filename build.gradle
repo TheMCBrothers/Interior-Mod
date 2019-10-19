@@ -97,8 +97,8 @@ dependencies {
 
 }
 
-// Example for how to get properties into the manifest for reading by the runtime..
 jar {
+	appendix = "${project.minecraft_version}"
     manifest {
         attributes([
             "Specification-Title": "interiormod",
@@ -112,15 +112,40 @@ jar {
     }
 }
 
-// Example configuration to allow publishing using the maven-publish task
-// we define a custom artifact that is sourced from the reobfJar output task
-// and then declare that to be published
-// Note you'll need to add a repository here
-def reobfFile = file("$buildDir/reobfJar/output.jar")
-def reobfArtifact = artifacts.add('default', reobfFile) {
-    type 'jar'
-    builtBy 'reobfJar'
+javadoc {
+    failOnError = false
 }
+
+task deobfJar(type: Jar) {
+    appendix = "${project.minecraft_version}"
+    classifier = 'deobf'
+    from sourceSets.main.output
+}
+
+task sourcesJar(type: Jar) {
+    appendix = "${project.minecraft_version}"
+    classifier = 'sources'
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    appendix = "${project.minecraft_version}"
+    classifier = 'javadoc'
+    from javadoc.getDestinationDir()
+}
+
+artifacts {
+    if (project.hasProperty('doDeobfJar')) {
+        archives deobfJar
+    }
+    if (project.hasProperty('doSourceJar')) {
+        archives sourcesJar
+    }
+    if (project.hasProperty('doJavadocJar')) {
+        archives javadocJar
+    }
+}
+
 publishing {
     tasks.publish.dependsOn 'build'
     publications {
@@ -170,27 +195,47 @@ String getChangelogText() {
     return str
 }
 
-tasks.curseforge.enabled = project.hasProperty('curseforge_key')
+class Secrets {
+    def data = null
 
-tasks['curseforge'].outputs.upToDateWhen {false}
+    def getProperty(String key) {
+        return data ? data[key] : ''
+    }
+}
+
+import groovy.json.JsonSlurper
+
+def secretFile
+if (System.getenv().SECRET_FILE) {
+    secretFile = file System.getenv().SECRET_FILE
+} else {
+    secretFile = file 'secret.json'
+}
+
+project.ext.secret = new Secrets()
+if (secretFile.exists()) {
+    secretFile.withReader {
+        project.ext.secret.data = new JsonSlurper().parse it
+    }
+}
 
 curseforge {
-    if (project.hasProperty('curseforge_top_key')) {
-        apiKey = project.curseforge_key
+    if (project.hasProperty('curse_type') && project.hasProperty('projectId')) {
+        apiKey = secret.curseforge_key
     }
 
     project {
         id = project.projectId
-        changelog = System.getenv('CHANGELOG') == null || System.getenv('CHANGELOG').equals('none') ? getChangelogText() : System.getenv('CHANGELOG')
+        changelog = getChangelogText()
         changelogType = 'html'
         releaseType = project.curse_type
-        addGameVersion project.minecraft_version
+        addGameVersion(project.minecraft_version)
         mainArtifact(jar) {
-            displayName = "${modname} - ${version}"
-        }
-        relations {
-            optionalLibrary 'themcbros-useless-mod'
-            optionalLibrary 'biomesoplenty'
+            displayName = "${modname} - ${minecraft_version}-${version}"
+            relations {
+	            optionalLibrary 'themcbros-useless-mod'
+	            optionalLibrary 'biomesoplenty'
+	        }
         }
     }
 }

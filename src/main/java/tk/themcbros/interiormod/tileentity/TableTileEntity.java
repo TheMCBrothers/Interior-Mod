@@ -4,7 +4,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
 import net.minecraftforge.client.model.ModelDataManager;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelDataMap;
@@ -13,33 +12,29 @@ import tk.themcbros.interiormod.furniture.FurnitureRegistry;
 import tk.themcbros.interiormod.furniture.IFurnitureMaterial;
 import tk.themcbros.interiormod.init.InteriorTileEntities;
 
-public class ChairTileEntity extends TileEntity {
+public class TableTileEntity extends TileEntity {
 
 	public static ModelProperty<IFurnitureMaterial> MATERIAL = new ModelProperty<IFurnitureMaterial>();
-	public static ModelProperty<IFurnitureMaterial> SEAT_MATERIAL = new ModelProperty<IFurnitureMaterial>();
-	public static ModelProperty<Direction> FACING = new ModelProperty<Direction>();
+	public static ModelProperty<IFurnitureMaterial> LEG_MATERIAL = new ModelProperty<IFurnitureMaterial>();
 	
 	private IFurnitureMaterial material = FurnitureRegistry.MATERIALS.getKeys().get(0);
-	private IFurnitureMaterial seatMaterial = FurnitureRegistry.MATERIALS.getKeys().get(0);
-	private Direction facing = Direction.NORTH;
+	private IFurnitureMaterial legMaterial = FurnitureRegistry.MATERIALS.getKeys().get(0);
 	
-	public ChairTileEntity() {
-		super(InteriorTileEntities.CHAIR);
+	public TableTileEntity() {
+		super(InteriorTileEntities.TABLE);
 	}
 	
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
-		compound.putString("material", this.material != null ? this.material.getSaveId() : "null");
-		compound.putString("seatMaterial", this.seatMaterial != null ? this.seatMaterial.getSaveId() : "null");
-		compound.putString("facing", this.facing != null ? this.facing.getName() : "north");
+		compound.putString("material", this.material.getSaveId());
+		compound.putString("legMaterial", this.legMaterial.getSaveId());
 		return super.write(compound);
 	}
 	
 	@Override
 	public void read(CompoundNBT compound) {
 		this.material = FurnitureRegistry.MATERIALS.get(compound.getString("material"));
-		this.seatMaterial = FurnitureRegistry.MATERIALS.get(compound.getString("seatMaterial"));
-		this.facing = Direction.byName(compound.getString("facing"));
+		this.legMaterial = FurnitureRegistry.MATERIALS.get(compound.getString("legMaterial"));
 		super.read(compound);
 	}
 	
@@ -65,31 +60,19 @@ public class ChairTileEntity extends TileEntity {
 	
 	@Override
 	public IModelData getModelData() {
-		return new ModelDataMap.Builder().withInitial(MATERIAL, material).withInitial(SEAT_MATERIAL, seatMaterial).withInitial(FACING, facing).build();
+		return new ModelDataMap.Builder().withInitial(MATERIAL, material).withInitial(LEG_MATERIAL, legMaterial).build();
 	}
 	
-	public Direction getFacing() {
-		return facing;
-	}
-	
-	public IFurnitureMaterial getSeatMaterial() {
-		return seatMaterial;
+	public IFurnitureMaterial getLegMaterial() {
+		return legMaterial;
 	}
 	
 	public IFurnitureMaterial getMaterial() {
 		return material;
 	}
-
-	public void setFacing(Direction direction) {
-		this.facing = direction;
-		if(this.world.isRemote) {
-			ModelDataManager.requestModelDataRefresh(this);
-			this.world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
-		}
-	}
 	
-	public void setSeatMaterial(IFurnitureMaterial seatMaterial) {
-		this.seatMaterial = seatMaterial;
+	public void setLegMaterial(IFurnitureMaterial seatMaterial) {
+		this.legMaterial = seatMaterial;
 		if(this.world.isRemote) {
 			ModelDataManager.requestModelDataRefresh(this);
 			this.world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);

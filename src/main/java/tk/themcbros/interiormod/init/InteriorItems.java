@@ -10,13 +10,15 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import tk.themcbros.interiormod.InteriorMod;
+import tk.themcbros.interiormod.furniture.FurnitureType;
+import tk.themcbros.interiormod.items.FurnitureBlockItem;
 
 public class InteriorItems {
 
 	private static final List<Item> ITEMS = Lists.newArrayList();
 	
-	public static final BlockItem CHAIR = registerItem("chair", new BlockItem(InteriorBlocks.CHAIR, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
-	public static final BlockItem TABLE = registerItem("table", new BlockItem(InteriorBlocks.TABLE, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
+	public static final BlockItem CHAIR = registerItem("chair", new FurnitureBlockItem(FurnitureType.CHAIR, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
+	public static final BlockItem TABLE = registerItem("table", new FurnitureBlockItem(FurnitureType.TABLE, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
 	
 	private static <T extends Item> T registerItem(String registryName, T item) {
 		item.setRegistryName(InteriorMod.getId(registryName));

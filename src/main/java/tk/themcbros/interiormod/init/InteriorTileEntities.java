@@ -11,12 +11,14 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import tk.themcbros.interiormod.InteriorMod;
 import tk.themcbros.interiormod.tileentity.ChairTileEntity;
+import tk.themcbros.interiormod.tileentity.TableTileEntity;
 
 public class InteriorTileEntities {
 
 	private static final List<TileEntityType<?>> TILE_ENTITY_TYPES = Lists.newArrayList();
 	
 	public static final TileEntityType<ChairTileEntity> CHAIR = registerTileEntityType("chair", TileEntityType.Builder.create(ChairTileEntity::new, InteriorBlocks.CHAIR).build(null));
+	public static final TileEntityType<TableTileEntity> TABLE = registerTileEntityType("table", TileEntityType.Builder.create(TableTileEntity::new, InteriorBlocks.TABLE).build(null));
 	
 	private static <T extends TileEntity> TileEntityType<T> registerTileEntityType(String registryName, TileEntityType<T> tileEntityType) {
 		tileEntityType.setRegistryName(InteriorMod.getId(registryName));

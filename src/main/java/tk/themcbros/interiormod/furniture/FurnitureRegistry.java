@@ -15,7 +15,7 @@ import tk.themcbros.interiormod.InteriorMod;
 
 public class FurnitureRegistry implements IFurnitureRegistry {
 
-	public static final FurnitureRegistry MATERIALS = new FurnitureRegistry("casing");
+	public static final FurnitureRegistry MATERIALS = new FurnitureRegistry("interiormod");
 
 	private final List<IFurnitureMaterial> REGISTRY = new ArrayList<IFurnitureMaterial>();
 	private final String key;

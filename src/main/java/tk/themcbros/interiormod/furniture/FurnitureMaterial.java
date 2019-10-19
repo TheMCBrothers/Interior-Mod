@@ -41,9 +41,9 @@ public class FurnitureMaterial implements IFurnitureMaterial {
 	}
 
 	@Override
-	public ITextComponent getTooltip() {
+	public ITextComponent getDisplayName() {
 		if (this.translationKey == null) {
-			this.translationKey = Util.makeTranslationKey("closet." + this.regName, this.key);
+			this.translationKey = Util.makeTranslationKey("mat." + this.regName, this.key);
 		}
 		return new TranslationTextComponent(this.translationKey);
 	}
