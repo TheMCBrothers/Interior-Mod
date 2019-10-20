@@ -2,7 +2,7 @@
   "type": "minecraft:block",
   "pools": [
     {
-	  "name": "chair",
+	  "name": "table",
       "rolls": 1,
       "entries": [
         {
@@ -18,14 +18,14 @@
                   "op": "replace"
                 },
                 {
-                  "source": "seatMaterial",
+                  "source": "legMaterial",
                   "target": "textures.secondary",
                   "op": "replace"
                 }
               ]
             }
           ],
-          "name": "interiormod:chair"
+          "name": "interiormod:table"
         }
       ],
       "conditions": [

@@ -1,6 +1,7 @@
 package tk.themcbros.interiormod.furniture;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -80,6 +81,11 @@ public class FurnitureRegistry implements IFurnitureRegistry {
 		tag.putString("primary", primary.getSaveId());
 		tag.putString("secondary", secondary.getSaveId());
 		return stack;
+	}
+
+	@Override
+	public Iterator<IFurnitureMaterial> iterator() {
+		return this.getKeys().iterator();
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -17,8 +18,8 @@ public class InteriorBlocks {
 
 	private static final List<Block> BLOCKS = Lists.newArrayList();
 	
-	public static final ChairBlock CHAIR = registerBlock("chair", new ChairBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(.5f)));
-	public static final TableBlock TABLE = registerBlock("table", new TableBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(.5f)));
+	public static final ChairBlock CHAIR = registerBlock("chair", new ChairBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(.5f).sound(SoundType.WOOD)));
+	public static final TableBlock TABLE = registerBlock("table", new TableBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(.5f).sound(SoundType.WOOD)));
 	
 	private static <T extends Block> T registerBlock(String registryName, T block) {
 		block.setRegistryName(InteriorMod.getId(registryName));
@@ -30,7 +31,7 @@ public class InteriorBlocks {
 	public static class Registration {
 		@SubscribeEvent
 		public static void onBlockRegistry(final RegistryEvent.Register<Block> event) {
-			BLOCKS.forEach(block -> event.getRegistry().register(block));
+			BLOCKS.forEach(event.getRegistry()::register);
 		}
 	}
 	

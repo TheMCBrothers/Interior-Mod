@@ -30,7 +30,7 @@ public class InteriorTileEntities {
 	public static class Registration {
 		@SubscribeEvent
 		public static void onBlockRegistry(final RegistryEvent.Register<TileEntityType<?>> event) {
-			TILE_ENTITY_TYPES.forEach(tileEntityType -> event.getRegistry().register(tileEntityType));
+			TILE_ENTITY_TYPES.forEach(event.getRegistry()::register);
 		}
 	}
 	

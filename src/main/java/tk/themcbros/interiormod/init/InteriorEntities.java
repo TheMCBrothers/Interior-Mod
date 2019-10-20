@@ -30,7 +30,7 @@ public class InteriorEntities {
 	public static class Registration {
 		@SubscribeEvent
 		public static void onBlockRegistry(final RegistryEvent.Register<EntityType<?>> event) {
-			ENTITY_TYPES.forEach(entityType -> event.getRegistry().register(entityType));
+			ENTITY_TYPES.forEach(event.getRegistry()::register);
 		}
 	}
 	

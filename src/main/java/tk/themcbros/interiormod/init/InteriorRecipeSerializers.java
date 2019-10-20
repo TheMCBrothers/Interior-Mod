@@ -28,7 +28,7 @@ public class InteriorRecipeSerializers {
 	public static class Registration {
 		@SubscribeEvent
 		public static void onBlockRegistry(final RegistryEvent.Register<IRecipeSerializer<?>> event) {
-			SERIALIZERS.forEach(serializer -> event.getRegistry().register(serializer));
+			SERIALIZERS.forEach(event.getRegistry()::register);
 		}
 	}
 	

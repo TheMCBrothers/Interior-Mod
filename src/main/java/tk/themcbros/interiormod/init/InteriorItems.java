@@ -30,7 +30,7 @@ public class InteriorItems {
 	public static class Registration {
 		@SubscribeEvent
 		public static void onItemRegistry(final RegistryEvent.Register<Item> event) {
-			ITEMS.forEach(item -> event.getRegistry().register(item));
+			ITEMS.forEach(event.getRegistry()::register);
 		}
 	}
 	

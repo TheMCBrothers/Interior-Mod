@@ -5,7 +5,7 @@ import javax.annotation.Nonnull;
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
 
-public interface IFurnitureRegistry {
+public interface IFurnitureRegistry extends Iterable<IFurnitureMaterial> {
 
 	/**
 	 * Creates and registers an IFurnitureMaterial instance
