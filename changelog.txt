@@ -1,3 +1,7 @@
+1.1.0:
+- Fixed recipes
+- Fixed loot tables
+
 1.0.2:
 - Added Tables (not complete)
 - Added correct display names to items
