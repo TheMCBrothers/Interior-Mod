@@ -1,3 +1,6 @@
+1.1.1:
+- Fixed Hwyla format error (#1)
+
 1.1.0:
 - Fixed recipes
 - Fixed loot tables

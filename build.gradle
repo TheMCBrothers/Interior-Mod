@@ -82,7 +82,11 @@ minecraft {
 
 repositories {
 	maven { // JEI
-        url "http://dvs1.progwml6.com/files/maven"
+        url = "http://dvs1.progwml6.com/files/maven"
+    }
+    maven {
+        name = "Hwyla REPO"
+        url = "https://tehnut.info/maven/"
     }
 }
 
@@ -90,10 +94,12 @@ dependencies {
 	// Minecraft Forge
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     
-    // compile against the JEI API but do not include it at runtime
+    // JEI
     compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
-    // at runtime, use the full JEI jar
     runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
+    
+    // Hwyla
+    compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
 
 }
 
@@ -231,7 +237,7 @@ curseforge {
         releaseType = project.curse_type
         addGameVersion(project.minecraft_version)
         mainArtifact(jar) {
-            displayName = "${modname} - ${minecraft_version}-${version}"
+            displayName = "${modname} - ${version}"
             relations {
 	            optionalLibrary 'themcbros-useless-mod'
 	            optionalLibrary 'biomes-o-plenty'

@@ -3,7 +3,6 @@ package tk.themcbros.interiormod.tileentity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.model.ModelDataManager;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelDataMap;
@@ -12,7 +11,7 @@ import tk.themcbros.interiormod.furniture.FurnitureRegistry;
 import tk.themcbros.interiormod.furniture.IFurnitureMaterial;
 import tk.themcbros.interiormod.init.InteriorTileEntities;
 
-public class TableTileEntity extends TileEntity {
+public class TableTileEntity extends FurnitureTileEntity {
 
 	public static ModelProperty<IFurnitureMaterial> MATERIAL = new ModelProperty<IFurnitureMaterial>();
 	public static ModelProperty<IFurnitureMaterial> LEG_MATERIAL = new ModelProperty<IFurnitureMaterial>();

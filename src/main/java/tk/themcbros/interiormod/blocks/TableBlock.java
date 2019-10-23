@@ -29,7 +29,7 @@ import tk.themcbros.interiormod.furniture.FurnitureType;
 import tk.themcbros.interiormod.furniture.IFurnitureMaterial;
 import tk.themcbros.interiormod.tileentity.TableTileEntity;
 
-public class TableBlock extends Block implements IWaterLoggable {
+public class TableBlock extends FurnitureBlock implements IWaterLoggable {
 
 	public static final BooleanProperty NORTH = BlockStateProperties.NORTH;
 	public static final BooleanProperty EAST = BlockStateProperties.EAST;

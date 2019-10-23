@@ -44,7 +44,7 @@ import tk.themcbros.interiormod.furniture.IFurnitureMaterial;
 import tk.themcbros.interiormod.tileentity.ChairTileEntity;
 import tk.themcbros.interiormod.util.ShapeUtils;
 
-public class ChairBlock extends Block implements IWaterLoggable {
+public class ChairBlock extends FurnitureBlock implements IWaterLoggable {
 
 	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
