@@ -1,4 +1,4 @@
-package tk.themcbros.interiormod.furniture;
+package tk.themcbros.interiormod.api.furniture;
 
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.text.ITextComponent;
@@ -74,5 +74,5 @@ public interface IFurnitureMaterial {
 			}
 		};
 	}
-	
+
 }

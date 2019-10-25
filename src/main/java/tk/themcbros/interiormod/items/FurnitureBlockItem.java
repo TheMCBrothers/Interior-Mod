@@ -6,8 +6,8 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.util.Constants;
+import tk.themcbros.interiormod.api.furniture.FurnitureType;
 import tk.themcbros.interiormod.furniture.FurnitureRegistry;
-import tk.themcbros.interiormod.furniture.FurnitureType;
 
 public class FurnitureBlockItem extends BlockItem {
 

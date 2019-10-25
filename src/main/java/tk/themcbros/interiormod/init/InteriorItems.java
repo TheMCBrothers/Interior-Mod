@@ -10,7 +10,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import tk.themcbros.interiormod.InteriorMod;
-import tk.themcbros.interiormod.furniture.FurnitureType;
+import tk.themcbros.interiormod.api.furniture.FurnitureType;
 import tk.themcbros.interiormod.items.FurnitureBlockItem;
 
 public class InteriorItems {

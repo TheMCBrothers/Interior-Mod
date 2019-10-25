@@ -29,8 +29,8 @@ import net.minecraft.world.IEnviromentBlockReader;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.common.model.TRSRTransformation;
+import tk.themcbros.interiormod.api.furniture.IFurnitureMaterial;
 import tk.themcbros.interiormod.furniture.FurnitureRegistry;
-import tk.themcbros.interiormod.furniture.IFurnitureMaterial;
 import tk.themcbros.interiormod.tileentity.TableTileEntity;
 
 @SuppressWarnings("deprecation")

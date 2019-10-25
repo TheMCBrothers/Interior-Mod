@@ -13,6 +13,9 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import tk.themcbros.interiormod.InteriorMod;
+import tk.themcbros.interiormod.api.furniture.FurnitureType;
+import tk.themcbros.interiormod.api.furniture.IFurnitureMaterial;
+import tk.themcbros.interiormod.api.furniture.IFurnitureRegistry;
 
 public class FurnitureRegistry implements IFurnitureRegistry {
 

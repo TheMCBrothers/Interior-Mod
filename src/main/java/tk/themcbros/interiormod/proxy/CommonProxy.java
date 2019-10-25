@@ -5,8 +5,8 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import tk.themcbros.interiormod.InteriorMod;
+import tk.themcbros.interiormod.api.furniture.FurnitureRegistryEvent;
 import tk.themcbros.interiormod.furniture.FurnitureRegistry;
-import tk.themcbros.interiormod.furniture.FurnitureRegistryEvent;
 
 public class CommonProxy {
 

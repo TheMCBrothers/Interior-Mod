@@ -6,13 +6,14 @@ import java.util.Random;
 
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import tk.themcbros.interiormod.InteriorMod;
+import tk.themcbros.interiormod.api.furniture.FurnitureType;
+import tk.themcbros.interiormod.api.furniture.IFurnitureMaterial;
 import tk.themcbros.interiormod.furniture.FurnitureRegistry;
-import tk.themcbros.interiormod.furniture.FurnitureType;
-import tk.themcbros.interiormod.furniture.IFurnitureMaterial;
 
 public class InteriorItemGroup extends ItemGroup {
 
-	public static final InteriorItemGroup INSTANCE = new InteriorItemGroup("interiormod");
+	public static final InteriorItemGroup INSTANCE = new InteriorItemGroup(InteriorMod.MOD_ID);
 	
 	private Random random = new Random();
 	

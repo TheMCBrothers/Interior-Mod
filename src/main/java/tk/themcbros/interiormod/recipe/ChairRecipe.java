@@ -8,9 +8,9 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.crafting.IShapedRecipe;
+import tk.themcbros.interiormod.api.furniture.FurnitureType;
+import tk.themcbros.interiormod.api.furniture.IFurnitureMaterial;
 import tk.themcbros.interiormod.furniture.FurnitureRegistry;
-import tk.themcbros.interiormod.furniture.FurnitureType;
-import tk.themcbros.interiormod.furniture.IFurnitureMaterial;
 import tk.themcbros.interiormod.init.InteriorRecipeSerializers;
 
 public class ChairRecipe extends SpecialRecipe implements IShapedRecipe<CraftingInventory> {

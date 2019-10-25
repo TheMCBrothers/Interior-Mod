@@ -140,6 +140,12 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
     from javadoc.getDestinationDir()
 }
 
+task apiJar(type: Jar) {
+    appendix = "${project.minecraft_version}"
+    classifier = 'api'
+    include 'tk/themcbros/interiormod.api/**'
+}
+
 artifacts {
     if (project.hasProperty('doDeobfJar')) {
         archives deobfJar
@@ -149,6 +155,9 @@ artifacts {
     }
     if (project.hasProperty('doJavadocJar')) {
         archives javadocJar
+    }
+    if (project.hasProperty('doApiJar')) {
+        archives apiJar
     }
 }
 
@@ -243,5 +252,6 @@ curseforge {
 	            optionalLibrary 'biomes-o-plenty'
 	        }
         }
+        addArtifact apiJar
     }
 }

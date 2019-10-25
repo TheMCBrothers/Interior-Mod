@@ -9,6 +9,7 @@ import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ForgeRegistries;
+import tk.themcbros.interiormod.api.furniture.IFurnitureMaterial;
 
 public class FurnitureMaterial implements IFurnitureMaterial {
 

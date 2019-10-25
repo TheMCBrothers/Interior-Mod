@@ -6,8 +6,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.World;
+import tk.themcbros.interiormod.api.furniture.IFurnitureMaterial;
 import tk.themcbros.interiormod.furniture.FurnitureRegistry;
-import tk.themcbros.interiormod.furniture.IFurnitureMaterial;
 
 public class TableItemOverride extends ItemOverrideList {
 

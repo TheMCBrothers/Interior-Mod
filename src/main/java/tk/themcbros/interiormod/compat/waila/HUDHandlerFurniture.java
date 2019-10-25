@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockReader;
 
 public class HUDHandlerFurniture implements IComponentProvider {
@@ -26,7 +27,7 @@ public class HUDHandlerFurniture implements IComponentProvider {
 		final BlockPos pos = accessor.getPosition();
 		final PlayerEntity player = accessor.getPlayer();
 		final ItemStack stack = accessor.getBlock().getPickBlock(state, hitResult, world, pos, player);
-		tooltip.add(stack.getDisplayName());
+		tooltip.add(stack.getDisplayName().applyTextStyle(TextFormatting.WHITE));
 	}
 
 }

@@ -1,4 +1,4 @@
-package tk.themcbros.interiormod.furniture;
+package tk.themcbros.interiormod.api.furniture;
 
 import javax.annotation.Nonnull;
 
@@ -15,7 +15,7 @@ public interface IFurnitureRegistry extends Iterable<IFurnitureMaterial> {
 	 * @return The created IFurnitureMaterial instance
 	 */
 	public IFurnitureMaterial registerMaterial(@Nonnull Block block, ResourceLocation textureLocation);
-	
+
 	/**
 	 * Creates and registers an IFurnitureMaterial instance
 	 * 
@@ -29,5 +29,5 @@ public interface IFurnitureRegistry extends Iterable<IFurnitureMaterial> {
 	 * Registers an IFurnitureMaterial instance
 	 */
 	public IFurnitureMaterial registerMaterial(@Nonnull IFurnitureMaterial material);
-	
+
 }

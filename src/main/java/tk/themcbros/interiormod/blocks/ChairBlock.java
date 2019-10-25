@@ -37,10 +37,10 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+import tk.themcbros.interiormod.api.furniture.FurnitureType;
+import tk.themcbros.interiormod.api.furniture.IFurnitureMaterial;
 import tk.themcbros.interiormod.entity.SeatEntity;
 import tk.themcbros.interiormod.furniture.FurnitureRegistry;
-import tk.themcbros.interiormod.furniture.FurnitureType;
-import tk.themcbros.interiormod.furniture.IFurnitureMaterial;
 import tk.themcbros.interiormod.tileentity.ChairTileEntity;
 import tk.themcbros.interiormod.util.ShapeUtils;
 

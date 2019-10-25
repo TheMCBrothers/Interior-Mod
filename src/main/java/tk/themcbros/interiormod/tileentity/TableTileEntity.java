@@ -7,8 +7,8 @@ import net.minecraftforge.client.model.ModelDataManager;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelDataMap;
 import net.minecraftforge.client.model.data.ModelProperty;
+import tk.themcbros.interiormod.api.furniture.IFurnitureMaterial;
 import tk.themcbros.interiormod.furniture.FurnitureRegistry;
-import tk.themcbros.interiormod.furniture.IFurnitureMaterial;
 import tk.themcbros.interiormod.init.InteriorTileEntities;
 
 public class TableTileEntity extends FurnitureTileEntity {

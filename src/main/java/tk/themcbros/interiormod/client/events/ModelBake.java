@@ -16,9 +16,9 @@ import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import tk.themcbros.interiormod.InteriorMod;
+import tk.themcbros.interiormod.api.furniture.FurnitureType;
 import tk.themcbros.interiormod.client.models.block.ChairModel;
 import tk.themcbros.interiormod.client.models.block.TableModel;
-import tk.themcbros.interiormod.furniture.FurnitureType;
 
 @Mod.EventBusSubscriber(modid = InteriorMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ModelBake {

@@ -11,6 +11,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import tk.themcbros.interiormod.api.InteriorAPI;
 import tk.themcbros.interiormod.proxy.ClientProxy;
 import tk.themcbros.interiormod.proxy.CommonProxy;
 import tk.themcbros.interiormod.proxy.ServerProxy;
@@ -19,7 +20,7 @@ import tk.themcbros.interiormod.recipe.FurnitureRecipeManager;
 @Mod(InteriorMod.MOD_ID)
 public class InteriorMod
 {
-	public static final String MOD_ID = "interiormod";
+	public static final String MOD_ID = InteriorAPI.MOD_ID;
     public static final Logger LOGGER = LogManager.getFormatterLogger(MOD_ID);
 
     public static InteriorMod instance;
@@ -29,6 +30,8 @@ public class InteriorMod
         instance = this;
         
         MinecraftForge.EVENT_BUS.register(this);
+        
+        InteriorAPI.init(new InteriorModAPI());
         
         proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
     }
