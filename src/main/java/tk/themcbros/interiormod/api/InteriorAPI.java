@@ -31,10 +31,10 @@ public class InteriorAPI {
 	 * @param inst
 	 */
 	public static void init(IInteriorAPI inst) {
-		if (instance == null && ModList.get().isLoaded("bluepower")) {
+		if (instance == null && ModList.get().isLoaded("interiormod")) {
             instance = inst;
         } else {
-            throw new IllegalStateException("This method should be called from BluePower only!");
+            throw new IllegalStateException("This method should be called from InteriorMod only!");
         }
 	}
 	

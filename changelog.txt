@@ -1,3 +1,7 @@
+1.1.2:
+- Added data generators
+- Added furniture api
+
 1.1.1:
 - Fixed Hwyla format error (#1)
 
