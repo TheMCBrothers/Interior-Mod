@@ -6,17 +6,16 @@ import net.minecraft.client.renderer.BlockModelShapes;
 import net.minecraft.client.renderer.model.BlockModel;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import tk.themcbros.interiormod.InteriorMod;
 import tk.themcbros.interiormod.api.furniture.FurnitureType;
+import tk.themcbros.interiormod.client.ClientUtils;
 import tk.themcbros.interiormod.client.models.block.ChairModel;
 import tk.themcbros.interiormod.client.models.block.TableModel;
 
@@ -35,9 +34,8 @@ public class ModelBake {
 
 			BlockModel model = (BlockModel) event.getModelLoader().getUnbakedModel(unbakedModelLoc);
 			IBakedModel customModel = new ChairModel(event.getModelLoader(), model,
-					model.bake(event.getModelLoader(), ModelLoader.defaultTextureGetter(),
-							TRSRTransformation.getRotation(Direction.NORTH), DefaultVertexFormats.BLOCK),
-					DefaultVertexFormats.BLOCK);
+					model.func_225613_a_(event.getModelLoader(), ModelLoader.defaultTextureGetter(),
+							ClientUtils.getRotation(Direction.NORTH), InteriorMod.getId("chair_overriding")));
 			// Replace all valid block states
 			FurnitureType.CHAIR.getBlock().getStateContainer().getValidStates().forEach(state -> {
 				modelRegistry.put(BlockModelShapes.getModelLocation(state), customModel);
@@ -59,9 +57,8 @@ public class ModelBake {
 
 			BlockModel model = (BlockModel) event.getModelLoader().getUnbakedModel(unbakedModelLoc);
 			IBakedModel customModel = new TableModel(event.getModelLoader(), model,
-					model.bake(event.getModelLoader(), ModelLoader.defaultTextureGetter(),
-							TRSRTransformation.getRotation(Direction.NORTH), DefaultVertexFormats.BLOCK),
-					DefaultVertexFormats.BLOCK);
+					model.func_225613_a_(event.getModelLoader(), ModelLoader.defaultTextureGetter(),
+							ClientUtils.getRotation(Direction.NORTH), InteriorMod.getId("table_overriding")));
 			// Replace all valid block states
 			FurnitureType.TABLE.getBlock().getStateContainer().getValidStates().forEach(state -> {
 				modelRegistry.put(BlockModelShapes.getModelLocation(state), customModel);

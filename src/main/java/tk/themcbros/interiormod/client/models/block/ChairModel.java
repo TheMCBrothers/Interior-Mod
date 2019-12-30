@@ -6,32 +6,35 @@ import java.util.Random;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.vecmath.Matrix4f;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.datafixers.util.Either;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.BlockModel;
 import net.minecraft.client.renderer.model.BlockPart;
 import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.model.ItemOverrideList;
+import net.minecraft.client.renderer.model.Material;
+import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IEnviromentBlockReader;
+import net.minecraft.world.ILightReader;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.data.IModelData;
-import net.minecraftforge.common.model.TRSRTransformation;
+import tk.themcbros.interiormod.InteriorMod;
 import tk.themcbros.interiormod.api.furniture.IFurnitureMaterial;
+import tk.themcbros.interiormod.client.ClientUtils;
 import tk.themcbros.interiormod.furniture.FurnitureRegistry;
 import tk.themcbros.interiormod.tileentity.ChairTileEntity;
 
@@ -44,14 +47,12 @@ public class ChairModel implements IBakedModel {
 	private BlockModel model;
 	private IBakedModel bakedModel;
 	
-	private final VertexFormat format;
 	private final Map<Triple<String, String, Direction>, IBakedModel> cache = Maps.newHashMap();
 
-	public ChairModel(ModelLoader modelLoader, BlockModel model, IBakedModel bakedModel, VertexFormat format) {
+	public ChairModel(ModelLoader modelLoader, BlockModel model, IBakedModel bakedModel) {
 		this.modelLoader = modelLoader;
 		this.model = model;
 		this.bakedModel = bakedModel;
-		this.format = format;
 	}
 	
 	public IBakedModel getCustomModel(@Nonnull IFurnitureMaterial primary, @Nonnull IFurnitureMaterial secondary, @Nonnull Direction facing) {
@@ -86,13 +87,16 @@ public class ChairModel implements IBakedModel {
 					this.model.getAllTransforms(), Lists.newArrayList(this.model.getOverrides()));
 			newModel.name = this.model.name;
 			newModel.parent = this.model.parent;
+			
+			Material primaryMaterial = new Material(AtlasTexture.LOCATION_BLOCKS_TEXTURE, new ResourceLocation(primary));
+			Material secondaryMaterial = new Material(AtlasTexture.LOCATION_BLOCKS_TEXTURE, new ResourceLocation(secondary));
 
-			newModel.textures.put("seat", secondary);
-			newModel.textures.put("texture", primary);
-			newModel.textures.put("particle", primary);
+			newModel.textures.put("seat", Either.left(secondaryMaterial));
+			newModel.textures.put("texture", Either.left(primaryMaterial));
+			newModel.textures.put("particle", Either.left(primaryMaterial));
 
-			customModel = newModel.bake(this.modelLoader, ModelLoader.defaultTextureGetter(),
-					TRSRTransformation.getRotation(facing), this.format);
+			customModel = newModel.func_225613_a_(this.modelLoader, ModelLoader.defaultTextureGetter(),
+					ClientUtils.getRotation(facing), InteriorMod.getId("chair_overriding"));
 			this.cache.put(key, customModel);
 		}
 
@@ -122,7 +126,7 @@ public class ChairModel implements IBakedModel {
 	}
 	
 	@Override
-	public IModelData getModelData(@Nonnull IEnviromentBlockReader world, @Nonnull BlockPos pos,
+	public IModelData getModelData(@Nonnull ILightReader world, @Nonnull BlockPos pos,
 			@Nonnull BlockState state, @Nonnull IModelData tileData) {
 		IFurnitureMaterial primary = FurnitureRegistry.MATERIALS.getKeys().get(0);
 		IFurnitureMaterial secondary = FurnitureRegistry.MATERIALS.getKeys().get(0);
@@ -165,19 +169,13 @@ public class ChairModel implements IBakedModel {
 	}
 
 	@Override
-	public ItemCameraTransforms getItemCameraTransforms() {
-		return this.bakedModel.getItemCameraTransforms();
-	}
-
-	@Override
 	public ItemOverrideList getOverrides() {
 		return ITEM_OVERRIDE;
 	}
 
 	@Override
-	public Pair<? extends IBakedModel, Matrix4f> handlePerspective(
-			ItemCameraTransforms.TransformType cameraTransformType) {
-		return Pair.of(this, this.bakedModel.handlePerspective(cameraTransformType).getRight());
+	public IBakedModel handlePerspective(TransformType cameraTransformType, MatrixStack mat) {
+		return this.bakedModel.handlePerspective(cameraTransformType, mat);
 	}
 
 }

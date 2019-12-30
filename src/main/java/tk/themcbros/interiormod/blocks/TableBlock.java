@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
@@ -15,7 +16,6 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
@@ -119,11 +119,6 @@ public class TableBlock extends FurnitureBlock implements IWaterLoggable {
 	}
 	
 	@Override
-	public boolean isSolid(BlockState state) {
-		return false;
-	}
-	
-	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
 		return new TableTileEntity();
 	}
@@ -134,13 +129,18 @@ public class TableBlock extends FurnitureBlock implements IWaterLoggable {
 	}
 	
 	@Override
-	public BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.CUTOUT;
+	public IFluidState getFluidState(BlockState state) {
+		return state.get(WATERLOGGED) ? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState();
 	}
 	
 	@Override
-	public IFluidState getFluidState(BlockState state) {
-		return state.get(WATERLOGGED) ? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState();
+	public boolean func_225541_a_(BlockState p_225541_1_, Fluid p_225541_2_) {
+		return false;
+	}
+	
+	@Override
+	public boolean func_229869_c_(BlockState p_229869_1_, IBlockReader p_229869_2_, BlockPos p_229869_3_) {
+		return true;
 	}
 
 }

@@ -94,12 +94,14 @@ dependencies {
 	// Minecraft Forge
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     
-    // JEI
-    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
+    if (project.hasProperty('jei_version')) { // JEI
+	    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
+	    runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
+    }
     
-    // Hwyla
-    compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
+    if (project.hasProperty('hwyla_version')) { // Hwyla
+    	compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
+    }
 
 }
 

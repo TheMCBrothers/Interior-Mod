@@ -23,7 +23,7 @@ import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
@@ -132,8 +132,7 @@ public class ChairBlock extends FurnitureBlock implements IWaterLoggable {
 	}
 	
 	@Override
-	public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn,
-			BlockRayTraceResult hit) {
+	public ActionResultType func_225533_a_(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if(!worldIn.isRemote) {
 			double minShapeX = SEAT_SHAPES[state.get(FACING).getHorizontalIndex()].getBoundingBox().minX;
 			double minShapeY = SEAT_SHAPES[state.get(FACING).getHorizontalIndex()].getBoundingBox().minY - 0.01;
@@ -148,7 +147,7 @@ public class ChairBlock extends FurnitureBlock implements IWaterLoggable {
 				SeatEntity.create(worldIn, pos, 0.5d, player);
 			}
 		}
-		return true;
+		return ActionResultType.SUCCESS;
 	}
 	
 	@Override
@@ -189,16 +188,6 @@ public class ChairBlock extends FurnitureBlock implements IWaterLoggable {
 	@Override
 	public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
 		return false;
-	}
-	
-	@Override
-	public boolean isSolid(BlockState state) {
-		return false;
-	}
-	
-	@Override
-	public BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.CUTOUT;
 	}
 	
 	@Override

@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[28,)"
+loaderVersion="[30,)"
 # issueTrackerURL="http://my.issue.tracker/" #optional
 [[mods]]
 	modId="interiormod"
@@ -19,12 +19,12 @@ loaderVersion="[28,)"
 [[dependencies.interiormod]]
     modId="forge"
     mandatory=true
-    versionRange="[28.1.20,)"
+    versionRange="[30.0.18,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.interiormod]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.14.4,)"
+    versionRange="[1.15.1,)"
     ordering="NONE"
     side="BOTH"
