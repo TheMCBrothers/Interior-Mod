@@ -11,6 +11,7 @@ public class Events {
 	public static void gatherData(final GatherDataEvent event) {
 		DataGenerator generator = event.getGenerator();
 		generator.addProvider(new InteriorLootTables(generator));
+		generator.addProvider(new InteriorLanguageProvider(generator, InteriorAPI.MOD_ID));
 	}
 	
 }
