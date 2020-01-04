@@ -81,12 +81,45 @@ minecraft {
 }
 
 repositories {
-	maven { // JEI
-        url = "http://dvs1.progwml6.com/files/maven"
+    maven {
+        name 'ForgeFS'
+        url 'https://files.minecraftforge.net/maven'
     }
     maven {
-        name = "Hwyla REPO"
-        url = "https://tehnut.info/maven/"
+        name 'amadornes'
+        url 'https://maven.amadornes.com/'
+    }
+    maven {
+        name 'prog'
+        url 'http://dvs1.progwml6.com/files/maven'
+    }
+    maven {
+        name 'curseforge'
+        url 'https://minecraft.curseforge.com/api/maven/'
+    }
+    maven {
+        name 'opencomputers'
+        url 'http://maven.cil.li/'
+    }
+    maven {
+        name 'hwyla'
+        url 'https://tehnut.info/maven'
+    }
+    maven {
+        name 'tterrag'
+        url 'https://maven.tterrag.com/'
+    }
+    maven {
+        name 'ic2'
+        url 'http://maven.ic2.player.to'
+    }
+    maven {
+        name 'BlameJared - Crafttweaker'
+        url 'https://maven.blamejared.com/'
+    }
+    maven {
+        name 'thiakil'
+        url 'https://maven.thiakil.com'
     }
 }
 

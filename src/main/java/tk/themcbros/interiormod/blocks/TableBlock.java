@@ -1,5 +1,7 @@
 package tk.themcbros.interiormod.blocks;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
@@ -20,6 +22,9 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -28,6 +33,7 @@ import tk.themcbros.interiormod.api.furniture.FurnitureType;
 import tk.themcbros.interiormod.api.furniture.IFurnitureMaterial;
 import tk.themcbros.interiormod.furniture.FurnitureRegistry;
 import tk.themcbros.interiormod.tileentity.TableTileEntity;
+import tk.themcbros.interiormod.util.ShapeUtils;
 
 public class TableBlock extends FurnitureBlock implements IWaterLoggable {
 
@@ -37,6 +43,8 @@ public class TableBlock extends FurnitureBlock implements IWaterLoggable {
 	public static final BooleanProperty WEST = BlockStateProperties.WEST;
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	
+	private final VoxelShape SHAPE;
+	
 	public TableBlock(Properties properties) {
 		super(properties);
 		this.setDefaultState(this.stateContainer.getBaseState()
@@ -45,6 +53,27 @@ public class TableBlock extends FurnitureBlock implements IWaterLoggable {
 				.with(SOUTH, Boolean.FALSE)
 				.with(WEST, Boolean.FALSE)
 				.with(WATERLOGGED, Boolean.FALSE));
+		SHAPE = this.generateShape();
+	}
+	
+	private VoxelShape generateShape() {
+		return ShapeUtils.combineAll(Lists.newArrayList(
+				Block.makeCuboidShape(1, 0, 1, 3, 14, 3), // Leg 1
+				Block.makeCuboidShape(13, 0, 1, 15, 14, 3), // Leg 2
+				Block.makeCuboidShape(13, 0, 13, 15, 14, 15), // Leg 3
+				Block.makeCuboidShape(1, 0, 13, 3, 14, 15), // Leg 4
+				Block.makeCuboidShape(0, 14, 0, 16, 16, 16) // Plate
+				));
+	}
+	
+	@Override
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		return SHAPE;
+	}
+	
+	@Override
+	public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+		return VoxelShapes.fullCube();
 	}
 	
 	@Override
