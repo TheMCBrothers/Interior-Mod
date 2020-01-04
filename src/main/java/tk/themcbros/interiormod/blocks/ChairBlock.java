@@ -142,12 +142,12 @@ public class ChairBlock extends FurnitureBlock implements IWaterLoggable {
 			double maxShapeZ = SEAT_SHAPES[state.get(FACING).getHorizontalIndex()].getBoundingBox().maxZ;
 			Vec3d click = hit.getHitVec().subtract(pos.getX(), pos.getY(), pos.getZ());
 			if(click.x >= minShapeX && click.x <= maxShapeX && click.y >= minShapeY && click.y <= maxShapeY && click.z >= minShapeZ && click.z <= maxShapeZ) {
-				SeatEntity.create(worldIn, pos, 0.45d, player);
+				return SeatEntity.create(worldIn, pos, 0.45d, player);
 			} else {
-				SeatEntity.create(worldIn, pos, 0.5d, player);
+				return SeatEntity.create(worldIn, pos, 0.5d, player);
 			}
 		}
-		return ActionResultType.SUCCESS;
+		return ActionResultType.PASS;
 	}
 	
 	@Override
