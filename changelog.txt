@@ -1,3 +1,4 @@
 1.2.0:
 - Updated to 1.15.1
 - Added custom shape to table
+- Removed Hwyla compatibility
