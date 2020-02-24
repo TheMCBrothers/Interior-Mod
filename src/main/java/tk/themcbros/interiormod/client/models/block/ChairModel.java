@@ -17,6 +17,7 @@ import com.mojang.datafixers.util.Either;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.model.BakedQuad;
 import net.minecraft.client.renderer.model.BlockModel;
+import net.minecraft.client.renderer.model.BlockModel.GuiLight;
 import net.minecraft.client.renderer.model.BlockPart;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
@@ -82,8 +83,11 @@ public class ChairModel implements IBakedModel {
 						part.partRotation, part.shade));
 			}
 
-			BlockModel newModel = new BlockModel(this.model.getParentLocation(), elements,
-					Maps.newHashMap(this.model.textures), this.model.isAmbientOcclusion(), this.model.isGui3d(),
+//			BlockModel newModel = new BlockModel(this.model.getParentLocation(), elements,
+//					Maps.newHashMap(this.model.textures), this.model.isAmbientOcclusion(), this.model.isGui3d(),
+//					this.model.getAllTransforms(), Lists.newArrayList(this.model.getOverrides()));
+			BlockModel newModel = new BlockModel(this.model.getParentLocation(), elements, 
+					Maps.newHashMap(this.model.textures), this.isAmbientOcclusion(), GuiLight.FRONT, 
 					this.model.getAllTransforms(), Lists.newArrayList(this.model.getOverrides()));
 			newModel.name = this.model.name;
 			newModel.parent = this.model.parent;
@@ -95,7 +99,7 @@ public class ChairModel implements IBakedModel {
 			newModel.textures.put("texture", Either.left(primaryMaterial));
 			newModel.textures.put("particle", Either.left(primaryMaterial));
 
-			customModel = newModel.func_225613_a_(this.modelLoader, ModelLoader.defaultTextureGetter(),
+			customModel = newModel.bakeModel(this.modelLoader, ModelLoader.defaultTextureGetter(),
 					ClientUtils.getRotation(facing), InteriorMod.getId("chair_overriding"));
 			this.cache.put(key, customModel);
 		}
@@ -176,6 +180,11 @@ public class ChairModel implements IBakedModel {
 	@Override
 	public IBakedModel handlePerspective(TransformType cameraTransformType, MatrixStack mat) {
 		return this.bakedModel.handlePerspective(cameraTransformType, mat);
+	}
+
+	@Override
+	public boolean func_230044_c_() {
+		return this.isGui3d();
 	}
 
 }

@@ -178,7 +178,7 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 task apiJar(type: Jar) {
     appendix = "${project.minecraft_version}"
     classifier = 'api'
-    include 'tk/themcbros/interiormod.api/**'
+    include 'tk/themcbros/interiormod/api/**'
 }
 
 artifacts {
@@ -287,6 +287,6 @@ curseforge {
 	            optionalLibrary 'biomes-o-plenty'
 	        }
         }
-        addArtifact apiJar
+        // addArtifact apiJar
     }
 }

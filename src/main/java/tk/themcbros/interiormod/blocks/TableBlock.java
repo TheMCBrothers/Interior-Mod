@@ -1,5 +1,9 @@
 package tk.themcbros.interiormod.blocks;
 
+import java.util.List;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 
 import net.minecraft.block.Block;
@@ -7,7 +11,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
@@ -24,7 +27,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -43,7 +45,7 @@ public class TableBlock extends FurnitureBlock implements IWaterLoggable {
 	public static final BooleanProperty WEST = BlockStateProperties.WEST;
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	
-	private final VoxelShape SHAPE;
+	public final ImmutableMap<BlockState, VoxelShape> SHAPES;
 	
 	public TableBlock(Properties properties) {
 		super(properties);
@@ -53,27 +55,44 @@ public class TableBlock extends FurnitureBlock implements IWaterLoggable {
 				.with(SOUTH, Boolean.FALSE)
 				.with(WEST, Boolean.FALSE)
 				.with(WATERLOGGED, Boolean.FALSE));
-		SHAPE = this.generateShape();
+		SHAPES = this.generateShapes(this.stateContainer.getValidStates());
 	}
 	
-	private VoxelShape generateShape() {
-		return ShapeUtils.combineAll(Lists.newArrayList(
-				Block.makeCuboidShape(1, 0, 1, 3, 14, 3), // Leg 1
-				Block.makeCuboidShape(13, 0, 1, 15, 14, 3), // Leg 2
-				Block.makeCuboidShape(13, 0, 13, 15, 14, 15), // Leg 3
-				Block.makeCuboidShape(1, 0, 13, 3, 14, 15), // Leg 4
-				Block.makeCuboidShape(0, 14, 0, 16, 16, 16) // Plate
-				));
+	private ImmutableMap<BlockState, VoxelShape> generateShapes(ImmutableList<BlockState> states) {
+		final VoxelShape legNorthWest = (Block.makeCuboidShape(1, 0, 1, 3, 14, 3)); // LEG1
+		final VoxelShape legNorthEast = (Block.makeCuboidShape(13, 0, 1, 15, 14, 3)); // LEG2
+		final VoxelShape legSouthEast = (Block.makeCuboidShape(13, 0, 13, 15, 14, 15)); // LEG3
+		final VoxelShape legSouthWest = (Block.makeCuboidShape(1, 0, 13, 3, 14, 15)); // LEG4
+		final VoxelShape cube1 = Block.makeCuboidShape(0, 14, 0, 16, 16, 16); // PLATE
+		
+		ImmutableMap.Builder<BlockState, VoxelShape> builder = new ImmutableMap.Builder<>();
+		for (BlockState state : states) {
+			boolean north = state.get(NORTH);
+            boolean east = state.get(EAST);
+            boolean south = state.get(SOUTH);
+            boolean west = state.get(WEST);
+
+			List<VoxelShape> shapes = Lists.newArrayList(cube1);
+			if (!north && !west) {
+				shapes.add(legNorthWest);
+			}
+			if (!north && !east) {
+				shapes.add(legNorthEast);
+			}
+			if (!south && !west) {
+				shapes.add(legSouthWest);
+			}
+			if (!south && !east) {
+				shapes.add(legSouthEast);
+			}
+			builder.put(state, ShapeUtils.combineAll(shapes));
+		}
+		return builder.build();
 	}
 	
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return SHAPE;
-	}
-	
-	@Override
-	public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return VoxelShapes.fullCube();
+		return SHAPES.get(state);
 	}
 	
 	@Override
@@ -160,16 +179,6 @@ public class TableBlock extends FurnitureBlock implements IWaterLoggable {
 	@Override
 	public IFluidState getFluidState(BlockState state) {
 		return state.get(WATERLOGGED) ? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState();
-	}
-	
-	@Override
-	public boolean func_225541_a_(BlockState p_225541_1_, Fluid p_225541_2_) {
-		return false;
-	}
-	
-	@Override
-	public boolean func_229869_c_(BlockState p_229869_1_, IBlockReader p_229869_2_, BlockPos p_229869_3_) {
-		return true;
 	}
 
 }

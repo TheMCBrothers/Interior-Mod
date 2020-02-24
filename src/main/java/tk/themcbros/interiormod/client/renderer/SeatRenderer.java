@@ -20,7 +20,7 @@ public class SeatRenderer extends EntityRenderer<SeatEntity> {
 	}
 	
 	@Override
-	protected void func_225629_a_(SeatEntity p_225629_1_, String p_225629_2_, MatrixStack p_225629_3_,
+	protected void renderName(SeatEntity p_225629_1_, String p_225629_2_, MatrixStack p_225629_3_,
 			IRenderTypeBuffer p_225629_4_, int p_225629_5_) {}
 
 }

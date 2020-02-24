@@ -1,11 +1,12 @@
 modLoader="javafml"
-loaderVersion="[30,)"
-# issueTrackerURL="http://my.issue.tracker/" #optional
+loaderVersion="[31,)"
+issueTrackerURL="https://github.com/TheMCBrothers/Interior-Mod/issues"
+
 [[mods]]
 	modId="interiormod"
 	version="${file.jarVersion}"
 	displayName="TheMCBrothers Interior Mod"
-	# updateJSONURL="http://myurl.me/" #optional
+	updateJSONURL="https://raw.githubusercontent.com/TheMCBrothers/Version/master/interiormod_update.json"
 	displayURL="https://themcbros.tk" #optional
 	logoFile="longlogo.png" #optional
 	# credits="Thanks for this example mod goes to Java" #optional
@@ -19,12 +20,12 @@ loaderVersion="[30,)"
 [[dependencies.interiormod]]
     modId="forge"
     mandatory=true
-    versionRange="[30.0.18,)"
+    versionRange="[31,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.interiormod]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.15.1,)"
+    versionRange="[1.15.2,)"
     ordering="NONE"
     side="BOTH"

@@ -27,10 +27,10 @@ public class InteriorLootTables extends BaseLootTableProvider {
 				.name(name)
 				.rolls(ConstantRange.of(1))
 				.addEntry(ItemLootEntry.builder(block)
-						.acceptFunction(CopyNbt.func_215881_a(CopyNbt.Source.BLOCK_ENTITY)
-								.func_216055_a("material", "textures.primary", CopyNbt.Action.REPLACE)
-								.func_216055_a("seatMaterial", "textures.secondary", CopyNbt.Action.REPLACE)
-								.func_216055_a("legMaterial", "textures.secondary", CopyNbt.Action.REPLACE))
+						.acceptFunction(CopyNbt.builder(CopyNbt.Source.BLOCK_ENTITY)
+								.addOperation("material", "textures.primary", CopyNbt.Action.REPLACE)
+								.addOperation("seatMaterial", "textures.secondary", CopyNbt.Action.REPLACE)
+								.addOperation("legMaterial", "textures.secondary", CopyNbt.Action.REPLACE))
 						.acceptCondition(SurvivesExplosion.builder())
 				);
 		return LootTable.builder().addLootPool(builder);

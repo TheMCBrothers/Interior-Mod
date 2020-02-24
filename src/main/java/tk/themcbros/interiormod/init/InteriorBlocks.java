@@ -7,13 +7,9 @@ import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 import tk.themcbros.interiormod.InteriorMod;
 import tk.themcbros.interiormod.blocks.ChairBlock;
 import tk.themcbros.interiormod.blocks.TableBlock;
@@ -36,12 +32,6 @@ public class InteriorBlocks {
 		@SubscribeEvent
 		public static void onBlockRegistry(final RegistryEvent.Register<Block> event) {
 			BLOCKS.forEach(event.getRegistry()::register);
-			
-			if (FMLEnvironment.dist == Dist.CLIENT) {
-				RenderType cutoutRenderType = RenderType.func_228643_e_();
-				RenderTypeLookup.setRenderLayer(CHAIR, cutoutRenderType);
-				RenderTypeLookup.setRenderLayer(TABLE, cutoutRenderType);
-			}
 		}
 	}
 	

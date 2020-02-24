@@ -132,7 +132,7 @@ public class ChairBlock extends FurnitureBlock implements IWaterLoggable {
 	}
 	
 	@Override
-	public ActionResultType func_225533_a_(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if(!worldIn.isRemote) {
 			double minShapeX = SEAT_SHAPES[state.get(FACING).getHorizontalIndex()].getBoundingBox().minX;
 			double minShapeY = SEAT_SHAPES[state.get(FACING).getHorizontalIndex()].getBoundingBox().minY - 0.01;
