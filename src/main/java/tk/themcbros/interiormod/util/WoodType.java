@@ -19,7 +19,7 @@ public enum WoodType implements IStringSerializable {
 	JUNGLE("jungle", Blocks.JUNGLE_PLANKS.getRegistryName()),
 	CHERRY("cherry", new ResourceLocation("biomesoplenty", "cherry_planks")),
 	DEAD("dead", new ResourceLocation("biomesoplenty", "dead_planks")),
-	ETHEREAL("ethereal", new ResourceLocation("biomesoplenty", "ethereal_planks")),
+//	ETHEREAL("ethereal", new ResourceLocation("biomesoplenty", "ethereal_planks")),
 	FIR("fir", new ResourceLocation("biomesoplenty", "fir_planks")),
 	HELLBARK("hellbark", new ResourceLocation("biomesoplenty", "hellbark_planks")),
 	JACARANDA("jacaranda", new ResourceLocation("biomesoplenty", "jacaranda_planks")),
@@ -77,7 +77,7 @@ public enum WoodType implements IStringSerializable {
 
 		BY_SUBTYPE.get(SubType.BOP).add(CHERRY);
 		BY_SUBTYPE.get(SubType.BOP).add(DEAD);
-		BY_SUBTYPE.get(SubType.BOP).add(ETHEREAL);
+//		BY_SUBTYPE.get(SubType.BOP).add(ETHEREAL);
 		BY_SUBTYPE.get(SubType.BOP).add(FIR);
 		BY_SUBTYPE.get(SubType.BOP).add(HELLBARK);
 		BY_SUBTYPE.get(SubType.BOP).add(JACARANDA);

@@ -30,7 +30,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
@@ -133,21 +132,7 @@ public class ChairBlock extends FurnitureBlock implements IWaterLoggable {
 	
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		if(!worldIn.isRemote) {
-			double minShapeX = SEAT_SHAPES[state.get(FACING).getHorizontalIndex()].getBoundingBox().minX;
-			double minShapeY = SEAT_SHAPES[state.get(FACING).getHorizontalIndex()].getBoundingBox().minY - 0.01;
-			double minShapeZ = SEAT_SHAPES[state.get(FACING).getHorizontalIndex()].getBoundingBox().minZ;
-			double maxShapeX = SEAT_SHAPES[state.get(FACING).getHorizontalIndex()].getBoundingBox().maxX;
-			double maxShapeY = SEAT_SHAPES[state.get(FACING).getHorizontalIndex()].getBoundingBox().maxY + 0.01;
-			double maxShapeZ = SEAT_SHAPES[state.get(FACING).getHorizontalIndex()].getBoundingBox().maxZ;
-			Vec3d click = hit.getHitVec().subtract(pos.getX(), pos.getY(), pos.getZ());
-			if(click.x >= minShapeX && click.x <= maxShapeX && click.y >= minShapeY && click.y <= maxShapeY && click.z >= minShapeZ && click.z <= maxShapeZ) {
-				return SeatEntity.create(worldIn, pos, 0.45d, player);
-			} else {
-				return SeatEntity.create(worldIn, pos, 0.5d, player);
-			}
-		}
-		return ActionResultType.PASS;
+		return SeatEntity.create(worldIn, pos, 0.5d, player);
 	}
 	
 	@Override
