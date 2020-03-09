@@ -1,0 +1,12 @@
+{
+	"variants": {
+		"facing=north,half=bottom": { "model": "interiormod:block/fridge_bottom" },
+		"facing=north,half=top": { "model": "interiormod:block/fridge_top" },
+		"facing=east,half=bottom": { "model": "interiormod:block/fridge_bottom", "y": 90 },
+		"facing=east,half=top": { "model": "interiormod:block/fridge_top", "y": 90 },
+		"facing=south,half=bottom": { "model": "interiormod:block/fridge_bottom", "y": 180 },
+		"facing=south,half=top": { "model": "interiormod:block/fridge_top", "y": 180 },
+		"facing=west,half=bottom": { "model": "interiormod:block/fridge_bottom", "y": 270 },
+		"facing=west,half=top": { "model": "interiormod:block/fridge_top", "y": 270 }
+	}
+}

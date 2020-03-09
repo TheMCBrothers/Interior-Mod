@@ -24,6 +24,9 @@
 	"block.interiormod.chair.name": "%s Chair",
 	"block.interiormod.table": "Table",
 	"block.interiormod.table.name": "%s Table",
+	"block.interiormod.fridge": "Fridge",
+	
+	"container.interiormod.fridge": "Fridge",
 	
 	"entity.interiormod.seat": "Seat",
 	"itemGroup.interiormod": "TheMCBrothers Interior Mod"
