@@ -4,6 +4,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.inventory.container.ChestContainer;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
@@ -17,7 +18,6 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
-import tk.themcbros.interiormod.container.FridgeContainer;
 import tk.themcbros.interiormod.init.InteriorTileEntities;
 
 public class FridgeTileEntity extends TileEntity implements IInventory, INamedContainerProvider {
@@ -42,7 +42,7 @@ public class FridgeTileEntity extends TileEntity implements IInventory, INamedCo
 
 	@Override
 	public int getSizeInventory() {
-		return 9;
+		return 27;
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class FridgeTileEntity extends TileEntity implements IInventory, INamedCo
 
 	@Override
 	public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity playerEntity) {
-		return new FridgeContainer(id, this, playerInventory);
+		return ChestContainer.createGeneric9X3(id, playerInventory, this);
 	}
 
 	@Override

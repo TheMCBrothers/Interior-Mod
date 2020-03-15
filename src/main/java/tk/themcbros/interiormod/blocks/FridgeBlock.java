@@ -210,6 +210,11 @@ public class FridgeBlock extends Block {
 	}
 	
 	@Override
+	public boolean hasComparatorInputOverride(BlockState state) {
+		return true;
+	}
+	
+	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
 		return state.get(HALF) == Half.BOTTOM ? new FridgeTileEntity() : null;
 	}

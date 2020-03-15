@@ -1,4 +1,5 @@
 1.2.2:
+- Added fridge
 - Removed ethereal wood type
 
 1.2.1:
