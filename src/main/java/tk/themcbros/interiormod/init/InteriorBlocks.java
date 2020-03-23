@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 import tk.themcbros.interiormod.InteriorMod;
 import tk.themcbros.interiormod.blocks.ChairBlock;
 import tk.themcbros.interiormod.blocks.FridgeBlock;
+import tk.themcbros.interiormod.blocks.LampOnAStickBlock;
 import tk.themcbros.interiormod.blocks.TableBlock;
 
 public class InteriorBlocks {
@@ -22,6 +23,7 @@ public class InteriorBlocks {
 	public static final ChairBlock CHAIR = registerBlock("chair", new ChairBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(.5f).sound(SoundType.WOOD)));
 	public static final TableBlock TABLE = registerBlock("table", new TableBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(.5f).sound(SoundType.WOOD)));
 	public static final FridgeBlock FRIDGE = registerBlock("fridge", new FridgeBlock(Block.Properties.create(Material.ANVIL).hardnessAndResistance(1f).sound(SoundType.METAL)));
+	public static final LampOnAStickBlock LAMP = registerBlock("lamp", new LampOnAStickBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1f).sound(SoundType.WOOD)));
 	
 	private static <T extends Block> T registerBlock(String registryName, T block) {
 		block.setRegistryName(InteriorMod.getId(registryName));
