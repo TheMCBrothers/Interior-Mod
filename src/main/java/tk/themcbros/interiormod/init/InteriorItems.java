@@ -21,7 +21,8 @@ public class InteriorItems {
 	public static final BlockItem CHAIR = registerItem("chair", new FurnitureBlockItem(FurnitureType.CHAIR, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
 	public static final BlockItem TABLE = registerItem("table", new FurnitureBlockItem(FurnitureType.TABLE, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
 	public static final BlockItem FRIDGE = registerItem("fridge", new TallBlockItem(InteriorBlocks.FRIDGE, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
-	public static final BlockItem LAMP = registerItem("lamp", new TallBlockItem(InteriorBlocks.LAMP, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
+	public static final BlockItem LAMP = registerItem("lamp", new BlockItem(InteriorBlocks.LAMP, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
+	public static final BlockItem LAMP_ON_A_STICK = registerItem("lamp_on_a_stick", new TallBlockItem(InteriorBlocks.LAMP_ON_A_STICK, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
 	
 	private static <T extends Item> T registerItem(String registryName, T item) {
 		item.setRegistryName(InteriorMod.getId(registryName));

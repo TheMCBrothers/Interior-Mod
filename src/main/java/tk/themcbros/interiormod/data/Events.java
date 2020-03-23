@@ -12,6 +12,7 @@ public class Events {
 		DataGenerator generator = event.getGenerator();
 		generator.addProvider(new InteriorLootTables(generator));
 		generator.addProvider(new InteriorLanguageProvider(generator, InteriorAPI.MOD_ID));
+		generator.addProvider(new RecipeDataProvider(generator));
 	}
 	
 }

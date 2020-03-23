@@ -1,8 +1,6 @@
 {
 	"variants": {
-		"part=bottom": { "model": "interiormod:block/lampstick" },
-		"part=middle": { "model": "interiormod:block/lampstick" },
-		"lit=false,part=top": { "model": "interiormod:block/lamp" },
-		"lit=true,part=top": { "model": "interiormod:block/lamp_on" }
+		"lit=false": { "model": "interiormod:block/lamp" },
+		"lit=true": { "model": "interiormod:block/lamp_on" }
 	}
 }

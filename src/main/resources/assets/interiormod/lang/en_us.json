@@ -25,7 +25,8 @@
 	"block.interiormod.table": "Table",
 	"block.interiormod.table.name": "%s Table",
 	"block.interiormod.fridge": "Fridge",
-	"block.interiormod.lamp": "Lamp on a Stick",
+	"block.interiormod.lamp": "Nightlight Lamp",
+	"block.interiormod.lamp_on_a_stick": "Lamp on a Stick",
 	
 	"container.interiormod.fridge": "Fridge",
 	

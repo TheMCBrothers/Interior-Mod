@@ -23,17 +23,15 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
-import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import tk.themcbros.interiormod.tileentity.LampOnAStickTileEntity;
+import tk.themcbros.interiormod.tileentity.NightlightLampTileEntity;
 import tk.themcbros.interiormod.util.ShapeUtils;
 
 public class LampOnAStickBlock extends Block implements IWaterLoggable {
@@ -165,28 +163,7 @@ public class LampOnAStickBlock extends Block implements IWaterLoggable {
 
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return state.get(PART) == Part.TOP ? new LampOnAStickTileEntity() : null;
-	}
-
-	public static void updatePower(BlockState state, World worldIn, BlockPos pos) {
-		if (worldIn.dimension.hasSkyLight()) {
-			int i = worldIn.getLightFor(LightType.SKY, pos) - worldIn.getSkylightSubtracted();
-			float f = worldIn.getCelestialAngleRadians(1.0F);
-			boolean flag = true;
-			if (flag) {
-				i = 15 - i;
-			} else if (i > 0) {
-				float f1 = f < (float) Math.PI ? 0.0F : ((float) Math.PI * 2F);
-				f = f + (f1 - f) * 0.2F;
-				i = Math.round((float) i * MathHelper.cos(f));
-			}
-
-			i = MathHelper.clamp(i, 0, 15);
-			if (state.get(LIT) != (i > 0)) {
-				worldIn.setBlockState(pos, state.with(LIT, Boolean.valueOf(i > 0)), 3);
-			}
-
-		}
+		return state.get(PART) == Part.TOP ? new NightlightLampTileEntity() : null;
 	}
 
 	public static enum Part implements IStringSerializable {
