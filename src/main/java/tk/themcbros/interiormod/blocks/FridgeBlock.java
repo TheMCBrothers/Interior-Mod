@@ -36,7 +36,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
-import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import tk.themcbros.interiormod.tileentity.FridgeTileEntity;
 import tk.themcbros.interiormod.util.ShapeUtils;
@@ -61,19 +61,30 @@ public class FridgeBlock extends Block {
 		for (BlockState blockState : validStates) {
 			List<VoxelShape> shapes = Lists.newArrayList();
 			Direction facing = blockState.get(FACING);
-			if (blockState.get(HALF) == Half.TOP) {
-				shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(14, 5, 2, 15, 6, 3))[facing.getHorizontalIndex()]);
-				shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(14, 10, 2, 15, 11, 3))[facing.getHorizontalIndex()]);
-				shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(15, 5, 2, 16, 11, 3))[facing.getHorizontalIndex()]);
-				shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, -16, 0, 14, 0, 16))[facing.getHorizontalIndex()]);
-				shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 0, 0, 14, 16, 16))[facing.getHorizontalIndex()]);
-			} else {
-				shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(14, 21, 2, 15, 22, 3))[facing.getHorizontalIndex()]);
-				shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(14, 26, 2, 15, 27, 3))[facing.getHorizontalIndex()]);
-				shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(15, 21, 2, 16, 27, 3))[facing.getHorizontalIndex()]);
-				shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 0, 0, 14, 16, 16))[facing.getHorizontalIndex()]);
-				shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 16, 0, 14, 32, 16))[facing.getHorizontalIndex()]);
-			}
+			// Fridge Top
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 3+16, 9, 14, 4+16, 10))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 0+16, 5, 14, 1+16, 6))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(14, 12+16, 10, 15, 13+16, 11))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 0+16, 0, 13, 16+16, 16))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 8+16, 8, 14, 13+16, 13))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 10+16, 2, 15, 11+16, 3))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 3+16, 2, 15, 4+16, 3))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(15, 3+16, 2, 16, 11+16, 3))[facing.getHorizontalIndex()]);
+			
+			// Fridge Bottom
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 6, 2, 2, 7, 14))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 0, 13, 2, 7, 14))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 0, 2, 2, 7, 3))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(2, 0, 3, 2, 6, 13))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 1, 3, 2, 2, 13))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 5, 3, 2, 6, 13))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 3, 3, 2, 4, 13))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 0, 2, 2, 0, 14))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 0, 0, 13, 16, 16))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 12, 11, 14, 13, 12))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 15, 3, 14, 16, 4))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 11, 6, 14, 12, 7))[facing.getHorizontalIndex()]);
+			
 			builder.put(blockState, ShapeUtils.combineAll(shapes));
 		}
 		
@@ -82,7 +93,7 @@ public class FridgeBlock extends Block {
 	
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return SHAPES.get(state);
+		return state.get(HALF) == Half.BOTTOM ? SHAPES.get(state) : SHAPES.get(state).withOffset(0d, -1d, 0d);
 	}
 	
 	@Override
@@ -204,7 +215,7 @@ public class FridgeBlock extends Block {
 		}
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
 		if (tileEntity instanceof FridgeTileEntity) {
-			return ItemHandlerHelper.calcRedstoneFromInventory((IItemHandler) tileEntity);
+			return ItemHandlerHelper.calcRedstoneFromInventory(tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null));
 		}
 		return 0;
 	}

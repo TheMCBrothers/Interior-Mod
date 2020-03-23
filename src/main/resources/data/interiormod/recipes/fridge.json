@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"II",
+		"II",
+		"BC"
+	],
+	"key": {
+		"I": { "tag": "forge:storage_blocks/iron" },
+		"C": { "tag": "forge:chests/wooden" },
+		"B": { "item": "minecraft:iron_bars" }
+	},
+	"result": {
+		"item": "interiormod:fridge",
+		"count": 1
+	}
+}
