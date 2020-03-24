@@ -64,6 +64,11 @@ public class FridgeTileEntity extends TileEntity implements IInventory, INamedCo
 	public void setInventorySlotContents(int index, ItemStack stack) {
 		this.stacks.set(index, stack);
 	}
+	
+	@Override
+	public boolean isItemValidForSlot(int index, ItemStack stack) {
+		return stack.isFood();
+	}
 
 	@Override
 	public boolean isEmpty() {

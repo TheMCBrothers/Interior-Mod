@@ -4,7 +4,7 @@
 	"textures": {
 		"0": "interiormod:block/iron_block_top",
 		"1": "block/iron_block",
-		"2": "interiormod:block/textures",
+		"2": "interiormod:block/texture_fridge",
 		"particle": "interiormod:block/iron_block_top"
 	},
 	"elements": [

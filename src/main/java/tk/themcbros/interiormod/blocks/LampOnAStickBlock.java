@@ -14,6 +14,8 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
@@ -38,12 +40,13 @@ public class LampOnAStickBlock extends Block implements IWaterLoggable {
 
 	public static final EnumProperty<Part> PART = EnumProperty.create("part", Part.class);
 	public static final BooleanProperty LIT = BlockStateProperties.LIT;
+	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	
 	private final VoxelShape SHAPE;
 
 	public LampOnAStickBlock(Properties properties) {
 		super(properties);
-		this.setDefaultState(this.stateContainer.getBaseState().with(PART, Part.BOTTOM).with(LIT, Boolean.FALSE));
+		this.setDefaultState(this.stateContainer.getBaseState().with(PART, Part.BOTTOM).with(LIT, Boolean.FALSE).with(WATERLOGGED, Boolean.FALSE));
 		this.SHAPE = this.generateShape();
 	}
 	
@@ -52,6 +55,11 @@ public class LampOnAStickBlock extends Block implements IWaterLoggable {
 		shapes.add(Block.makeCuboidShape(6, 0, 6, 10, 32, 10));
 		shapes.add(Block.makeCuboidShape(0, 32, 0, 16, 48, 16));
 		return ShapeUtils.combineAll(shapes);
+	}
+	
+	@Override
+	public IFluidState getFluidState(BlockState state) {
+		return state.get(WATERLOGGED) ? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -140,7 +148,7 @@ public class LampOnAStickBlock extends Block implements IWaterLoggable {
 
 	@Override
 	protected void fillStateContainer(Builder<Block, BlockState> builder) {
-		builder.add(PART, LIT);
+		builder.add(PART, LIT, WATERLOGGED);
 	}
 
 	@Override

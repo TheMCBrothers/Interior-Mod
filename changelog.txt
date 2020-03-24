@@ -1,3 +1,10 @@
+1.2.3:
+- Added Trash Can
+- Added Nightlight Lamp
+- Added Lamp on a Stick
+- Added fridge crafting recipe
+- Updated fridge model
+
 1.2.2:
 - Added fridge
 - Removed ethereal wood type

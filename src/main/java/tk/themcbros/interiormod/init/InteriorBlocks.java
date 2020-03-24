@@ -18,6 +18,7 @@ import tk.themcbros.interiormod.blocks.FridgeBlock;
 import tk.themcbros.interiormod.blocks.LampOnAStickBlock;
 import tk.themcbros.interiormod.blocks.NightlightLampBlock;
 import tk.themcbros.interiormod.blocks.TableBlock;
+import tk.themcbros.interiormod.blocks.TrashCanBlock;
 
 public class InteriorBlocks {
 
@@ -28,6 +29,7 @@ public class InteriorBlocks {
 	public static final FridgeBlock FRIDGE = registerBlock("fridge", new FridgeBlock(Block.Properties.create(Material.ANVIL).hardnessAndResistance(1f).sound(SoundType.METAL)));
 	public static final NightlightLampBlock LAMP = registerBlock("lamp", new NightlightLampBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1f).sound(SoundType.WOOD)));
 	public static final LampOnAStickBlock LAMP_ON_A_STICK = registerBlock("lamp_on_a_stick", new LampOnAStickBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1f).sound(SoundType.WOOD)));
+	public static final TrashCanBlock TRASH_CAN = registerBlock("trash_can", new TrashCanBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1f).sound(SoundType.LANTERN)));
 	
 	private static <T extends Block> T registerBlock(String registryName, T block) {
 		block.setRegistryName(InteriorMod.getId(registryName));
@@ -42,6 +44,7 @@ public class InteriorBlocks {
 			BLOCKS.forEach(event.getRegistry()::register);
 			
 			RenderTypeLookup.setRenderLayer(FRIDGE, RenderType.getCutout());
+			RenderTypeLookup.setRenderLayer(TRASH_CAN, RenderType.getTranslucent());
 		}
 	}
 	

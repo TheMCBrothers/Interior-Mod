@@ -27,8 +27,10 @@
 	"block.interiormod.fridge": "Fridge",
 	"block.interiormod.lamp": "Nightlight Lamp",
 	"block.interiormod.lamp_on_a_stick": "Lamp on a Stick",
+	"block.interiormod.trash_can": "Trash Can",
 	
 	"container.interiormod.fridge": "Fridge",
+	"container.interiormod.trash_can": "Trash Can",
 	
 	"entity.interiormod.seat": "Seat",
 	"itemGroup.interiormod": "TheMCBrothers Interior Mod"
