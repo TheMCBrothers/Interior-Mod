@@ -32,6 +32,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import tk.themcbros.interiormod.util.ShapeUtils;
 
+import javax.annotation.Nullable;
+
 public class TrashCanBlock extends Block implements IWaterLoggable, INamedContainerProvider {
 
 	private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -56,7 +58,7 @@ public class TrashCanBlock extends Block implements IWaterLoggable, INamedContai
 	
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		return this.getDefaultState().with(WATERLOGGED, Boolean.valueOf(context.getWorld().getFluidState(context.getPos()) == Fluids.WATER.getStillFluid()));
+		return this.getDefaultState().with(WATERLOGGED, context.getWorld().getFluidState(context.getPos()).equals(Fluids.WATER.getDefaultState()));
 	}
 	
 	@Override
@@ -106,6 +108,12 @@ public class TrashCanBlock extends Block implements IWaterLoggable, INamedContai
 			NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) state.getBlock());
 		}
 		return ActionResultType.SUCCESS;
+	}
+
+	@Nullable
+	@Override
+	public INamedContainerProvider getContainer(BlockState state, World world, BlockPos pos) {
+		return (INamedContainerProvider) state.getBlock();
 	}
 
 	@Override
