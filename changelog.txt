@@ -2,7 +2,9 @@
 - Added Trash Can
 - Added Nightlight Lamp
 - Added Lamp on a Stick
+- Added modern door
 - Added fridge crafting recipe
+- Added item descriptions
 - Updated fridge model
 
 1.2.2:

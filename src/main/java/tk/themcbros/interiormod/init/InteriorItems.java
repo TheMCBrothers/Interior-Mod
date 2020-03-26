@@ -12,6 +12,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import tk.themcbros.interiormod.InteriorMod;
 import tk.themcbros.interiormod.api.furniture.FurnitureType;
+import tk.themcbros.interiormod.items.DescBlockItem;
+import tk.themcbros.interiormod.items.DescTallBlockItem;
 import tk.themcbros.interiormod.items.FurnitureBlockItem;
 
 public class InteriorItems {
@@ -20,11 +22,11 @@ public class InteriorItems {
 	
 	public static final BlockItem CHAIR = registerItem("chair", new FurnitureBlockItem(FurnitureType.CHAIR, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
 	public static final BlockItem TABLE = registerItem("table", new FurnitureBlockItem(FurnitureType.TABLE, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
-	public static final BlockItem FRIDGE = registerItem("fridge", new TallBlockItem(InteriorBlocks.FRIDGE, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
-	public static final BlockItem LAMP = registerItem("lamp", new BlockItem(InteriorBlocks.LAMP, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
-	public static final BlockItem LAMP_ON_A_STICK = registerItem("lamp_on_a_stick", new TallBlockItem(InteriorBlocks.LAMP_ON_A_STICK, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
-	public static final BlockItem TRASH_CAN = registerItem("trash_can", new TallBlockItem(InteriorBlocks.TRASH_CAN, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
-	public static final BlockItem MODERN_DOOR = registerItem("modern_door", new TallBlockItem(InteriorBlocks.MODERN_DOOR, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
+	public static final BlockItem FRIDGE = registerItem("fridge", new DescTallBlockItem(InteriorBlocks.FRIDGE, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
+	public static final BlockItem LAMP = registerItem("lamp", new DescBlockItem(InteriorBlocks.LAMP, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
+	public static final BlockItem LAMP_ON_A_STICK = registerItem("lamp_on_a_stick", new DescTallBlockItem(InteriorBlocks.LAMP_ON_A_STICK, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
+	public static final BlockItem TRASH_CAN = registerItem("trash_can", new DescTallBlockItem(InteriorBlocks.TRASH_CAN, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
+	public static final BlockItem MODERN_DOOR = registerItem("modern_door", new DescTallBlockItem(InteriorBlocks.MODERN_DOOR, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
 
 	private static <T extends Item> T registerItem(String registryName, T item) {
 		item.setRegistryName(InteriorMod.getId(registryName));
