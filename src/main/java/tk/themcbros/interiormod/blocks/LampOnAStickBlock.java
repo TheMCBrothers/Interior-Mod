@@ -33,6 +33,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import tk.themcbros.interiormod.init.InteriorTileEntities;
 import tk.themcbros.interiormod.tileentity.NightlightLampTileEntity;
 import tk.themcbros.interiormod.util.ShapeUtils;
 
@@ -171,10 +172,10 @@ public class LampOnAStickBlock extends Block implements IWaterLoggable {
 
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return state.get(PART) == Part.TOP ? new NightlightLampTileEntity() : null;
+		return state.get(PART) == Part.TOP ? InteriorTileEntities.LAMP.create() : null;
 	}
 
-	public static enum Part implements IStringSerializable {
+	public enum Part implements IStringSerializable {
 
 		BOTTOM, MIDDLE, TOP;
 

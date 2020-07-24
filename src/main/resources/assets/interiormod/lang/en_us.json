@@ -25,7 +25,7 @@
 	"block.interiormod.table": "Table",
 	"block.interiormod.table.name": "%s Table",
 	"block.interiormod.fridge": "Fridge",
-	"block.interiormod.fridge.desc0": "Can store only food in it",
+	"block.interiormod.fridge.desc0": "Can store food in it",
 	"block.interiormod.lamp": "Nightlight Lamp",
 	"block.interiormod.lamp.desc0": "A lamp with an integrated",
 	"block.interiormod.lamp.desc1": "inverted daylight detector",

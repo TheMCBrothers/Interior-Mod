@@ -39,6 +39,16 @@ public class InteriorLanguageProvider extends LanguageProvider {
 		this.add(InteriorBlocks.CHAIR.getTranslationKey() + ".name", "%s Chair");
 		this.add(InteriorBlocks.TABLE, "Table");
 		this.add(InteriorBlocks.TABLE.getTranslationKey() + ".name", "%s Table");
+		this.add(InteriorBlocks.FRIDGE, "Fridge");
+		this.add(InteriorBlocks.FRIDGE.getTranslationKey() + ".desc0", "description");
+		this.add(InteriorBlocks.LAMP, "Nightlight Lamp");
+		this.add(InteriorBlocks.LAMP.getTranslationKey() + ".desc0", "description");
+		this.add(InteriorBlocks.LAMP_ON_A_STICK, "Lamp on a Stick");
+		this.add(InteriorBlocks.LAMP_ON_A_STICK.getTranslationKey() + ".desc0", "description");
+		this.add(InteriorBlocks.TRASH_CAN, "Trash Can");
+		this.add(InteriorBlocks.TRASH_CAN.getTranslationKey() + ".desc0", "description");
+		this.add(InteriorBlocks.MODERN_DOOR, "Modern Door");
+		this.add(InteriorBlocks.MODERN_DOOR.getTranslationKey() + ".desc0", "description");
 		
 		this.add(InteriorEntities.SEAT, "Seat");
 		this.add("itemGroup.interiormod", "TheMCBrothers Interior Mod");

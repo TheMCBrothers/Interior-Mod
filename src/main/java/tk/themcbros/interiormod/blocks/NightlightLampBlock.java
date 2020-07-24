@@ -11,7 +11,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
-import tk.themcbros.interiormod.tileentity.NightlightLampTileEntity;
+import tk.themcbros.interiormod.init.InteriorTileEntities;
 
 public class NightlightLampBlock extends Block {
 
@@ -40,7 +40,7 @@ public class NightlightLampBlock extends Block {
 	
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return new NightlightLampTileEntity();
+		return InteriorTileEntities.LAMP.create();
 	}
 	
 	public static void updatePower(BlockState state, World worldIn, BlockPos pos) {
@@ -58,7 +58,7 @@ public class NightlightLampBlock extends Block {
 
 			i = MathHelper.clamp(i, 0, 15);
 			if (state.get(LIT) != (i > 0)) {
-				worldIn.setBlockState(pos, state.with(LIT, Boolean.valueOf(i > 0)), 3);
+				worldIn.setBlockState(pos, state.with(LIT, i > 0), 3);
 			}
 
 		}

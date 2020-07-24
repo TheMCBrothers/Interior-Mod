@@ -15,7 +15,7 @@ public enum FurnitureType implements IStringSerializable {
 
 	private final Supplier<Block> blockSupplier;
 
-	private FurnitureType(Supplier<Block> supplier) {
+	FurnitureType(Supplier<Block> supplier) {
 		this.blockSupplier = supplier;
 	}
 

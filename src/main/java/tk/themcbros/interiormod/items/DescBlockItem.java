@@ -3,6 +3,7 @@ package tk.themcbros.interiormod.items;
 import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.BlockItem;
@@ -12,6 +13,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.ForgeI18n;
 import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nullable;
@@ -35,12 +37,12 @@ public class DescBlockItem extends BlockItem {
                     components.add(new TranslationTextComponent(newKey).applyTextStyle(TextFormatting.GREEN));
                 }
             }
-            if (GLFW.glfwGetKey(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT) == GLFW.GLFW_TRUE) {
+            if (Screen.hasShiftDown()) {
                 tooltip.addAll(components);
             } else {
                 tooltip.add(new StringTextComponent("Press ").applyTextStyle(TextFormatting.GRAY)
                         .appendSibling(new StringTextComponent("Shift").applyTextStyles(TextFormatting.YELLOW, TextFormatting.ITALIC))
-                        .appendSibling(new StringTextComponent(" for more information").applyTextStyle(TextFormatting.GRAY)));
+                        .appendSibling(new StringTextComponent(" for Details").applyTextStyle(TextFormatting.GRAY)));
             }
         }
     }

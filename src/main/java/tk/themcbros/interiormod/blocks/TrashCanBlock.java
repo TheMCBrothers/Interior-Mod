@@ -12,29 +12,36 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.ISidedInventoryProvider;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.ChestContainer;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import tk.themcbros.interiormod.util.ShapeUtils;
 
 import javax.annotation.Nullable;
 
-public class TrashCanBlock extends Block implements IWaterLoggable, INamedContainerProvider {
+public class TrashCanBlock extends Block implements IWaterLoggable, INamedContainerProvider, ISidedInventoryProvider {
 
 	private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	
@@ -124,6 +131,32 @@ public class TrashCanBlock extends Block implements IWaterLoggable, INamedContai
 	@Override
 	public ITextComponent getDisplayName() {
 		return new TranslationTextComponent("container.interiormod.trash_can");
+	}
+
+	@Override
+	public ISidedInventory createInventory(BlockState state, IWorld world, BlockPos pos) {
+		return new Inv();
+	}
+
+	static class Inv extends Inventory implements ISidedInventory {
+		public Inv() {
+			super(9);
+		}
+
+		@Override
+		public int[] getSlotsForFace(Direction side) {
+			return new int[] {0,1,2,3,4,5,6,7,8};
+		}
+
+		@Override
+		public boolean canInsertItem(int index, ItemStack itemStackIn, @Nullable Direction direction) {
+			return true;
+		}
+
+		@Override
+		public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
+			return false;
+		}
 	}
 
 }
