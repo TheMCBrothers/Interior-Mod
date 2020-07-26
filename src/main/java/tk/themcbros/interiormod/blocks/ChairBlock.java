@@ -8,8 +8,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.SoundType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
@@ -112,7 +112,7 @@ public class ChairBlock extends FurnitureBlock implements IWaterLoggable {
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        IFluidState iFluidState = context.getWorld().getFluidState(context.getPos());
+        FluidState iFluidState = context.getWorld().getFluidState(context.getPos());
         return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing())
                 .with(WATERLOGGED, iFluidState.getFluid() == Fluids.WATER);
     }
@@ -123,12 +123,7 @@ public class ChairBlock extends FurnitureBlock implements IWaterLoggable {
     }
 
     @Override
-    public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return false;
-    }
-
-    @Override
-    public IFluidState getFluidState(BlockState state) {
+    public FluidState getFluidState(BlockState state) {
         return state.get(WATERLOGGED) ? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState();
     }
 

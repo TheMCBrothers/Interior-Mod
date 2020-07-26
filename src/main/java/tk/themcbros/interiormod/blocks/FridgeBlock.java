@@ -130,7 +130,7 @@ public class FridgeBlock extends Block {
 	@Nullable
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		BlockPos blockpos = context.getPos();
-		return blockpos.getY() < context.getWorld().getDimension().getHeight() - 1
+		return blockpos.getY() < 255
 				&& context.getWorld().getBlockState(blockpos.up()).isReplaceable(context)
 						? this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite())
 						: null;
@@ -140,8 +140,9 @@ public class FridgeBlock extends Block {
 	 * Called by ItemBlocks after a block is set in the world, to allow post-place
 	 * logic
 	 */
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-		worldIn.setBlockState(pos.up(), this.getDefaultState().with(HALF, Half.TOP).with(FACING, placer.getHorizontalFacing().getOpposite()), 3);
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+		if (placer != null)
+			worldIn.setBlockState(pos.up(), this.getDefaultState().with(HALF, Half.TOP).with(FACING, placer.getHorizontalFacing().getOpposite()), 3);
 	}
 
 	@SuppressWarnings("deprecation")

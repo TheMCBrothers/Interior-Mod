@@ -7,7 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer.Builder;
@@ -105,7 +105,7 @@ public class TableBlock extends FurnitureBlock implements IWaterLoggable {
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         World world = context.getWorld();
         BlockPos blockPos = context.getPos();
-        IFluidState fluidState = world.getFluidState(blockPos);
+        FluidState fluidState = world.getFluidState(blockPos);
         Boolean north = this.isTableBlock(world, blockPos.north());
         Boolean east = this.isTableBlock(world, blockPos.east());
         Boolean south = this.isTableBlock(world, blockPos.south());
@@ -119,17 +119,12 @@ public class TableBlock extends FurnitureBlock implements IWaterLoggable {
     }
 
     @Override
-    public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return false;
-    }
-
-    @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return InteriorTileEntities.TABLE.create();
     }
 
     @Override
-    public IFluidState getFluidState(BlockState state) {
+    public FluidState getFluidState(BlockState state) {
         return state.get(WATERLOGGED) ? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState();
     }
 

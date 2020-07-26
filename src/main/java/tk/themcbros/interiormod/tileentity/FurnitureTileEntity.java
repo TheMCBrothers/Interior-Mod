@@ -1,6 +1,9 @@
 package tk.themcbros.interiormod.tileentity;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
@@ -13,6 +16,7 @@ import tk.themcbros.interiormod.api.furniture.InteriorRegistries;
 import tk.themcbros.interiormod.init.FurnitureMaterials;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 /**
@@ -38,6 +42,22 @@ public abstract class FurnitureTileEntity extends TileEntity {
     }
 
     @Override
+    public CompoundNBT getUpdateTag() {
+        return this.write(new CompoundNBT());
+    }
+
+    @Nullable
+    @Override
+    public SUpdateTileEntityPacket getUpdatePacket() {
+        return new SUpdateTileEntityPacket(this.pos, 0, this.getUpdateTag());
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
+        if (world != null) this.read(world.getBlockState(pkt.getPos()), pkt.getNbtCompound());
+    }
+
+    @Override
     public CompoundNBT write(CompoundNBT compound) {
         compound.putString("primaryMaterial", String.valueOf(this.primaryMaterial.get().getRegistryName()));
         compound.putString("secondaryMaterial", String.valueOf(this.secondaryMaterial.get().getRegistryName()));
@@ -45,8 +65,8 @@ public abstract class FurnitureTileEntity extends TileEntity {
     }
 
     @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
+    public void read(BlockState state, CompoundNBT compound) {
+        super.read(state, compound);
         this.primaryMaterial =
                 () -> InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryCreate(compound.getString("primaryMaterial")));
         this.secondaryMaterial =

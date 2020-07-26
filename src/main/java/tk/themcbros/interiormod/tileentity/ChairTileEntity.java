@@ -1,5 +1,6 @@
 package tk.themcbros.interiormod.tileentity;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -22,26 +23,26 @@ public class ChairTileEntity extends FurnitureTileEntity {
 	
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
-		compound.putString("facing", this.facing != null ? this.facing.getName() : "north");
+		compound.putString("facing", this.facing != null ? this.facing.getName2() : "north");
 		return super.write(compound);
 	}
 	
 	@Override
-	public void read(CompoundNBT compound) {
+	public void read(BlockState state, CompoundNBT compound) {
 		this.facing = Direction.byName(compound.getString("facing"));
-		super.read(compound);
+		super.read(state, compound);
 	}
 	
 	@Override
 	public SUpdateTileEntityPacket getUpdatePacket() {
 		return new SUpdateTileEntityPacket(this.pos, 0, this.getUpdateTag());
 	}
-	
+
 	@Override
-	public void handleUpdateTag(CompoundNBT tag) {
-		super.handleUpdateTag(tag);
+	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
+		super.handleUpdateTag(state, tag);
 	}
-	
+
 	@Override
 	public CompoundNBT getUpdateTag() {
 		return this.write(new CompoundNBT());
@@ -49,7 +50,8 @@ public class ChairTileEntity extends FurnitureTileEntity {
 	
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		this.read(pkt.getNbtCompound());
+		assert world != null;
+		this.read(world.getBlockState(pkt.getPos()), pkt.getNbtCompound());
 	}
 	
 	@Override

@@ -12,17 +12,17 @@ import net.minecraft.data.DirectoryCache;
 import net.minecraft.data.IDataProvider;
 import net.minecraft.data.LootTableProvider;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.ConstantRange;
-import net.minecraft.world.storage.loot.DynamicLootEntry;
-import net.minecraft.world.storage.loot.ItemLootEntry;
-import net.minecraft.world.storage.loot.LootParameterSets;
-import net.minecraft.world.storage.loot.LootPool;
-import net.minecraft.world.storage.loot.LootTable;
-import net.minecraft.world.storage.loot.LootTableManager;
-import net.minecraft.world.storage.loot.conditions.SurvivesExplosion;
-import net.minecraft.world.storage.loot.functions.CopyName;
-import net.minecraft.world.storage.loot.functions.CopyNbt;
-import net.minecraft.world.storage.loot.functions.SetContents;
+import net.minecraft.loot.ConstantRange;
+import net.minecraft.loot.DynamicLootEntry;
+import net.minecraft.loot.ItemLootEntry;
+import net.minecraft.loot.LootParameterSets;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.LootTable;
+import net.minecraft.loot.LootTableManager;
+import net.minecraft.loot.conditions.SurvivesExplosion;
+import net.minecraft.loot.functions.CopyName;
+import net.minecraft.loot.functions.CopyNbt;
+import net.minecraft.loot.functions.SetContents;
 import tk.themcbros.interiormod.InteriorMod;
 
 public abstract class BaseLootTableProvider extends LootTableProvider {
@@ -56,8 +56,8 @@ public abstract class BaseLootTableProvider extends LootTableProvider {
 								.addOperation("Items", "BlockEntityTag.Items", CopyNbt.Action.REPLACE)
 								.addOperation("Upgrades", "BlockEntityTag.Upgrades", CopyNbt.Action.REPLACE)
 								.addOperation("Energy", "BlockEntityTag.Energy", CopyNbt.Action.REPLACE))
-						.acceptFunction(SetContents.builder()
-								.addLootEntry(DynamicLootEntry.func_216162_a(new ResourceLocation("minecraft", "contents"))))
+						.acceptFunction(SetContents.func_215920_b()
+								.func_216075_a(DynamicLootEntry.func_216162_a(new ResourceLocation("minecraft", "contents"))))
 						.acceptCondition(SurvivesExplosion.builder())
 				);
 		return LootTable.builder().addLootPool(builder);

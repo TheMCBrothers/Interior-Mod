@@ -29,13 +29,19 @@ public class FurnitureBlockItem extends BlockItem {
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         if (stack.hasTag() && stack.getOrCreateTag().contains("textures", Constants.NBT.TAG_COMPOUND)) {
             CompoundNBT tag = stack.getOrCreateTag().getCompound("textures");
-            FurnitureMaterial primary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryCreate(tag.getString("primary")));
-            FurnitureMaterial secondary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryCreate(tag.getString("secondary")));
+            FurnitureMaterial primaryMaterial = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryCreate(tag.getString("primary")));
+            FurnitureMaterial secondaryMaterial = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryCreate(tag.getString("secondary")));
 
-            if (primary != null)
-                tooltip.add(primary.getDisplayName().applyTextStyle(TextFormatting.GREEN));
-            if (secondary != null && secondary != primary)
-                tooltip.add(secondary.getDisplayName().applyTextStyle(TextFormatting.GREEN));
+            if (primaryMaterial != null) {
+                ITextComponent primary = primaryMaterial.getDisplayName();
+                primary.getStyle().applyFormatting(TextFormatting.GREEN);
+                tooltip.add(primary);
+            }
+            if (secondaryMaterial != null && secondaryMaterial != primaryMaterial) {
+                ITextComponent secondary = secondaryMaterial.getDisplayName();
+                secondary.getStyle().applyFormatting(TextFormatting.GREEN);
+                tooltip.add(secondary);
+            }
         }
     }
 }

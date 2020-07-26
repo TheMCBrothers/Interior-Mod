@@ -37,15 +37,16 @@ public class DescBlockItem extends BlockItem {
             for (int i = 0; i < 10; i++) {
                 String newKey = key + i;
                 if (I18n.hasKey(newKey)) {
-                    components.add(new TranslationTextComponent(newKey).applyTextStyle(TextFormatting.GREEN));
+                    ITextComponent component = new TranslationTextComponent(newKey);
+                    component.getStyle().applyFormatting(TextFormatting.GREEN);
+                    components.add(component);
                 }
             }
             if (Screen.hasShiftDown()) {
                 tooltip.addAll(components);
             } else {
-                tooltip.add(new StringTextComponent("Press ").applyTextStyle(TextFormatting.GRAY)
-                        .appendSibling(new StringTextComponent("Shift").applyTextStyles(TextFormatting.YELLOW, TextFormatting.ITALIC))
-                        .appendSibling(new StringTextComponent(" for Details").applyTextStyle(TextFormatting.GRAY)));
+                ITextComponent component = new TranslationTextComponent("tooltip.interiormod.hold_shift");
+                tooltip.add(component);
             }
         }
     }

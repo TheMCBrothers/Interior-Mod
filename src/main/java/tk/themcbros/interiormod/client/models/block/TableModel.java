@@ -13,7 +13,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ILightReader;
+import net.minecraft.world.IBlockDisplayReader;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.data.IModelData;
 import tk.themcbros.interiormod.InteriorMod;
@@ -74,8 +74,8 @@ public class TableModel implements IBakedModel {
             newModel.name = this.model.name;
             newModel.parent = this.model.parent;
 
-            Material primaryMaterial = new Material(AtlasTexture.LOCATION_BLOCKS_TEXTURE, primary.getTextureLocation());
-            Material secondaryMaterial = new Material(AtlasTexture.LOCATION_BLOCKS_TEXTURE, secondary.getTextureLocation());
+            RenderMaterial primaryMaterial = new RenderMaterial(AtlasTexture.LOCATION_BLOCKS_TEXTURE, primary.getTextureLocation());
+            RenderMaterial secondaryMaterial = new RenderMaterial(AtlasTexture.LOCATION_BLOCKS_TEXTURE, secondary.getTextureLocation());
 
             newModel.textures.put("secondary", Either.left(secondaryMaterial));
             newModel.textures.put("primary", Either.left(primaryMaterial));
@@ -164,7 +164,7 @@ public class TableModel implements IBakedModel {
     }
 
     @Override
-    public IModelData getModelData(@Nonnull ILightReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
+    public IModelData getModelData(@Nonnull IBlockDisplayReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull IModelData tileData) {
         FurnitureMaterial primary = FurnitureMaterials.OAK_PLANKS.get();
         FurnitureMaterial secondary = FurnitureMaterials.OAK_PLANKS.get();
 

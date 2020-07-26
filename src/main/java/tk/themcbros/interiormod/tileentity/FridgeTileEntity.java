@@ -1,5 +1,6 @@
 package tk.themcbros.interiormod.tileentity;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
@@ -40,9 +41,9 @@ public class FridgeTileEntity extends TileEntity implements IInventory, INamedCo
     }
 
     @Override
-    public void read(CompoundNBT compound) {
+    public void read(BlockState state, CompoundNBT compound) {
         ItemStackHelper.loadAllItems(compound, this.stacks);
-        super.read(compound);
+        super.read(state,compound);
     }
 
     @Override

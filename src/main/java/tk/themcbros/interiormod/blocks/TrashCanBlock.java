@@ -11,7 +11,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.ISidedInventoryProvider;
 import net.minecraft.inventory.Inventory;
@@ -59,7 +59,7 @@ public class TrashCanBlock extends Block implements IWaterLoggable, INamedContai
 	}
 	
 	@Override
-	public IFluidState getFluidState(BlockState state) {
+	public FluidState getFluidState(BlockState state) {
 		return state.get(WATERLOGGED) ? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState();
 	}
 	

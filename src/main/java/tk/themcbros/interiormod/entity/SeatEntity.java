@@ -13,6 +13,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import tk.themcbros.interiormod.init.InteriorEntities;
 
+import javax.annotation.Nonnull;
+
 /**
  * @author TheMCBrothers
  */
@@ -38,23 +40,23 @@ public class SeatEntity extends Entity {
     public void tick() {
         super.tick();
         if (source == null) {
-            source = this.getPosition();
+            source = this.func_233580_cy_();
         }
         if (!this.world.isRemote) {
             if (this.getPassengers().isEmpty() || this.world.isAirBlock(source)) {
                 this.remove();
-                world.updateComparatorOutputLevel(getPosition(), world.getBlockState(getPosition()).getBlock());
+                world.updateComparatorOutputLevel(getSource(), world.getBlockState(getSource()).getBlock());
             }
         }
     }
 
     @Override
-    protected void readAdditional(CompoundNBT compound) {
+    protected void readAdditional(@Nonnull CompoundNBT compound) {
 
     }
 
     @Override
-    protected void writeAdditional(CompoundNBT compound) {
+    protected void writeAdditional(@Nonnull CompoundNBT compound) {
 
     }
 
@@ -68,10 +70,11 @@ public class SeatEntity extends Entity {
     }
 
     @Override
-    protected boolean canBeRidden(Entity entity) {
+    protected boolean canBeRidden(@Nonnull Entity entity) {
         return true;
     }
 
+    @Nonnull
     @Override
     public IPacket<?> createSpawnPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);

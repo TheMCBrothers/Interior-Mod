@@ -2,6 +2,7 @@ package tk.themcbros.interiormod.client.models.block;
 
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemOverrideList;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -16,8 +17,9 @@ import javax.annotation.Nullable;
  * @author TheMCBrothers
  */
 public class TableItemOverride extends ItemOverrideList {
+    @Nullable
     @Override
-    public IBakedModel getModelWithOverrides(IBakedModel modelOriginal, ItemStack stack, @Nullable World worldIn, @Nullable LivingEntity entityIn) {
+    public IBakedModel func_239290_a_(IBakedModel modelOriginal, ItemStack stack, @Nullable ClientWorld worldIn, @Nullable LivingEntity entityIn) {
         if(modelOriginal instanceof TableModel) {
             CompoundNBT tag = stack.getChildTag("textures");
             if(tag != null) {

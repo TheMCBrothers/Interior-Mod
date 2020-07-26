@@ -15,7 +15,7 @@ import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
@@ -59,7 +59,7 @@ public class LampOnAStickBlock extends Block implements IWaterLoggable {
 	}
 	
 	@Override
-	public IFluidState getFluidState(BlockState state) {
+	public FluidState getFluidState(BlockState state) {
 		return state.get(WATERLOGGED) ? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState();
 	}
 
@@ -123,7 +123,7 @@ public class LampOnAStickBlock extends Block implements IWaterLoggable {
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		BlockPos blockpos = context.getPos();
-		return blockpos.getY() < context.getWorld().getDimension().getHeight() - 2
+		return blockpos.getY() < 254
 				&& context.getWorld().getBlockState(blockpos.up()).isReplaceable(context)
 				&& context.getWorld().getBlockState(blockpos.up(2)).isReplaceable(context) ? this.getDefaultState()
 						: null;
@@ -132,7 +132,7 @@ public class LampOnAStickBlock extends Block implements IWaterLoggable {
 	@Override
 	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
 		if (state.get(LIT) && !worldIn.isBlockPowered(pos)) {
-			worldIn.setBlockState(pos, state.cycle(LIT), 2);
+			worldIn.setBlockState(pos, state.func_235896_a_(LIT), 2);
 		}
 
 	}
@@ -180,7 +180,7 @@ public class LampOnAStickBlock extends Block implements IWaterLoggable {
 		BOTTOM, MIDDLE, TOP;
 
 		@Override
-		public String getName() {
+		public String getString() {
 			return name().toLowerCase(Locale.ROOT);
 		}
 

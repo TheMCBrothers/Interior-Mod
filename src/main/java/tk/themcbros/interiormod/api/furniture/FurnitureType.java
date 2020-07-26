@@ -20,7 +20,7 @@ public enum FurnitureType implements IStringSerializable {
 	}
 
 	@Override
-	public String getName() {
+	public String getString() {
 		return name().toLowerCase(Locale.ROOT);
 	}
 

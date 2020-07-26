@@ -17,5 +17,6 @@
   "container.interiormod.fridge": "Fridge",
   "container.interiormod.trash_can": "Trash Can",
   "entity.interiormod.seat": "Seat",
-  "itemGroup.interiormod": "TheMCBrothers Interior Mod"
+  "itemGroup.interiormod": "TheMCBrothers Interior Mod",
+  "tooltip.interiormod.hold_shift": "\u00A7rHold \u00A7e\u00A7oShift \u00A7rfor Details"
 }

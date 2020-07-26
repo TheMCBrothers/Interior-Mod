@@ -1,6 +1,7 @@
 package tk.themcbros.interiormod.data;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.data.LanguageProvider;
 import tk.themcbros.interiormod.init.InteriorBlocks;
 import tk.themcbros.interiormod.init.InteriorEntities;
@@ -35,6 +36,9 @@ public class InteriorLanguageProvider extends LanguageProvider {
 
         this.add("config.waila.plugin_interiormod", "TheMCBrothers Interior Mod");
         this.add("config.waila.plugin_interiormod.display_furniture_materials", "Furniture Materials");
+
+        String s = String.format("%sHold %s%sShift %sfor Details", TextFormatting.RESET, TextFormatting.YELLOW, TextFormatting.ITALIC, TextFormatting.RESET);
+        this.add("tooltip.interiormod.hold_shift", s);
 
         this.add(InteriorEntities.SEAT, "Seat");
         this.add("itemGroup.interiormod", "TheMCBrothers Interior Mod");
