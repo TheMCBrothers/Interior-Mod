@@ -16,7 +16,6 @@ public class TheOneProbeCompat implements Function<ITheOneProbe, Void> {
     @Override
     public Void apply(ITheOneProbe theOneProbe) {
         theOneProbe.registerProvider(TOPProviderFurniture.INSTANCE);
-        theOneProbe.registerBlockDisplayOverride(TOPProviderFurniture.INSTANCE);
         return null;
     }
 

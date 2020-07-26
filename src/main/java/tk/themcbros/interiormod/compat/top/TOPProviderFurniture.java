@@ -14,7 +14,7 @@ import tk.themcbros.interiormod.tileentity.FurnitureTileEntity;
 /**
  * @author TheMCBrothers
  */
-public class TOPProviderFurniture implements IProbeInfoProvider, IBlockDisplayOverride {
+public class TOPProviderFurniture implements IProbeInfoProvider {
 
     static final TOPProviderFurniture INSTANCE = new TOPProviderFurniture();
 
@@ -36,10 +36,5 @@ public class TOPProviderFurniture implements IProbeInfoProvider, IBlockDisplayOv
             if (secondary != primary)
                 probeInfo.text(secondary.getDisplayName().applyTextStyle(TextFormatting.GRAY));
         }
-    }
-
-    @Override
-    public boolean overrideStandardInfo(ProbeMode probeMode, IProbeInfo iProbeInfo, PlayerEntity playerEntity, World world, BlockState blockState, IProbeHitData iProbeHitData) {
-        return false;
     }
 }
