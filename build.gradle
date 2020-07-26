@@ -136,6 +136,11 @@ dependencies {
     	compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
     }
 
+    if (project.hasProperty('top_version')) { // The One Probe
+        compileOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-${top_version}:api")
+        runtimeOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-${top_version}")
+    }
+
 }
 
 jar {
