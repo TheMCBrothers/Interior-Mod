@@ -8,13 +8,11 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.ForgeI18n;
 import org.lwjgl.glfw.GLFW;
+import tk.themcbros.interiormod.util.Styles;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -37,16 +35,13 @@ public class DescBlockItem extends BlockItem {
             for (int i = 0; i < 10; i++) {
                 String newKey = key + i;
                 if (I18n.hasKey(newKey)) {
-                    ITextComponent component = new TranslationTextComponent(newKey);
-                    component.getStyle().applyFormatting(TextFormatting.GREEN);
-                    components.add(component);
+                    components.add(new TranslationTextComponent(newKey).func_230530_a_(Styles.GREEN));
                 }
             }
             if (Screen.hasShiftDown()) {
                 tooltip.addAll(components);
             } else {
-                ITextComponent component = new TranslationTextComponent("tooltip.interiormod.hold_shift");
-                tooltip.add(component);
+                tooltip.add(new TranslationTextComponent("tooltip.interiormod.hold_shift"));
             }
         }
     }

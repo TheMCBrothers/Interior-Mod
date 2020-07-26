@@ -12,6 +12,7 @@ import net.minecraftforge.common.util.Constants;
 import tk.themcbros.interiormod.api.furniture.FurnitureMaterial;
 import tk.themcbros.interiormod.api.furniture.FurnitureType;
 import tk.themcbros.interiormod.api.furniture.InteriorRegistries;
+import tk.themcbros.interiormod.util.Styles;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -29,18 +30,14 @@ public class FurnitureBlockItem extends BlockItem {
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         if (stack.hasTag() && stack.getOrCreateTag().contains("textures", Constants.NBT.TAG_COMPOUND)) {
             CompoundNBT tag = stack.getOrCreateTag().getCompound("textures");
-            FurnitureMaterial primaryMaterial = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryCreate(tag.getString("primary")));
-            FurnitureMaterial secondaryMaterial = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryCreate(tag.getString("secondary")));
+            FurnitureMaterial primary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryCreate(tag.getString("primary")));
+            FurnitureMaterial secondary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryCreate(tag.getString("secondary")));
 
-            if (primaryMaterial != null) {
-                ITextComponent primary = primaryMaterial.getDisplayName();
-                primary.getStyle().applyFormatting(TextFormatting.GREEN);
-                tooltip.add(primary);
+            if (primary != null) {
+                tooltip.add(primary.getDisplayName().func_230530_a_(Styles.GREEN));
             }
-            if (secondaryMaterial != null && secondaryMaterial != primaryMaterial) {
-                ITextComponent secondary = secondaryMaterial.getDisplayName();
-                secondary.getStyle().applyFormatting(TextFormatting.GREEN);
-                tooltip.add(secondary);
+            if (secondary != null && secondary != primary) {
+                tooltip.add(secondary.getDisplayName().func_230530_a_(Styles.GREEN));
             }
         }
     }

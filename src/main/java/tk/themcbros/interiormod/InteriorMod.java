@@ -1,9 +1,7 @@
 package tk.themcbros.interiormod;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.resources.IReloadableResourceManager;
+import net.minecraft.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -11,6 +9,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import tk.themcbros.interiormod.api.InteriorAPI;
 import tk.themcbros.interiormod.proxy.ClientProxy;
 import tk.themcbros.interiormod.proxy.CommonProxy;
@@ -44,8 +44,9 @@ public class InteriorMod {
     
     @SubscribeEvent(priority = EventPriority.HIGH)
 	public void onServerSetup(final FMLServerAboutToStartEvent event) {
-//		IReloadableResourceManager manager = event.getServer().getResourceManager(); // TODO
-//
-//		manager.addReloadListener(new FurnitureRecipeManager());
+        IResourceManager manager = event.getServer().getDataPackRegistries().func_240970_h_();
+        if (manager instanceof IReloadableResourceManager) {
+            ((IReloadableResourceManager) manager).addReloadListener(new FurnitureRecipeManager());
+        }
 	}
 }

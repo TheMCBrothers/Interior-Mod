@@ -5,12 +5,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import tk.themcbros.interiormod.api.InteriorAPI;
 import tk.themcbros.interiormod.api.furniture.FurnitureMaterial;
 import tk.themcbros.interiormod.tileentity.FurnitureTileEntity;
+import tk.themcbros.interiormod.util.Styles;
 
 /**
  * @author TheMCBrothers
@@ -33,15 +32,9 @@ public class TOPProviderFurniture implements IProbeInfoProvider {
             FurnitureMaterial primaryMaterial = furnitureTileEntity.getPrimaryMaterial();
             FurnitureMaterial secondaryMaterial = furnitureTileEntity.getSecondaryMaterial();
 
-            ITextComponent primary = primaryMaterial.getDisplayName();
-            ITextComponent secondary = secondaryMaterial.getDisplayName();
-
-            primary.getStyle().applyFormatting(TextFormatting.GRAY);
-            secondary.getStyle().applyFormatting(TextFormatting.GRAY);
-
-            probeInfo.text(primary);
+            probeInfo.text(primaryMaterial.getDisplayName().func_230530_a_(Styles.GRAY));
             if (secondaryMaterial != primaryMaterial)
-                probeInfo.text(secondary);
+                probeInfo.text(secondaryMaterial.getDisplayName().func_230530_a_(Styles.GRAY));
         }
     }
 }

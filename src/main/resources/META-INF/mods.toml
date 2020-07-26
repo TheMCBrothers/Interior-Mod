@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[31,)"
+loaderVersion="[32,)"
 issueTrackerURL="https://github.com/TheMCBrothers/Interior-Mod/issues"
 
 [[mods]]
@@ -12,20 +12,18 @@ issueTrackerURL="https://github.com/TheMCBrothers/Interior-Mod/issues"
 	# credits="Thanks for this example mod goes to Java" #optional
 	authors="TheMCBrothers" #optional
 	description='''
-	This is a mod that adds interior stuff to your worlds.
-	
-	This includes some furniture.
-	
+    This is a mod that adds interior stuff to your worlds.
+    This includes some furniture.
 	'''
 [[dependencies.interiormod]]
     modId="forge"
     mandatory=true
-    versionRange="[31.2.31,)"
+    versionRange="[32,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.interiormod]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.15.2,)"
+    versionRange="[1.16.1,)"
     ordering="NONE"
     side="BOTH"

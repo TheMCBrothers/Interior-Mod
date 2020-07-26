@@ -3,8 +3,9 @@ package tk.themcbros.interiormod.api.furniture;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.registries.ForgeRegistryEntry;
@@ -19,7 +20,9 @@ import java.util.function.Supplier;
 public class FurnitureMaterial extends ForgeRegistryEntry<FurnitureMaterial> {
 
     @Nonnull
-    private final Supplier<Block> blockSupplier;
+    private final Supplier<? extends Block> blockSupplier;
+    @Nonnull
+    private final Supplier<? extends IItemProvider> itemProvider;
     @Nullable
     private final ResourceLocation textureLocationOverride;
 
@@ -27,8 +30,19 @@ public class FurnitureMaterial extends ForgeRegistryEntry<FurnitureMaterial> {
      * @param blockSupplier Block of the material.
      * @param textureLocationOverride Optional texture override. Leave null for particle texture.
      */
-    public FurnitureMaterial(@Nonnull Supplier<Block> blockSupplier, @Nullable ResourceLocation textureLocationOverride) {
+    public FurnitureMaterial(@Nonnull Supplier<? extends Block> blockSupplier, @Nullable ResourceLocation textureLocationOverride) {
+        this(blockSupplier, blockSupplier, textureLocationOverride);
+    }
+
+    /**
+     * @param blockSupplier Block of the material.
+     * @param itemProvider Item used for crafting.
+     * @param textureLocationOverride Optional texture override. Leave null for particle texture.
+     */
+    public FurnitureMaterial(@Nonnull Supplier<? extends Block> blockSupplier, @Nonnull Supplier<? extends IItemProvider> itemProvider,
+                             @Nullable ResourceLocation textureLocationOverride) {
         this.blockSupplier = blockSupplier;
+        this.itemProvider = itemProvider;
         this.textureLocationOverride = textureLocationOverride;
     }
 
@@ -44,7 +58,7 @@ public class FurnitureMaterial extends ForgeRegistryEntry<FurnitureMaterial> {
      * @return Display Name of the material (Translated block name)
      */
     @Nonnull
-    public ITextComponent getDisplayName() {
+    public IFormattableTextComponent getDisplayName() {
         return new TranslationTextComponent(this.blockSupplier.get().getTranslationKey());
     }
 
@@ -60,7 +74,10 @@ public class FurnitureMaterial extends ForgeRegistryEntry<FurnitureMaterial> {
         return this.textureLocationOverride;
     }
 
+    /**
+     * @return Ingredient for crafting recipe
+     */
     public Ingredient getIngredient() {
-        return Ingredient.fromItems(this.blockSupplier.get());
+        return Ingredient.fromItems(this.itemProvider.get());
     }
 }
