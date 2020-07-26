@@ -20,7 +20,7 @@ issueTrackerURL="https://github.com/TheMCBrothers/Interior-Mod/issues"
 [[dependencies.interiormod]]
     modId="forge"
     mandatory=true
-    versionRange="[31,)"
+    versionRange="[31.2.31,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.interiormod]]
