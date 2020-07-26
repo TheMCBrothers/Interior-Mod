@@ -1,44 +1,41 @@
 package tk.themcbros.interiormod.items;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+import tk.themcbros.interiormod.api.furniture.FurnitureMaterial;
 import tk.themcbros.interiormod.api.furniture.FurnitureType;
-import tk.themcbros.interiormod.furniture.FurnitureRegistry;
+import tk.themcbros.interiormod.api.furniture.InteriorRegistries;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
+/**
+ * @author TheMCBrothers
+ */
 public class FurnitureBlockItem extends BlockItem {
 
-	public FurnitureBlockItem(FurnitureType furniture, Properties builder) {
-		super(furniture.getBlock(), builder);
-	}
-	
-	@Override
-	public ITextComponent getDisplayName(ItemStack stack) {
-		if (!stack.isEmpty()) {
-			if (stack.hasTag() && stack.getTag().contains("textures", Constants.NBT.TAG_COMPOUND)) {
-				CompoundNBT tag = stack.getTag().getCompound("textures");
-				String one = FurnitureRegistry.MATERIALS.get(tag.getString("primary")).getDisplayName().getFormattedText();
-				String two = FurnitureRegistry.MATERIALS.get(tag.getString("secondary")).getDisplayName().getFormattedText();
-				return new TranslationTextComponent(this.getTranslationKey(stack), !one.equalsIgnoreCase(two) ? one + "-" + two : one);
-			}
-		}
-		return super.getDisplayName(stack);
-	}
-	
-	@Override
-	public String getTranslationKey(ItemStack stack) {
-		if (!stack.isEmpty()) {
-			if (stack.hasTag() && stack.getTag().contains("textures", Constants.NBT.TAG_COMPOUND)) {
-				CompoundNBT tag = stack.getTag().getCompound("textures");
-				if (tag.contains("primary", Constants.NBT.TAG_STRING) && tag.contains("secondary", Constants.NBT.TAG_STRING)) {
-					return this.getTranslationKey() + ".name";
-				}
-			}
-		}
-		return this.getTranslationKey();
-	}
+    public FurnitureBlockItem(FurnitureType furniture, Properties builder) {
+        super(furniture.getBlock(), builder);
+    }
 
+    @Override
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        if (stack.hasTag() && stack.getOrCreateTag().contains("textures", Constants.NBT.TAG_COMPOUND)) {
+            CompoundNBT tag = stack.getOrCreateTag().getCompound("textures");
+            FurnitureMaterial primary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryCreate(tag.getString("primary")));
+            FurnitureMaterial secondary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryCreate(tag.getString("secondary")));
+
+            if (primary != null)
+                tooltip.add(primary.getDisplayName().applyTextStyle(TextFormatting.GREEN));
+            if (secondary != null && secondary != primary)
+                tooltip.add(secondary.getDisplayName().applyTextStyle(TextFormatting.GREEN));
+        }
+    }
 }

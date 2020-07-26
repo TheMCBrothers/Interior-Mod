@@ -6,15 +6,19 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import tk.themcbros.interiormod.api.InteriorAPI;
 
-@EventBusSubscriber(modid = InteriorAPI.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+/**
+ * @author TheMCBrothers
+ */
 public class Events {
-
-	@SubscribeEvent
-	public static void gatherData(final GatherDataEvent event) {
-		DataGenerator generator = event.getGenerator();
-		generator.addProvider(new InteriorLootTables(generator));
-		generator.addProvider(new InteriorLanguageProvider(generator, InteriorAPI.MOD_ID));
-		generator.addProvider(new RecipeDataProvider(generator));
-	}
-	
+    @SubscribeEvent
+    public void gatherData(final GatherDataEvent event) {
+        DataGenerator generator = event.getGenerator();
+        if (event.includeClient()) {
+            generator.addProvider(new InteriorLanguageProvider(generator, InteriorAPI.MOD_ID));
+        }
+        if (event.includeServer()) {
+            generator.addProvider(new InteriorLootTables(generator));
+            generator.addProvider(new RecipeDataProvider(generator));
+        }
+    }
 }

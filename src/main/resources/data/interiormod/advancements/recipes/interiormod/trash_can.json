@@ -1,0 +1,38 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "interiormod:trash_can"
+    ]
+  },
+  "criteria": {
+    "hasMaterial": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:ingots/iron"
+          },
+          {
+            "tag": "forge:chests/wooden"
+          },
+          {
+            "item": "minecraft:iron_bars"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "interiormod:trash_can"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hasMaterial",
+      "has_the_recipe"
+    ]
+  ]
+}

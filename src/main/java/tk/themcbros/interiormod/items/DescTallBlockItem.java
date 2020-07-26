@@ -20,6 +20,9 @@ import org.lwjgl.glfw.GLFW;
 import javax.annotation.Nullable;
 import java.util.List;
 
+/**
+ * @author TheMCBrothers
+ */
 public class DescTallBlockItem extends DescBlockItem {
 
     public DescTallBlockItem(Block block, Properties properties) {

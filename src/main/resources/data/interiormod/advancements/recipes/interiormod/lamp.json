@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "interiormod:lamp"
+    ]
+  },
+  "criteria": {
+    "hasItems": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:redstone_lamp"
+          },
+          {
+            "item": "minecraft:daylight_detector"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "interiormod:lamp"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hasItems",
+      "has_the_recipe"
+    ]
+  ]
+}

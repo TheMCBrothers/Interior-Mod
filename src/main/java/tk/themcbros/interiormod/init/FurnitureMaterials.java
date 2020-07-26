@@ -1,65 +1,67 @@
 package tk.themcbros.interiormod.init;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import tk.themcbros.interiormod.api.InteriorAPI;
-import tk.themcbros.interiormod.api.furniture.FurnitureRegistryEvent;
-import tk.themcbros.interiormod.api.furniture.IFurnitureRegistry;
-import tk.themcbros.interiormod.util.WoodType;
+import tk.themcbros.interiormod.api.furniture.FurnitureMaterial;
+import tk.themcbros.interiormod.api.furniture.FurnitureType;
+import tk.themcbros.interiormod.api.furniture.InteriorRegistries;
 
+import java.util.Objects;
+
+/**
+ * @author TheMCBrothers
+ */
+@Mod.EventBusSubscriber(modid = InteriorAPI.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class FurnitureMaterials {
 
-	@Mod.EventBusSubscriber(modid = InteriorAPI.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-	public static class Registration {
+	public static final DeferredRegister<FurnitureMaterial> FURNITURE_MATERIALS = DeferredRegister
+			.create(InteriorRegistries.FURNITURE_MATERIALS, "minecraft");
 
-		/**
-		 * Example for registering materials
-		 */
-		@SubscribeEvent
-		public static void registerBeddingMaterial(FurnitureRegistryEvent event) {
-			IFurnitureRegistry materialRegistry = event.getMaterialRegistry();
-			
-			for(WoodType type : WoodType.values(WoodType.SubType.VANILLA)) {
-				materialRegistry.registerMaterial(type.getRegistryName(), type.getTextureLocation());
-			}
-			
-			if (ModList.get().isLoaded("biomesoplenty")) {
-				for (WoodType type : WoodType.values(WoodType.SubType.BOP)) {
-					materialRegistry.registerMaterial(type.getRegistryName(), type.getTextureLocation());
-				}
-			}
-			
-			if (ModList.get().isLoaded("uselessmod")) {
-				for (WoodType type : WoodType.values(WoodType.SubType.USELESS)) {
-					materialRegistry.registerMaterial(type.getRegistryName(), type.getTextureLocation());
-				}
-			}
+	public static final RegistryObject<FurnitureMaterial> OAK_PLANKS = FURNITURE_MATERIALS.register("oak_planks",
+			() -> new FurnitureMaterial(() -> Blocks.OAK_PLANKS, null));
+	public static final RegistryObject<FurnitureMaterial> SPRUCE_PLANKS = FURNITURE_MATERIALS.register("spruce_planks",
+			() -> new FurnitureMaterial(() -> Blocks.SPRUCE_PLANKS, null));
+	public static final RegistryObject<FurnitureMaterial> BIRCH_PLANKS = FURNITURE_MATERIALS.register("birch_planks",
+			() -> new FurnitureMaterial(() -> Blocks.BIRCH_PLANKS, null));
+	public static final RegistryObject<FurnitureMaterial> JUNGLE_PLANKS = FURNITURE_MATERIALS.register("jungle_planks",
+			() -> new FurnitureMaterial(() -> Blocks.JUNGLE_PLANKS, null));
+	public static final RegistryObject<FurnitureMaterial> ACACIA_PLANKS = FURNITURE_MATERIALS.register("acacia_planks",
+			() -> new FurnitureMaterial(() -> Blocks.ACACIA_PLANKS, null));
+	public static final RegistryObject<FurnitureMaterial> DARK_OAK_PLANKS = FURNITURE_MATERIALS.register("dark_oak_planks",
+			() -> new FurnitureMaterial(() -> Blocks.DARK_OAK_PLANKS, null));
+
+	@SubscribeEvent
+	public static void onMaterialRegistry(final RegistryEvent.Register<FurnitureMaterial> event) {
+		for (Block block : ForgeRegistries.BLOCKS) {
+			ResourceLocation registryName = block.getRegistryName();
+			assert registryName != null;
+			if (registryName.getNamespace().equalsIgnoreCase("minecraft")
+					|| !registryName.getPath().endsWith("_planks")) continue;
+
+			if (registryName.getNamespace().equalsIgnoreCase("quark") && registryName.getPath().contains("vertical_"))
+				continue;
+
+			event.getRegistry().register(new FurnitureMaterial(() -> block, null).setRegistryName(Objects.requireNonNull(block.getRegistryName())));
 		}
 	}
-	
-	/**
-	 * Example for registering materials
-	 * Call this in your postInit (InterModProcessEvent)
-	 */
-	public static void registerMaterials() {
-		IFurnitureRegistry materialRegistry = InteriorAPI.getInstance().getFurnitureMaterialRegistry();
-		
-		for(WoodType type : WoodType.values(WoodType.SubType.VANILLA)) {
-			materialRegistry.registerMaterial(type.getRegistryName(), type.getTextureLocation());
-		}
-		
-		if (ModList.get().isLoaded("biomesoplenty")) {
-			for (WoodType type : WoodType.values(WoodType.SubType.BOP)) {
-				materialRegistry.registerMaterial(type.getRegistryName(), type.getTextureLocation());
-			}
-		}
-		
-		if (ModList.get().isLoaded("uselessmod")) {
-			for (WoodType type : WoodType.values(WoodType.SubType.USELESS)) {
-				materialRegistry.registerMaterial(type.getRegistryName(), type.getTextureLocation());
-			}
-		}
+
+	public static ItemStack createItemStack(FurnitureType furnitureType, FurnitureMaterial primary, FurnitureMaterial secondary) {
+		ItemStack stack = furnitureType.getStack();
+
+		CompoundNBT tag = stack.getOrCreateChildTag("textures");
+		tag.putString("primary", String.valueOf(primary.getRegistryName()));
+		tag.putString("secondary", String.valueOf(secondary.getRegistryName()));
+		return stack;
 	}
 	
 }

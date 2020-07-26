@@ -2,7 +2,7 @@
   "type": "minecraft:block",
   "pools": [
     {
-	  "name": "table",
+      "name": "table",
       "rolls": 1,
       "entries": [
         {
@@ -13,12 +13,12 @@
               "source": "block_entity",
               "ops": [
                 {
-                  "source": "material",
+                  "source": "primaryMaterial",
                   "target": "textures.primary",
                   "op": "replace"
                 },
                 {
-                  "source": "legMaterial",
+                  "source": "secondaryMaterial",
                   "target": "textures.secondary",
                   "op": "replace"
                 }

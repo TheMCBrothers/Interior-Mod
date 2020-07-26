@@ -17,9 +17,11 @@ import tk.themcbros.interiormod.proxy.CommonProxy;
 import tk.themcbros.interiormod.proxy.ServerProxy;
 import tk.themcbros.interiormod.recipe.FurnitureRecipeManager;
 
+/**
+ * @author TheMCBrothers
+ */
 @Mod(InteriorMod.MOD_ID)
-public class InteriorMod
-{
+public class InteriorMod {
 	public static final String MOD_ID = InteriorAPI.MOD_ID;
     public static final Logger LOGGER = LogManager.getFormatterLogger(MOD_ID);
 
@@ -33,7 +35,7 @@ public class InteriorMod
         
         InteriorAPI.init(new InteriorModAPI());
         
-        proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
+        proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
     }
     
     public static ResourceLocation getId(String path) {
@@ -41,7 +43,7 @@ public class InteriorMod
     }
     
     @SubscribeEvent(priority = EventPriority.HIGH)
-	public void onServerSetup(FMLServerAboutToStartEvent event) {
+	public void onServerSetup(final FMLServerAboutToStartEvent event) {
 		IReloadableResourceManager manager = event.getServer().getResourceManager();
 
 		manager.addReloadListener(new FurnitureRecipeManager());

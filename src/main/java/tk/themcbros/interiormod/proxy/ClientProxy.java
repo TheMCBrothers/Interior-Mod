@@ -7,17 +7,20 @@ import tk.themcbros.interiormod.InteriorMod;
 import tk.themcbros.interiormod.client.renderer.SeatRenderer;
 import tk.themcbros.interiormod.init.InteriorEntities;
 
+/**
+ * @author TheMCBrothers
+ */
 public class ClientProxy extends CommonProxy {
 
-	public ClientProxy() {
-		super();
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
-	}
-	
-	private void clientSetup(FMLClientSetupEvent event) {
-		RenderingRegistry.registerEntityRenderingHandler(InteriorEntities.SEAT, SeatRenderer::new);
-		
-		InteriorMod.LOGGER.info("ClientProxy clientSetup");
-	}
-	
+    public ClientProxy() {
+        super();
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
+    }
+
+    private void clientSetup(FMLClientSetupEvent event) {
+        RenderingRegistry.registerEntityRenderingHandler(InteriorEntities.SEAT, SeatRenderer::new);
+
+        InteriorMod.LOGGER.info("ClientProxy clientSetup");
+    }
+
 }

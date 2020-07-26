@@ -15,36 +15,38 @@ import net.minecraft.world.storage.loot.functions.CopyNbt;
 import tk.themcbros.interiormod.blocks.FridgeBlock;
 import tk.themcbros.interiormod.init.InteriorBlocks;
 
+/**
+ * @author TheMCBrothers
+ */
 public class InteriorLootTables extends BaseLootTableProvider {
 
-	public InteriorLootTables(DataGenerator dataGeneratorIn) {
-		super(dataGeneratorIn);
-	}
+    public InteriorLootTables(DataGenerator dataGeneratorIn) {
+        super(dataGeneratorIn);
+    }
 
-	@Override
-	protected void addTables() {
-		this.lootTables.put(InteriorBlocks.CHAIR, this.createFurnitureTable("chair", InteriorBlocks.CHAIR));
-		this.lootTables.put(InteriorBlocks.TABLE, this.createFurnitureTable("table", InteriorBlocks.TABLE));
+    @Override
+    protected void addTables() {
+        this.lootTables.put(InteriorBlocks.CHAIR, this.createFurnitureTable("chair", InteriorBlocks.CHAIR));
+        this.lootTables.put(InteriorBlocks.TABLE, this.createFurnitureTable("table", InteriorBlocks.TABLE));
 
-		this.lootTables.put(InteriorBlocks.TRASH_CAN, this.createBasicTable("trash_can", InteriorBlocks.TRASH_CAN));
-		this.lootTables.put(InteriorBlocks.FRIDGE, LootTable.builder().addLootPool(
-				LootPool.builder().name("fridge")
-				.addEntry(ItemLootEntry.builder(InteriorBlocks.FRIDGE)
-						.acceptCondition(BlockStateProperty.builder(InteriorBlocks.FRIDGE).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(BlockStateProperties.HALF, Half.BOTTOM))))
-		));
-	}
-	
-	private LootTable.Builder createFurnitureTable(String name, Block block) {
-		LootPool.Builder builder = LootPool.builder()
-				.name(name)
-				.rolls(ConstantRange.of(1))
-				.addEntry(ItemLootEntry.builder(block)
-						.acceptFunction(CopyNbt.builder(CopyNbt.Source.BLOCK_ENTITY)
-								.addOperation("material", "textures.primary", CopyNbt.Action.REPLACE)
-								.addOperation("seatMaterial", "textures.secondary", CopyNbt.Action.REPLACE)
-								.addOperation("legMaterial", "textures.secondary", CopyNbt.Action.REPLACE))
-				).acceptCondition(SurvivesExplosion.builder());
-		return LootTable.builder().addLootPool(builder);
-	}
-	
+        this.lootTables.put(InteriorBlocks.TRASH_CAN, this.createBasicTable("trash_can", InteriorBlocks.TRASH_CAN));
+        this.lootTables.put(InteriorBlocks.FRIDGE, LootTable.builder().addLootPool(
+                LootPool.builder().name("fridge")
+                        .addEntry(ItemLootEntry.builder(InteriorBlocks.FRIDGE)
+                                .acceptCondition(BlockStateProperty.builder(InteriorBlocks.FRIDGE).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(BlockStateProperties.HALF, Half.BOTTOM))))
+        ));
+    }
+
+    private LootTable.Builder createFurnitureTable(String name, Block block) {
+        LootPool.Builder builder = LootPool.builder()
+                .name(name)
+                .rolls(ConstantRange.of(1))
+                .addEntry(ItemLootEntry.builder(block)
+                        .acceptFunction(CopyNbt.builder(CopyNbt.Source.BLOCK_ENTITY)
+                                .addOperation("primaryMaterial", "textures.primary", CopyNbt.Action.REPLACE)
+                                .addOperation("secondaryMaterial", "textures.secondary", CopyNbt.Action.REPLACE))
+                ).acceptCondition(SurvivesExplosion.builder());
+        return LootTable.builder().addLootPool(builder);
+    }
+
 }

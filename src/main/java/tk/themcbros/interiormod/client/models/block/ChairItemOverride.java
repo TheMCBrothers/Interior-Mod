@@ -6,24 +6,27 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import tk.themcbros.interiormod.api.furniture.IFurnitureMaterial;
-import tk.themcbros.interiormod.furniture.FurnitureRegistry;
+import tk.themcbros.interiormod.api.furniture.FurnitureMaterial;
+import tk.themcbros.interiormod.api.furniture.InteriorRegistries;
 
+import javax.annotation.Nullable;
+
+/**
+ * @author TheMCBrothers
+ */
 public class ChairItemOverride extends ItemOverrideList {
-
-	@Override
-	public IBakedModel getModelWithOverrides(IBakedModel modelOriginal, ItemStack stack, World worldIn, LivingEntity entityIn) {
-		if(modelOriginal instanceof ChairModel) {
-			CompoundNBT tag = stack.getChildTag("textures");
-			if(tag != null) {
-				IFurnitureMaterial primary = FurnitureRegistry.MATERIALS.get(tag.getString("primary"));
-				IFurnitureMaterial secondary = FurnitureRegistry.MATERIALS.get(tag.getString("secondary"));
-				return ((ChairModel) modelOriginal).getCustomModel(primary, secondary, Direction.NORTH);
-			}
-		}
-		
-		return modelOriginal;
-	}
-
+    @Override
+    public IBakedModel getModelWithOverrides(IBakedModel modelOriginal, ItemStack stack, @Nullable World worldIn, @Nullable LivingEntity entityIn) {
+        if(modelOriginal instanceof ChairModel) {
+            CompoundNBT tag = stack.getChildTag("textures");
+            if(tag != null) {
+                FurnitureMaterial primary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryCreate(tag.getString("primary")));
+                FurnitureMaterial secondary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryCreate(tag.getString("secondary")));
+                return ((ChairModel) modelOriginal).getCustomModel(primary, secondary, Direction.NORTH);
+            }
+        }
+        return modelOriginal;
+    }
 }

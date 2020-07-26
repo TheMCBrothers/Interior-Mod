@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "interiormod:lamp_on_a_stick"
+    ]
+  },
+  "criteria": {
+    "hasLamp": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "interiormod:lamp"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "interiormod:lamp_on_a_stick"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "hasLamp",
+      "has_the_recipe"
+    ]
+  ]
+}

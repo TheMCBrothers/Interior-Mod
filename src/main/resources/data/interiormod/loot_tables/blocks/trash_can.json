@@ -2,6 +2,7 @@
   "type": "minecraft:block",
   "pools": [
     {
+      "name": "trash_can",
       "rolls": 1,
       "entries": [
         {
