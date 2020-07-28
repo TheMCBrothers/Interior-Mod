@@ -1,27 +1,8 @@
 2.0.0:
-- Added Trash Can
-- Added Nightlight Lamp
-- Added Lamp on a Stick
-- Added modern door
-- Added fridge crafting recipe
-- Added item descriptions
-- Updated fridge model
-- Changed registry system for furniture materials
---- Planks from other mods are automatically registered
-- Added compatibility for The One Probe
-- Added compatibility for Hwlya
-Required Forge version: 31.2.31 or newer
-
-1.2.2:
-- Added fridge
-- Removed ethereal wood type
-
-1.2.1:
-- Updated to 1.15.2
-- Improved Table shape
-- Working on table rendering :|
-
-1.2.0:
-- Updated to 1.15.1
-- Added custom shape to table
-- Removed Hwyla compatibility
+- Updated to 1.16.1
+- Updated logo files
+- Updated license
+- Added advancements
+KNOWN ISSUES:
+- Furniture with modded materials won't be craftable!
+- Mixing materials won't work either!
