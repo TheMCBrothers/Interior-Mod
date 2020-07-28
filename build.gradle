@@ -297,7 +297,7 @@ curseforge {
         releaseType = project.curse_type
         addGameVersion(project.minecraft_version)
         mainArtifact(jar) {
-            displayName = "${modname} - ${version}"
+            displayName = "${version} for ${minecraft_version}"
             relations {
                 optionalDependency 'themcbros-useless-mod'
                 optionalDependency 'biomes-o-plenty'
