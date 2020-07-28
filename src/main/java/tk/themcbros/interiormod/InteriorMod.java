@@ -44,7 +44,7 @@ public class InteriorMod {
     
     @SubscribeEvent(priority = EventPriority.HIGH)
 	public void onServerSetup(final FMLServerAboutToStartEvent event) {
-        IResourceManager manager = event.getServer().getDataPackRegistries().func_240970_h_();
+        IResourceManager manager = event.getServer().getDataPackRegistries().getResourceManager();
         if (manager instanceof IReloadableResourceManager) {
             ((IReloadableResourceManager) manager).addReloadListener(new FurnitureRecipeManager());
         }

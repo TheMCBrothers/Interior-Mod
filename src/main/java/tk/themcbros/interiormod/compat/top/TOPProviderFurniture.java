@@ -32,9 +32,9 @@ public class TOPProviderFurniture implements IProbeInfoProvider {
             FurnitureMaterial primaryMaterial = furnitureTileEntity.getPrimaryMaterial();
             FurnitureMaterial secondaryMaterial = furnitureTileEntity.getSecondaryMaterial();
 
-            probeInfo.text(primaryMaterial.getDisplayName().func_230530_a_(Styles.GRAY));
+            probeInfo.text(primaryMaterial.getDisplayName().setStyle(Styles.GRAY));
             if (secondaryMaterial != primaryMaterial)
-                probeInfo.text(secondaryMaterial.getDisplayName().func_230530_a_(Styles.GRAY));
+                probeInfo.text(secondaryMaterial.getDisplayName().setStyle(Styles.GRAY));
         }
     }
 }

@@ -34,10 +34,10 @@ public class FurnitureBlockItem extends BlockItem {
             FurnitureMaterial secondary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryCreate(tag.getString("secondary")));
 
             if (primary != null) {
-                tooltip.add(primary.getDisplayName().func_230530_a_(Styles.GREEN));
+                tooltip.add(primary.getDisplayName().setStyle(Styles.GREEN));
             }
             if (secondary != null && secondary != primary) {
-                tooltip.add(secondary.getDisplayName().func_230530_a_(Styles.GREEN));
+                tooltip.add(secondary.getDisplayName().setStyle(Styles.GREEN));
             }
         }
     }

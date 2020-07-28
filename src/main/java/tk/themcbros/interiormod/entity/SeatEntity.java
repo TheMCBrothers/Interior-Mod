@@ -40,7 +40,7 @@ public class SeatEntity extends Entity {
     public void tick() {
         super.tick();
         if (source == null) {
-            source = this.func_233580_cy_();
+            source = this.getPosition();
         }
         if (!this.world.isRemote) {
             if (this.getPassengers().isEmpty() || this.world.isAirBlock(source)) {

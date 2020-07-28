@@ -20,7 +20,7 @@ public class NightlightLampTileEntity extends TileEntity implements ITickableTil
     public void tick() {
         if (this.world != null && !this.world.isRemote && this.world.getGameTime() % 20L == 0L) {
             BlockState blockstate = this.getBlockState();
-            if (blockstate.func_235901_b_(BlockStateProperties.LIT)) {
+            if (blockstate.hasProperty(BlockStateProperties.LIT)) {
                 NightlightLampBlock.updatePower(blockstate, this.world, this.pos);
             }
         }

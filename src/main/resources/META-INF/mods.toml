@@ -1,20 +1,21 @@
 modLoader="javafml"
 loaderVersion="[32,)"
 issueTrackerURL="https://github.com/TheMCBrothers/Interior-Mod/issues"
+license="CC BY-NC-ND 4.0"
 
 [[mods]]
-	modId="interiormod"
-	version="${file.jarVersion}"
-	displayName="TheMCBrothers Interior Mod"
-	updateJSONURL="https://raw.githubusercontent.com/TheMCBrothers/Version/master/interiormod_update.json"
-	displayURL="https://themcbros.tk" #optional
-	logoFile="longlogo.png" #optional
-	# credits="Thanks for this example mod goes to Java" #optional
-	authors="TheMCBrothers" #optional
-	description='''
+    modId="interiormod"
+    version="${file.jarVersion}"
+    displayName="TheMCBrothers Interior Mod"
+    updateJSONURL="https://raw.githubusercontent.com/TheMCBrothers/Version/master/interiormod_update.json"
+    displayURL="https://themcbrothers.github.io/" #optional
+    logoFile="longlogo.png" #optional
+    # credits="Thanks for this example mod goes to Java" #optional
+    authors="TheMCBrothers" #optional
+    description='''
     This is a mod that adds interior stuff to your worlds.
     This includes some furniture.
-	'''
+    '''
 [[dependencies.interiormod]]
     modId="forge"
     mandatory=true

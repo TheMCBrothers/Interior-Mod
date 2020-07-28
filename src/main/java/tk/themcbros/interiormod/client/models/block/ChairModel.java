@@ -128,7 +128,7 @@ public class ChairModel implements IBakedModel {
             secondary = ((FurnitureTileEntity) tile).getSecondaryMaterial();
         }
 
-        if (state.func_235901_b_(BlockStateProperties.HORIZONTAL_FACING)) {
+        if (state.hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
             facing = state.get(BlockStateProperties.HORIZONTAL_FACING);
         }
 

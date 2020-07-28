@@ -35,7 +35,7 @@ public class DescBlockItem extends BlockItem {
             for (int i = 0; i < 10; i++) {
                 String newKey = key + i;
                 if (I18n.hasKey(newKey)) {
-                    components.add(new TranslationTextComponent(newKey).func_230530_a_(Styles.GREEN));
+                    components.add(new TranslationTextComponent(newKey).setStyle(Styles.GREEN));
                 }
             }
             if (Screen.hasShiftDown()) {
