@@ -19,6 +19,7 @@ public class Events {
         if (event.includeServer()) {
             generator.addProvider(new InteriorLootTables(generator));
             generator.addProvider(new RecipeDataProvider(generator));
+            generator.addProvider(new InteriorAdvancementProvider(generator));
         }
     }
 }

@@ -22,6 +22,17 @@ archivesBaseName = 'interiormod'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
+sourceSets {
+    main {
+        resources {
+            srcDirs = [
+                    "$rootDir/src/main/resources",
+                    "$rootDir/src/generated/resources"
+            ]
+        }
+    }
+}
+
 minecraft {
     mappings channel: 'snapshot', version: "${mcp_mappings}"
     
@@ -288,8 +299,8 @@ curseforge {
         mainArtifact(jar) {
             displayName = "${modname} - ${version}"
             relations {
-	            optionalLibrary 'themcbros-useless-mod'
-	            optionalLibrary 'biomes-o-plenty'
+                optionalDependency 'themcbros-useless-mod'
+                optionalDependency 'biomes-o-plenty'
 	        }
         }
         // addArtifact apiJar

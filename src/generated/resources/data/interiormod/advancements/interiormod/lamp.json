@@ -1,0 +1,35 @@
+{
+  "parent": "interiormod:interiormod/root",
+  "display": {
+    "icon": {
+      "item": "interiormod:lamp"
+    },
+    "title": {
+      "translate": "advancement.interiormod.lamp.title"
+    },
+    "description": {
+      "translate": "advancement.interiormod.lamp.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "lamp": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "interiormod:lamp"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "lamp"
+    ]
+  ]
+}

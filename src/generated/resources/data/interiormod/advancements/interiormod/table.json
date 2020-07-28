@@ -1,0 +1,36 @@
+{
+  "parent": "interiormod:interiormod/root",
+  "display": {
+    "icon": {
+      "item": "interiormod:table",
+      "nbt": "{textures:{secondary:\"minecraft:warped_planks\",primary:\"minecraft:warped_planks\"}}"
+    },
+    "title": {
+      "translate": "advancement.interiormod.table.title"
+    },
+    "description": {
+      "translate": "advancement.interiormod.table.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "table": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "interiormod:table"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "table"
+    ]
+  ]
+}

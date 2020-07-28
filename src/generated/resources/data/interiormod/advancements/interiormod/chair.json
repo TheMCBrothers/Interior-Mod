@@ -1,0 +1,36 @@
+{
+  "parent": "interiormod:interiormod/root",
+  "display": {
+    "icon": {
+      "item": "interiormod:chair",
+      "nbt": "{textures:{secondary:\"minecraft:crimson_planks\",primary:\"minecraft:crimson_planks\"}}"
+    },
+    "title": {
+      "translate": "advancement.interiormod.chair.title"
+    },
+    "description": {
+      "translate": "advancement.interiormod.chair.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "chair": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "interiormod:chair"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "chair"
+    ]
+  ]
+}

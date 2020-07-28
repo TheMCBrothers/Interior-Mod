@@ -1,0 +1,31 @@
+{
+  "parent": "interiormod:interiormod/root",
+  "display": {
+    "icon": {
+      "item": "interiormod:trash_can"
+    },
+    "title": {
+      "translate": "advancement.interiormod.trash_can.title"
+    },
+    "description": {
+      "translate": "advancement.interiormod.trash_can.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "trash_can": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "interiormod:trash_can"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "trash_can"
+    ]
+  ]
+}

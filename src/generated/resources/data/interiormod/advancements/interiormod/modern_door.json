@@ -1,0 +1,35 @@
+{
+  "parent": "interiormod:interiormod/root",
+  "display": {
+    "icon": {
+      "item": "interiormod:modern_door"
+    },
+    "title": {
+      "translate": "advancement.interiormod.modern_door.title"
+    },
+    "description": {
+      "translate": "advancement.interiormod.modern_door.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "modern_door": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "interiormod:modern_door"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "modern_door"
+    ]
+  ]
+}

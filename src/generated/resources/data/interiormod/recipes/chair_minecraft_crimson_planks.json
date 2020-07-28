@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "###",
+    "# #"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:crimson_planks"
+    }
+  },
+  "result": {
+    "item": "interiormod:chair",
+    "nbt": "{textures:{secondary:\"minecraft:crimson_planks\",primary:\"minecraft:crimson_planks\"}}"
+  }
+}

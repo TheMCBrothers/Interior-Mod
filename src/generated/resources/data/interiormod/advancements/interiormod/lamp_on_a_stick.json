@@ -1,0 +1,31 @@
+{
+  "parent": "interiormod:interiormod/lamp",
+  "display": {
+    "icon": {
+      "item": "interiormod:lamp_on_a_stick"
+    },
+    "title": {
+      "translate": "advancement.interiormod.lamp_on_a_stick.title"
+    },
+    "description": {
+      "translate": "advancement.interiormod.lamp_on_a_stick.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "lamp_on_a_stick": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "interiormod:lamp_on_a_stick"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "lamp_on_a_stick"
+    ]
+  ]
+}

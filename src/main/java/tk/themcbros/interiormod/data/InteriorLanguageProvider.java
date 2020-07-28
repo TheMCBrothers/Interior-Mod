@@ -31,6 +31,23 @@ public class InteriorLanguageProvider extends LanguageProvider {
         this.add(InteriorBlocks.MODERN_DOOR, "Modern Door");
         this.add(InteriorBlocks.MODERN_DOOR.getTranslationKey() + ".desc0", "A modern variant of the vanilla door");
 
+        this.add("advancement.interiormod.root.title", "TheMCBrothers Interior Mod");
+        this.add("advancement.interiormod.root.description", "Furniture freely customizable");
+        this.add("advancement.interiormod.chair.title", "Just sit down");
+        this.add("advancement.interiormod.chair.description", "Craft a chair");
+        this.add("advancement.interiormod.table.title", "Table alert");
+        this.add("advancement.interiormod.table.description", "Craft a table");
+        this.add("advancement.interiormod.modern_door.title", "Modernize your Home");
+        this.add("advancement.interiormod.modern_door.description", "Craft a modern door for your home");
+        this.add("advancement.interiormod.trash_can.title", "Throw away your Stuff");
+        this.add("advancement.interiormod.trash_can.description", "Place a trash can to throw items away");
+        this.add("advancement.interiormod.fridge.title", "Store your Food");
+        this.add("advancement.interiormod.fridge.description", "Craft a fridge for your kitchen");
+        this.add("advancement.interiormod.lamp.title", "Automatic Lights");
+        this.add("advancement.interiormod.lamp.description", "Craft a Nightlight Lamp");
+        this.add("advancement.interiormod.lamp_on_a_stick.title", "Higher Tier Lamp");
+        this.add("advancement.interiormod.lamp_on_a_stick.description", "Place the upgraded Nightlight Lamp");
+
         this.add("container.interiormod.fridge", "Fridge");
         this.add("container.interiormod.trash_can", "Trash Can");
 
@@ -44,4 +61,8 @@ public class InteriorLanguageProvider extends LanguageProvider {
         this.add("itemGroup.interiormod", "TheMCBrothers Interior Mod");
     }
 
+    @Override
+    public String getName() {
+        return "Interior Mod Language: en_us";
+    }
 }
