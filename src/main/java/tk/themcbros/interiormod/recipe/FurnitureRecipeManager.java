@@ -3,10 +3,8 @@ package tk.themcbros.interiormod.recipe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.*;
 import net.minecraft.resources.IResourceManager;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import net.minecraftforge.resource.IResourceType;
 import net.minecraftforge.resource.ISelectiveResourceReloadListener;
 import tk.themcbros.interiormod.InteriorMod;
@@ -26,11 +24,20 @@ import java.util.function.Predicate;
 @ParametersAreNonnullByDefault
 public class FurnitureRecipeManager implements ISelectiveResourceReloadListener {
 
+    private final RecipeManager recipeManager;
+
+    public FurnitureRecipeManager(RecipeManager recipeManager) {
+        this.recipeManager = recipeManager;
+    }
+
+    @Override
+    public void onResourceManagerReload(IResourceManager resourceManager) {
+        // FIXME: Remove this. We need this patch in order to prevent trying to load ReloadRequirements.
+        this.onResourceManagerReload(resourceManager, x -> true);
+    }
+
     @Override
     public void onResourceManagerReload(IResourceManager resourceManager, Predicate<IResourceType> resourcePredicate) {
-        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-
-        RecipeManager recipeManager = server.getRecipeManager();
         recipeManager.recipes = new HashMap<>(recipeManager.recipes);
         recipeManager.recipes.replaceAll((t, v) -> new HashMap<>(recipeManager.recipes.get(t)));
 
@@ -57,8 +64,8 @@ public class FurnitureRecipeManager implements ISelectiveResourceReloadListener 
         );
         ItemStack output = FurnitureMaterials.createItemStack(FurnitureType.CHAIR, primary, secondary);
 
-        String saveId = "chair_" + String.valueOf(primary.getRegistryName()).replace(':', '.') + "_" +
-                String.valueOf(secondary.getRegistryName()).replace(':', '.');
+        String saveId = "chair/" + String.valueOf(primary.getRegistryName()).replace(':', '_') + "/" +
+                String.valueOf(secondary.getRegistryName()).replace(':', '_');
         ResourceLocation name = new ResourceLocation(InteriorMod.MOD_ID, saveId);
         return new ShapedRecipe(name, "interiormod:chairs", 3, 3, inputs, output);
     }
@@ -73,8 +80,8 @@ public class FurnitureRecipeManager implements ISelectiveResourceReloadListener 
         );
         ItemStack output = FurnitureMaterials.createItemStack(FurnitureType.TABLE, primary, secondary);
 
-        String saveId = "table_" + String.valueOf(primary.getRegistryName()).replace(':', '.') + "_" +
-                String.valueOf(secondary.getRegistryName()).replace(':', '.');
+        String saveId = "table/" + String.valueOf(primary.getRegistryName()).replace(':', '_') + "/" +
+                String.valueOf(secondary.getRegistryName()).replace(':', '_');
         ResourceLocation name = new ResourceLocation(InteriorMod.MOD_ID, saveId);
         return new ShapedRecipe(name, "interiormod:tables", 3, 3, inputs, output);
     }

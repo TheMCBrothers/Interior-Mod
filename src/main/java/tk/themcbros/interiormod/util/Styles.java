@@ -5,6 +5,6 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 
 public class Styles {
-    public static final Style GRAY = Style.EMPTY.setColor(Color.func_240744_a_(TextFormatting.GRAY));
-    public static final Style GREEN = Style.EMPTY.setColor(Color.func_240744_a_(TextFormatting.GREEN));
+    public static final Style GRAY = Style.EMPTY.setColor(Color.fromTextFormatting(TextFormatting.GRAY));
+    public static final Style GREEN = Style.EMPTY.setColor(Color.fromTextFormatting(TextFormatting.GREEN));
 }

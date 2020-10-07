@@ -10,6 +10,7 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.Property;
 import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
@@ -20,11 +21,14 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import tk.themcbros.interiormod.InteriorMod;
 import tk.themcbros.interiormod.api.furniture.FurnitureType;
 import tk.themcbros.interiormod.init.InteriorTileEntities;
 import tk.themcbros.interiormod.util.ShapeUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author TheMCBrothers
@@ -36,6 +40,13 @@ public class TableBlock extends FurnitureBlock implements IWaterLoggable {
     public static final BooleanProperty SOUTH = BlockStateProperties.SOUTH;
     public static final BooleanProperty WEST = BlockStateProperties.WEST;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+
+    private static final Map<Direction, BooleanProperty> FACING_TO_PROPERTY = new HashMap<Direction, BooleanProperty>() {{
+        put(Direction.NORTH, NORTH);
+        put(Direction.EAST, EAST);
+        put(Direction.SOUTH, SOUTH);
+        put(Direction.WEST, WEST);
+    }};
 
     public final ImmutableMap<BlockState, VoxelShape> SHAPES;
 
@@ -94,11 +105,11 @@ public class TableBlock extends FurnitureBlock implements IWaterLoggable {
 
     @Override
     public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-        Boolean north = this.isTableBlock(worldIn, currentPos.north());
-        Boolean east = this.isTableBlock(worldIn, currentPos.east());
-        Boolean south = this.isTableBlock(worldIn, currentPos.south());
-        Boolean west = this.isTableBlock(worldIn, currentPos.west());
-        return stateIn.with(NORTH, north).with(EAST, east).with(SOUTH, south).with(WEST, west);
+        if (!facing.getAxis().isHorizontal())
+            return stateIn;
+        BooleanProperty property = FACING_TO_PROPERTY.get(facing.getOpposite());
+        boolean flag = facingState.hasProperty(property) && facingState.get(property);
+        return stateIn.with(FACING_TO_PROPERTY.get(facing), flag);
     }
 
     @Override
@@ -106,16 +117,25 @@ public class TableBlock extends FurnitureBlock implements IWaterLoggable {
         World world = context.getWorld();
         BlockPos blockPos = context.getPos();
         FluidState fluidState = world.getFluidState(blockPos);
-        Boolean north = this.isTableBlock(world, blockPos.north());
-        Boolean east = this.isTableBlock(world, blockPos.east());
-        Boolean south = this.isTableBlock(world, blockPos.south());
-        Boolean west = this.isTableBlock(world, blockPos.west());
+        boolean flag = context.hasSecondaryUseForPlayer();
+        boolean north, east, south, west;
+        if (flag) {
+            north = false;
+            east = false;
+            south = false;
+            west = false;
+        } else {
+            north = this.isTableBlock(world, blockPos.north());
+            east = this.isTableBlock(world, blockPos.east());
+            south = this.isTableBlock(world, blockPos.south());
+            west = this.isTableBlock(world, blockPos.west());
+        }
         return this.getDefaultState().with(NORTH, north).with(EAST, east).with(SOUTH, south).with(WEST, west).with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
     }
 
     public boolean isTableBlock(IWorld world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
-        return state.getBlock() == this.getBlock();
+        return state.isIn(this);
     }
 
     @Override

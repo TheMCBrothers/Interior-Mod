@@ -132,6 +132,10 @@ repositories {
         name 'thiakil'
         url 'https://maven.thiakil.com'
     }
+    maven { url 'https://maven.latmod.com/' }
+    maven {
+        url = "https://www.cursemaven.com"
+    }
 }
 
 dependencies {
@@ -139,6 +143,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     
     if (project.hasProperty('jei_version')) { // JEI
+        compileOnly fg.deobf('com.feed_the_beast.mods:ftb-gui-library:1.0.0.18')
 	    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
 	    runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
     }

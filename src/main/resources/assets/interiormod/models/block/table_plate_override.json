@@ -1,0 +1,4 @@
+{
+  "parent": "interiormod:block/table_plate",
+  "loader": "interiormod:furniture"
+}

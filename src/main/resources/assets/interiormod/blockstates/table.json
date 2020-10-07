@@ -1,5 +1,52 @@
 {
-	"variants": {
-		"": { "model": "interiormod:block/table" }
-	}
+  "multipart": [
+    {
+      "apply": {
+        "model": "interiormod:block/table_plate_override"
+      }
+    },
+    {
+      "when": {
+        "north": "false",
+        "west": "false"
+      },
+      "apply": {
+        "model": "interiormod:block/table_leg_override",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "north": "false",
+        "east": "false"
+      },
+      "apply": {
+        "model": "interiormod:block/table_leg_override",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "south": "false",
+        "west": "false"
+      },
+      "apply": {
+        "model": "interiormod:block/table_leg_override",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "south": "false",
+        "east": "false"
+      },
+      "apply": {
+        "model": "interiormod:block/table_leg_override",
+        "y": 90,
+        "uvlock": true
+      }
+    }
+  ]
 }

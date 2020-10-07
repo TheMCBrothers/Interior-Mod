@@ -1,3 +1,9 @@
+2.1.0:
+- Updated to 1.16.3
+- Mixing materials works again!
+- Modded materials are craftable again!
+- Tables now connect to each other
+
 2.0.0:
 - Updated to 1.16.1
 - Updated logo files

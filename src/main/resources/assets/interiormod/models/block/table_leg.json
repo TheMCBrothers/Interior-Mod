@@ -1,0 +1,23 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"textures": {
+		"particle": "block/oak_log",
+		"secondary": "block/stripped_oak_log"
+	},
+	"elements": [
+		{
+			"name": "leg_ne",
+			"from": [13, 0, 1],
+			"to": [15, 14, 3],
+			"faces": {
+				"north": {"uv": [1, 2, 3, 16], "texture": "#secondary"},
+				"east": {"uv": [13, 2, 15, 16], "texture": "#secondary"},
+				"south": {"uv": [13, 2, 15, 16], "texture": "#secondary"},
+				"west": {"uv": [1, 2, 3, 16], "texture": "#secondary"},
+				"up": {"uv": [13, 1, 15, 3], "texture": "#secondary"},
+				"down": {"uv": [13, 1, 15, 3], "texture": "#secondary"}
+			}
+		}
+	]
+}

@@ -1,5 +1,8 @@
 {
-	"variants": {
-		"": { "model": "interiormod:block/chair" }
-	}
+  "variants": {
+    "facing=north": { "model": "interiormod:block/chair_override" },
+    "facing=east": { "model": "interiormod:block/chair_override", "y": 90 },
+    "facing=south": { "model": "interiormod:block/chair_override", "y": 180 },
+    "facing=west": { "model": "interiormod:block/chair_override", "y": 270 }
+  }
 }

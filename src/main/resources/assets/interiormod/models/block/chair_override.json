@@ -1,0 +1,4 @@
+{
+  "parent": "interiormod:block/chair",
+  "loader": "interiormod:furniture"
+}

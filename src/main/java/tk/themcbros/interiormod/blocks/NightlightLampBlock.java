@@ -44,7 +44,7 @@ public class NightlightLampBlock extends Block {
 	}
 	
 	public static void updatePower(BlockState state, World worldIn, BlockPos pos) {
-		if (worldIn.func_230315_m_().hasSkyLight()) {
+		if (worldIn.getDimensionType().hasSkyLight()) {
 			int i = worldIn.getLightFor(LightType.SKY, pos) - worldIn.getSkylightSubtracted();
 			float f = worldIn.getCelestialAngleRadians(1.0F);
 			boolean flag = true;
