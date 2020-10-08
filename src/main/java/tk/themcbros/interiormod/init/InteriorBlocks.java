@@ -1,20 +1,17 @@
 package tk.themcbros.interiormod.init;
 
-import java.util.List;
-
 import com.google.common.collect.Lists;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import tk.themcbros.interiormod.InteriorMod;
 import tk.themcbros.interiormod.blocks.*;
+
+import java.util.List;
 
 /**
  * @author TheMCBrothers
@@ -42,10 +39,6 @@ public class InteriorBlocks {
         @SubscribeEvent
         public static void onBlockRegistry(final RegistryEvent.Register<Block> event) {
             BLOCKS.forEach(event.getRegistry()::register);
-
-            RenderTypeLookup.setRenderLayer(FRIDGE, RenderType.getCutout());
-            RenderTypeLookup.setRenderLayer(TRASH_CAN, RenderType.getTranslucent());
-            RenderTypeLookup.setRenderLayer(MODERN_DOOR, RenderType.getCutout());
         }
     }
 
