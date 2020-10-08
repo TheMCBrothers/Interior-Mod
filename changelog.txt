@@ -1,3 +1,6 @@
+2.1.1:
+- Fix Dedicated server Sidedness issue. #4
+
 2.1.0:
 - Updated to 1.16.3
 - Mixing materials works again!
