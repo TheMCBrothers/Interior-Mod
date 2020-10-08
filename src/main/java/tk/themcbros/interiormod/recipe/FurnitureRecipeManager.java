@@ -45,11 +45,14 @@ public class FurnitureRecipeManager implements ISelectiveResourceReloadListener 
 
         for (FurnitureMaterial primary : InteriorRegistries.FURNITURE_MATERIALS) {
             for (FurnitureMaterial secondary : InteriorRegistries.FURNITURE_MATERIALS) {
-                ShapedRecipe chair = createChairRecipe(primary, secondary);
-                ShapedRecipe table = createTableRecipe(primary, secondary);
-
-                recipes.put(chair.getId(), chair);
-                recipes.put(table.getId(), table);
+                if (primary.isValidForType(FurnitureType.CHAIR) && secondary.isValidForType(FurnitureType.CHAIR)) {
+                    ShapedRecipe chair = createChairRecipe(primary, secondary);
+                    recipes.put(chair.getId(), chair);
+                }
+                if (primary.isValidForType(FurnitureType.TABLE) && secondary.isValidForType(FurnitureType.TABLE)) {
+                    ShapedRecipe table = createTableRecipe(primary, secondary);
+                    recipes.put(table.getId(), table);
+                }
             }
         }
     }

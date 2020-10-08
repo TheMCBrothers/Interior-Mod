@@ -12,6 +12,7 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -25,6 +26,8 @@ public class FurnitureMaterial extends ForgeRegistryEntry<FurnitureMaterial> {
     private final Supplier<? extends IItemProvider> itemProvider;
     @Nullable
     private final ResourceLocation textureLocationOverride;
+    @Nonnull
+    private Function<FurnitureType, Boolean> typeValidator = type -> true;
 
     /**
      * @param blockSupplier Block of the material.
@@ -44,6 +47,11 @@ public class FurnitureMaterial extends ForgeRegistryEntry<FurnitureMaterial> {
         this.blockSupplier = blockSupplier;
         this.itemProvider = itemProvider;
         this.textureLocationOverride = textureLocationOverride;
+    }
+
+    public FurnitureMaterial setTypeValidator(@Nonnull Function<FurnitureType, Boolean> typeValidator) {
+        this.typeValidator = typeValidator;
+        return this;
     }
 
     /**
@@ -79,5 +87,9 @@ public class FurnitureMaterial extends ForgeRegistryEntry<FurnitureMaterial> {
      */
     public Ingredient getIngredient() {
         return Ingredient.fromItems(this.itemProvider.get());
+    }
+
+    public boolean isValidForType(FurnitureType furnitureType) {
+        return this.typeValidator.apply(furnitureType);
     }
 }
