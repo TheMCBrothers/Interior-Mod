@@ -132,7 +132,7 @@ public class LampOnAStickBlock extends Block implements IWaterLoggable {
 	@Override
 	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
 		if (state.get(LIT) && !worldIn.isBlockPowered(pos)) {
-			worldIn.setBlockState(pos, state.func_235896_a_(LIT), 2);
+			worldIn.setBlockState(pos, state.cycleValue(LIT), 2);
 		}
 
 	}

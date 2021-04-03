@@ -135,7 +135,7 @@ public class TableBlock extends FurnitureBlock implements IWaterLoggable {
 
     public boolean isTableBlock(IWorld world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
-        return state.isIn(this);
+        return state.matchesBlock(this);
     }
 
     @Override
