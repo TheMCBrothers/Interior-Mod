@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XX",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:crafting_table"
+    },
+    "X": {
+      "tag": "forge:feathers"
+    }
+  },
+  "result": {
+    "item": "interiormod:furniture_workbench"
+  }
+}

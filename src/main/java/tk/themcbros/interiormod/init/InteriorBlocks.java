@@ -1,10 +1,13 @@
 package tk.themcbros.interiormod.init;
 
 import com.google.common.collect.Lists;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
+import net.minecraft.item.DyeColor;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -20,13 +23,14 @@ public class InteriorBlocks {
 
     private static final List<Block> BLOCKS = Lists.newArrayList();
 
-    public static final ChairBlock CHAIR = registerBlock("chair", new ChairBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(.5f).sound(SoundType.WOOD)));
-    public static final TableBlock TABLE = registerBlock("table", new TableBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(.5f).sound(SoundType.WOOD)));
-    public static final FridgeBlock FRIDGE = registerBlock("fridge", new FridgeBlock(Block.Properties.create(Material.ANVIL).hardnessAndResistance(1f).sound(SoundType.METAL)));
-    public static final NightlightLampBlock LAMP = registerBlock("lamp", new NightlightLampBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1f).sound(SoundType.WOOD)));
-    public static final LampOnAStickBlock LAMP_ON_A_STICK = registerBlock("lamp_on_a_stick", new LampOnAStickBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1f).sound(SoundType.WOOD)));
-    public static final TrashCanBlock TRASH_CAN = registerBlock("trash_can", new TrashCanBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1f).sound(SoundType.LANTERN)));
-    public static final DoorBlock MODERN_DOOR = registerBlock("modern_door", new ModernDoorBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1f).sound(SoundType.WOOD)));
+    public static final ChairBlock CHAIR = registerBlock("chair", new ChairBlock(AbstractBlock.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.5F).sound(SoundType.WOOD)));
+    public static final TableBlock TABLE = registerBlock("table", new TableBlock(AbstractBlock.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.5F).sound(SoundType.WOOD)));
+    public static final FridgeBlock FRIDGE = registerBlock("fridge", new FridgeBlock(AbstractBlock.Properties.create(Material.IRON, MaterialColor.IRON).setRequiresTool().hardnessAndResistance(2.0F, 4.0F).sound(SoundType.METAL)));
+    public static final NightlightLampBlock LAMP = registerBlock("lamp", new NightlightLampBlock(AbstractBlock.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1.0F).sound(SoundType.WOOD)));
+    public static final LampOnAStickBlock LAMP_ON_A_STICK = registerBlock("lamp_on_a_stick", new LampOnAStickBlock(AbstractBlock.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1.0F).sound(SoundType.WOOD)));
+    public static final TrashCanBlock TRASH_CAN = registerBlock("trash_can", new TrashCanBlock(AbstractBlock.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1.0F).sound(SoundType.LANTERN)));
+    public static final DoorBlock MODERN_DOOR = registerBlock("modern_door", new DoorBlock(AbstractBlock.Properties.create(Material.ROCK, DyeColor.WHITE).hardnessAndResistance(2.5f).sound(SoundType.STONE).notSolid()));
+    public static final FurnitureWorkbenchBlock FURNITURE_WORKBENCH = registerBlock("furniture_workbench", new FurnitureWorkbenchBlock(AbstractBlock.Properties.create(Material.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD)));
 
     private static <T extends Block> T registerBlock(String registryName, T block) {
         block.setRegistryName(InteriorMod.getId(registryName));

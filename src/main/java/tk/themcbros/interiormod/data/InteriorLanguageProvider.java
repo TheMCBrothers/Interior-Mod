@@ -30,6 +30,8 @@ public class InteriorLanguageProvider extends LanguageProvider {
         this.add(InteriorBlocks.TRASH_CAN.getTranslationKey() + ".desc0", "Destroys any item that is put in");
         this.add(InteriorBlocks.MODERN_DOOR, "Modern Door");
         this.add(InteriorBlocks.MODERN_DOOR.getTranslationKey() + ".desc0", "A modern variant of the vanilla door");
+        this.add(InteriorBlocks.FURNITURE_WORKBENCH, "Furniture Workbench");
+        this.add(InteriorBlocks.FURNITURE_WORKBENCH.getTranslationKey() + ".desc0", "Construct your customized furniture");
 
         this.add("advancement.interiormod.root.title", "TheMCBrothers Interior Mod");
         this.add("advancement.interiormod.root.description", "Furniture freely customizable");

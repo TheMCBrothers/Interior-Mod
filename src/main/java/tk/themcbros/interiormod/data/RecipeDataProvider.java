@@ -64,6 +64,14 @@ public class RecipeDataProvider extends RecipeProvider {
                 .key('#', Items.WHITE_CONCRETE).key('G', Tags.Items.GLASS_PANES_COLORLESS)
                 .addCriterion("hasConcrete", InventoryChangeTrigger.Instance.forItems(Items.WHITE_CONCRETE))
                 .build(consumer);
+
+        ShapedRecipeBuilder.shapedRecipe(InteriorItems.FURNITURE_WORKBENCH)
+                .patternLine("XX")
+                .patternLine("##")
+                .key('#', Items.CRAFTING_TABLE).key('X', Tags.Items.FEATHERS)
+                .addCriterion("hasFeather", InventoryChangeTrigger.Instance.forItems(
+                        ItemPredicate.Builder.create().tag(Tags.Items.FEATHERS).build())
+                ).build(consumer);
     }
 
     @Override

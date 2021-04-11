@@ -34,6 +34,7 @@ public class InteriorLootTables extends BaseLootTableProvider {
                         .addEntry(ItemLootEntry.builder(InteriorBlocks.FRIDGE)
                                 .acceptCondition(BlockStateProperty.builder(InteriorBlocks.FRIDGE).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(BlockStateProperties.HALF, Half.BOTTOM))))
         ));
+        this.lootTables.put(InteriorBlocks.FURNITURE_WORKBENCH, this.createBasicTable("furniture_workbench", InteriorBlocks.FURNITURE_WORKBENCH));
     }
 
     private LootTable.Builder createFurnitureTable(String name, Block block) {

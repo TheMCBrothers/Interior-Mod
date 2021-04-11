@@ -29,6 +29,7 @@ public class InteriorItems {
     public static final BlockItem LAMP_ON_A_STICK = registerItem("lamp_on_a_stick", new DescTallBlockItem(InteriorBlocks.LAMP_ON_A_STICK, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
     public static final BlockItem TRASH_CAN = registerItem("trash_can", new DescTallBlockItem(InteriorBlocks.TRASH_CAN, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
     public static final BlockItem MODERN_DOOR = registerItem("modern_door", new DescTallBlockItem(InteriorBlocks.MODERN_DOOR, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
+    public static final BlockItem FURNITURE_WORKBENCH = registerItem("furniture_workbench", new DescBlockItem(InteriorBlocks.FURNITURE_WORKBENCH, new Item.Properties().group(InteriorItemGroup.INSTANCE)));
 
     private static <T extends Item> T registerItem(String registryName, T item) {
         item.setRegistryName(InteriorMod.getId(registryName));
