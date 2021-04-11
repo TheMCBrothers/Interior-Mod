@@ -1,13 +1,8 @@
 package tk.themcbros.interiormod.blocks;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -21,7 +16,7 @@ import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.state.properties.Half;
+import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -38,19 +33,28 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.items.wrapper.EmptyHandler;
+import tk.themcbros.interiormod.init.InteriorTileEntities;
 import tk.themcbros.interiormod.tileentity.FridgeTileEntity;
 import tk.themcbros.interiormod.util.ShapeUtils;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
+/**
+ * @author TheMCBrothers
+ */
+@SuppressWarnings("deprecation")
 public class FridgeBlock extends Block {
 	
 	private static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-	private static final EnumProperty<Half> HALF = BlockStateProperties.HALF;
+	private static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
 	
 	public final ImmutableMap<BlockState, VoxelShape> SHAPES;
 
 	public FridgeBlock(Properties properties) {
 		super(properties);
-		this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(HALF, Half.BOTTOM));
+		this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(HALF, DoubleBlockHalf.LOWER));
 		SHAPES = this.generateShapes(this.getStateContainer().getValidStates());
 	}
 	
@@ -62,14 +66,14 @@ public class FridgeBlock extends Block {
 			List<VoxelShape> shapes = Lists.newArrayList();
 			Direction facing = blockState.get(FACING);
 			// Fridge Top
-			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 3+16, 9, 14, 4+16, 10))[facing.getHorizontalIndex()]);
-			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 0+16, 5, 14, 1+16, 6))[facing.getHorizontalIndex()]);
-			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(14, 12+16, 10, 15, 13+16, 11))[facing.getHorizontalIndex()]);
-			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 0+16, 0, 13, 16+16, 16))[facing.getHorizontalIndex()]);
-			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 8+16, 8, 14, 13+16, 13))[facing.getHorizontalIndex()]);
-			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 10+16, 2, 15, 11+16, 3))[facing.getHorizontalIndex()]);
-			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 3+16, 2, 15, 4+16, 3))[facing.getHorizontalIndex()]);
-			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(15, 3+16, 2, 16, 11+16, 3))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 19, 9, 14, 20, 10))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 16, 5, 14, 17, 6))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(14, 28, 10, 15, 29, 11))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 16, 0, 13, 32, 16))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 24, 8, 14, 29, 13))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 26, 2, 15, 27, 3))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 19, 2, 15, 20, 3))[facing.getHorizontalIndex()]);
+			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(15, 19, 2, 16, 27, 3))[facing.getHorizontalIndex()]);
 			
 			// Fridge Bottom
 			shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 6, 2, 2, 7, 14))[facing.getHorizontalIndex()]);
@@ -90,10 +94,10 @@ public class FridgeBlock extends Block {
 		
 		return builder.build();
 	}
-	
+
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return state.get(HALF) == Half.BOTTOM ? SHAPES.get(state) : SHAPES.get(state).withOffset(0d, -1d, 0d);
+		return state.get(HALF) == DoubleBlockHalf.LOWER ? SHAPES.get(state) : SHAPES.get(state).withOffset(0d, -1d, 0d);
 	}
 	
 	@Override
@@ -113,78 +117,61 @@ public class FridgeBlock extends Block {
 	 * its solidified counterpart. Note that this method should ideally consider
 	 * only the specific face passed in.
 	 */
-	@SuppressWarnings("deprecation")
+	@Override
 	public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn,
-			BlockPos currentPos, BlockPos facingPos) {
-		Half half = stateIn.get(HALF);
-		if (facing.getAxis() != Direction.Axis.Y || half == Half.BOTTOM != (facing == Direction.UP)
-				|| facingState.getBlock() == this && facingState.get(HALF) != half) {
-			return half == Half.BOTTOM && facing == Direction.DOWN && !stateIn.isValidPosition(worldIn, currentPos)
+										  BlockPos currentPos, BlockPos facingPos) {
+		DoubleBlockHalf doubleBlockHalf = stateIn.get(HALF);
+		if (facing.getAxis() == Direction.Axis.Y && doubleBlockHalf == DoubleBlockHalf.LOWER == (facing == Direction.UP)) {
+			return facingState.matchesBlock(this) && facingState.get(HALF) != doubleBlockHalf ? stateIn.with(FACING, facingState.get(FACING)) : Blocks.AIR.getDefaultState();
+		} else {
+			return doubleBlockHalf == DoubleBlockHalf.LOWER && facing == Direction.DOWN && !stateIn.isValidPosition(worldIn, currentPos)
 					? Blocks.AIR.getDefaultState()
 					: super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
-		} else {
-			return Blocks.AIR.getDefaultState();
 		}
 	}
 
+	@Override
 	@Nullable
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		BlockPos blockpos = context.getPos();
-		return blockpos.getY() < 255
-				&& context.getWorld().getBlockState(blockpos.up()).isReplaceable(context)
-						? this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite())
-						: null;
+		BlockPos blockPos = context.getPos();
+		if (blockPos.getY() < 255 && context.getWorld().getBlockState(blockPos.up()).isReplaceable(context)) {
+			return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite()).with(HALF, DoubleBlockHalf.LOWER);
+		} else {
+			return null;
+		}
 	}
 
 	/**
 	 * Called by ItemBlocks after a block is set in the world, to allow post-place
 	 * logic
 	 */
+	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-		if (placer != null)
-			worldIn.setBlockState(pos.up(), this.getDefaultState().with(HALF, Half.TOP).with(FACING, placer.getHorizontalFacing().getOpposite()), 3);
+		worldIn.setBlockState(pos.up(), state.with(HALF, DoubleBlockHalf.UPPER), 2 | 1);
 	}
 
-	@SuppressWarnings("deprecation")
+	@Override
 	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		if (state.get(HALF) != Half.TOP) {
-			return super.isValidPosition(state, worldIn, pos);
-		} else {
-			BlockState blockstate = worldIn.getBlockState(pos.down());
-			if (state.getBlock() != this)
-				return super.isValidPosition(state, worldIn, pos);
-			return blockstate.getBlock() == this && blockstate.get(HALF) == Half.BOTTOM;
-		}
-	}
-
-	public void placeAt(IWorld worldIn, BlockPos pos, int flags) {
-		worldIn.setBlockState(pos, this.getDefaultState().with(HALF, Half.BOTTOM), flags);
-		worldIn.setBlockState(pos.up(), this.getDefaultState().with(HALF, Half.TOP), flags);
-	}
-
-	/**
-	 * Spawns the block's drops in the world. By the time this is called the Block
-	 * has possibly been set to air via Block.removedByPlayer
-	 */
-	public void harvestBlock(World worldIn, PlayerEntity player, BlockPos pos, BlockState state,
-			@Nullable TileEntity te, ItemStack stack) {
-		super.harvestBlock(worldIn, player, pos, Blocks.AIR.getDefaultState(), te, stack);
+		BlockPos blockpos = pos.down();
+		BlockState blockstate = worldIn.getBlockState(blockpos);
+		return state.get(HALF) == DoubleBlockHalf.LOWER ? super.isValidPosition(state, worldIn, pos) : blockstate.matchesBlock(this);
 	}
 
 	/**
 	 * Called before the Block is set to air in the world. Called regardless of if
 	 * the player's tool can actually collect this block
 	 */
+	@Override
 	public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
-		Half half = state.get(HALF);
-		BlockPos blockpos = half == Half.BOTTOM ? pos.up() : pos.down();
-		BlockState blockstate = worldIn.getBlockState(blockpos);
-		if (blockstate.getBlock() == this && blockstate.get(HALF) != half) {
-			worldIn.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 35);
-			worldIn.playEvent(player, 2001, blockpos, Block.getStateId(blockstate));
-			if (!worldIn.isRemote && !player.isCreative()) {
-				spawnDrops(state, worldIn, pos, (TileEntity) null, player, player.getHeldItemMainhand());
-				spawnDrops(blockstate, worldIn, blockpos, (TileEntity) null, player, player.getHeldItemMainhand());
+		if (!worldIn.isRemote && player.isCreative()) {
+			DoubleBlockHalf doubleblockhalf = state.get(HALF);
+			if (doubleblockhalf == DoubleBlockHalf.UPPER) {
+				BlockPos blockpos = pos.down();
+				BlockState blockstate = worldIn.getBlockState(blockpos);
+				if (blockstate.getBlock() == state.getBlock() && blockstate.get(HALF) == DoubleBlockHalf.LOWER) {
+					worldIn.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 32 | 2 | 1);
+					worldIn.playEvent(player, 2001, blockpos, Block.getStateId(blockstate));
+				}
 			}
 		}
 
@@ -199,7 +186,7 @@ public class FridgeBlock extends Block {
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
 			Hand handIn, BlockRayTraceResult p_225533_6_) {
-		if (state.get(HALF) == Half.TOP) {
+		if (state.get(HALF) == DoubleBlockHalf.UPPER) {
 			pos = pos.down();
 		}
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
@@ -211,12 +198,13 @@ public class FridgeBlock extends Block {
 	
 	@Override
 	public int getComparatorInputOverride(BlockState state, World worldIn, BlockPos pos) {
-		if (state.get(HALF) == Half.TOP) {
+		if (state.get(HALF) == DoubleBlockHalf.UPPER) {
 			pos = pos.down();
 		}
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
-		if (tileEntity instanceof FridgeTileEntity) {
-			return ItemHandlerHelper.calcRedstoneFromInventory(tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null));
+		if (tileEntity instanceof FridgeTileEntity && tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).isPresent()) {
+			return ItemHandlerHelper.calcRedstoneFromInventory(tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+					.orElse(EmptyHandler.INSTANCE));
 		}
 		return 0;
 	}
@@ -228,7 +216,7 @@ public class FridgeBlock extends Block {
 	
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return state.get(HALF) == Half.BOTTOM ? new FridgeTileEntity() : null;
+		return state.get(HALF) == DoubleBlockHalf.LOWER ? InteriorTileEntities.FRIDGE.create() : null;
 	}
 
 }

@@ -2,8 +2,7 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "name": "fridge",
-      "rolls": 1.0,
+      "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
@@ -12,11 +11,16 @@
               "condition": "minecraft:block_state_property",
               "block": "interiormod:fridge",
               "properties": {
-                "half": "bottom"
+                "half": "lower"
               }
             }
           ],
           "name": "interiormod:fridge"
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
         }
       ]
     }
