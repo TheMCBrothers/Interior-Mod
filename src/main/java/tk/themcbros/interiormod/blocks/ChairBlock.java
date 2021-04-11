@@ -28,6 +28,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import tk.themcbros.interiormod.api.furniture.FurnitureType;
 import tk.themcbros.interiormod.entity.SeatEntity;
+import tk.themcbros.interiormod.init.InteriorStats;
 import tk.themcbros.interiormod.init.InteriorTileEntities;
 import tk.themcbros.interiormod.util.ShapeUtils;
 
@@ -107,6 +108,7 @@ public class ChairBlock extends FurnitureBlock implements IWaterLoggable {
 
     @Override
     public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        player.addStat(InteriorStats.SIT_DOWN);
         return SeatEntity.create(worldIn, pos, 0.5d, player);
     }
 
