@@ -34,7 +34,6 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import tk.themcbros.interiormod.init.InteriorTileEntities;
-import tk.themcbros.interiormod.tileentity.NightlightLampTileEntity;
 import tk.themcbros.interiormod.util.ShapeUtils;
 
 public class LampOnAStickBlock extends Block implements IWaterLoggable {
@@ -123,7 +122,7 @@ public class LampOnAStickBlock extends Block implements IWaterLoggable {
 	@Override
 	public BlockState getStateForPlacement(BlockItemUseContext context) {
 		BlockPos blockpos = context.getPos();
-		return blockpos.getY() < 254
+		return blockpos.getY() < context.getWorld().getHeight() - 2
 				&& context.getWorld().getBlockState(blockpos.up()).isReplaceable(context)
 				&& context.getWorld().getBlockState(blockpos.up(2)).isReplaceable(context) ? this.getDefaultState()
 						: null;
