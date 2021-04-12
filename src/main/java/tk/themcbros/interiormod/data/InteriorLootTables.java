@@ -4,7 +4,7 @@ import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.state.properties.Half;
+import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.loot.ConstantRange;
 import net.minecraft.loot.ItemLootEntry;
 import net.minecraft.loot.LootPool;
@@ -32,8 +32,10 @@ public class InteriorLootTables extends BaseLootTableProvider {
         this.lootTables.put(InteriorBlocks.FRIDGE, LootTable.builder().addLootPool(
                 LootPool.builder().name("fridge")
                         .addEntry(ItemLootEntry.builder(InteriorBlocks.FRIDGE)
-                                .acceptCondition(BlockStateProperty.builder(InteriorBlocks.FRIDGE).fromProperties(StatePropertiesPredicate.Builder.newBuilder().withProp(BlockStateProperties.HALF, Half.BOTTOM))))
-        ));
+                                .acceptCondition(BlockStateProperty.builder(InteriorBlocks.FRIDGE)
+                                        .fromProperties(StatePropertiesPredicate.Builder.newBuilder()
+                                                .withProp(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER))))
+                        .acceptCondition(SurvivesExplosion.builder())));
         this.lootTables.put(InteriorBlocks.FURNITURE_WORKBENCH, this.createBasicTable("furniture_workbench", InteriorBlocks.FURNITURE_WORKBENCH));
     }
 
