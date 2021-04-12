@@ -1,7 +1,6 @@
 package tk.themcbros.interiormod.data;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.data.LanguageProvider;
 import tk.themcbros.interiormod.init.InteriorBlocks;
 import tk.themcbros.interiormod.init.InteriorEntities;
@@ -20,18 +19,17 @@ public class InteriorLanguageProvider extends LanguageProvider {
         this.add(InteriorBlocks.CHAIR, "Chair");
         this.add(InteriorBlocks.TABLE, "Table");
         this.add(InteriorBlocks.FRIDGE, "Fridge");
-        this.add(InteriorBlocks.FRIDGE.getTranslationKey() + ".desc0", "Can store food in it");
+        this.add(InteriorBlocks.FRIDGE.getTranslationKey() + ".tooltip", "Can store food in it");
         this.add(InteriorBlocks.LAMP, "Nightlight Lamp");
-        this.add(InteriorBlocks.LAMP.getTranslationKey() + ".desc0", "A lamp with an integrated");
-        this.add(InteriorBlocks.LAMP.getTranslationKey() + ".desc1", "inverted daylight detector");
+        this.add(InteriorBlocks.LAMP.getTranslationKey() + ".tooltip", "A lamp with an integrated\ninverted daylight detector");
         this.add(InteriorBlocks.LAMP_ON_A_STICK, "Lamp on a Stick");
-        this.add(InteriorBlocks.LAMP_ON_A_STICK.getTranslationKey() + ".desc0", "The Nightlight Lamp on two sticks");
+        this.add(InteriorBlocks.LAMP_ON_A_STICK.getTranslationKey() + ".tooltip", "The Nightlight Lamp on two sticks");
         this.add(InteriorBlocks.TRASH_CAN, "Trash Can");
-        this.add(InteriorBlocks.TRASH_CAN.getTranslationKey() + ".desc0", "Destroys any item that is put in");
+        this.add(InteriorBlocks.TRASH_CAN.getTranslationKey() + ".tooltip", "Destroys any item that is put in");
         this.add(InteriorBlocks.MODERN_DOOR, "Modern Door");
-        this.add(InteriorBlocks.MODERN_DOOR.getTranslationKey() + ".desc0", "A modern variant of the vanilla door");
+        this.add(InteriorBlocks.MODERN_DOOR.getTranslationKey() + ".tooltip", "A modern variant of the vanilla door");
         this.add(InteriorBlocks.FURNITURE_WORKBENCH, "Furniture Workbench");
-        this.add(InteriorBlocks.FURNITURE_WORKBENCH.getTranslationKey() + ".desc0", "Construct your customized furniture");
+        this.add(InteriorBlocks.FURNITURE_WORKBENCH.getTranslationKey() + ".tooltip", "Construct your customized furniture");
 
         this.add("advancement.interiormod.root.title", "TheMCBrothers Interior Mod");
         this.add("advancement.interiormod.root.description", "Furniture freely customizable");
@@ -55,9 +53,6 @@ public class InteriorLanguageProvider extends LanguageProvider {
 
         this.add("config.waila.plugin_interiormod", "TheMCBrothers Interior Mod");
         this.add("config.waila.plugin_interiormod.display_furniture_materials", "Furniture Materials");
-
-        String s = String.format("%sHold %s%sShift %sfor Details", TextFormatting.GRAY, TextFormatting.YELLOW, TextFormatting.ITALIC, TextFormatting.GRAY);
-        this.add("tooltip.interiormod.hold_shift", s);
 
         this.add(InteriorEntities.SEAT, "Seat");
         this.add("itemGroup.interiormod", "TheMCBrothers Interior Mod");

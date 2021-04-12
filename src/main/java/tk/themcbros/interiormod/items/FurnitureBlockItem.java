@@ -12,7 +12,6 @@ import net.minecraftforge.common.util.Constants;
 import tk.themcbros.interiormod.api.furniture.FurnitureMaterial;
 import tk.themcbros.interiormod.api.furniture.FurnitureType;
 import tk.themcbros.interiormod.api.furniture.InteriorRegistries;
-import tk.themcbros.interiormod.util.Styles;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -34,10 +33,10 @@ public class FurnitureBlockItem extends BlockItem {
             FurnitureMaterial secondary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryCreate(tag.getString("secondary")));
 
             if (primary != null) {
-                tooltip.add(primary.getDisplayName().setStyle(Styles.GREEN));
+                tooltip.add(primary.getDisplayName().mergeStyle(TextFormatting.GREEN));
             }
-            if (secondary != null && secondary != primary) {
-                tooltip.add(secondary.getDisplayName().setStyle(Styles.GREEN));
+            if (secondary != null && !secondary.equals(primary)) {
+                tooltip.add(secondary.getDisplayName().mergeStyle(TextFormatting.GREEN));
             }
         }
     }
