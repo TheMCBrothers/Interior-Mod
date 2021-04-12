@@ -32,6 +32,7 @@
   "config.waila.plugin_interiormod": "TheMCBrothers Interior Mod",
   "config.waila.plugin_interiormod.display_furniture_materials": "Furniture Materials",
   "container.interiormod.fridge": "Fridge",
+  "container.interiormod.furniture_crafting": "Furniture Crafting",
   "container.interiormod.trash_can": "Trash Can",
   "entity.interiormod.seat": "Seat",
   "itemGroup.interiormod": "TheMCBrothers Interior Mod"

@@ -21,7 +21,7 @@ import tk.themcbros.interiormod.init.InteriorStats;
  */
 @SuppressWarnings("deprecation")
 public class FurnitureWorkbenchBlock extends Block {
-    private static final ITextComponent CONTAINER_NAME = new TranslationTextComponent("container.crafting");
+    private static final ITextComponent CONTAINER_NAME = new TranslationTextComponent("container.interiormod.furniture_crafting");
 
     public FurnitureWorkbenchBlock(Properties properties) {
         super(properties);

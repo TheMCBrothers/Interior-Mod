@@ -50,6 +50,7 @@ public class InteriorLanguageProvider extends LanguageProvider {
 
         this.add("container.interiormod.fridge", "Fridge");
         this.add("container.interiormod.trash_can", "Trash Can");
+        this.add("container.interiormod.furniture_crafting", "Furniture Crafting");
 
         this.add("config.waila.plugin_interiormod", "TheMCBrothers Interior Mod");
         this.add("config.waila.plugin_interiormod.display_furniture_materials", "Furniture Materials");
