@@ -1,3 +1,13 @@
+2.2.0:
+- Updated to 1.16.5
+- Added furniture workbench
+- Added stats
+- Overhauled modern door
+- New Tooltip System
+- Fixed fridge
+- Fixed Nightlight Lamp
+- Fixed Fridge drops on harvest
+
 2.1.1:
 - Fix Dedicated server Sidedness issue. #4
 
