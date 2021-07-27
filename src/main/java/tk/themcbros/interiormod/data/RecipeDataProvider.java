@@ -66,8 +66,8 @@ public class RecipeDataProvider extends RecipeProvider {
                 .build(consumer);
 
         ShapedRecipeBuilder.shapedRecipe(InteriorItems.FURNITURE_WORKBENCH)
-                .patternLine("XX")
-                .patternLine("##")
+                .patternLine("X")
+                .patternLine("#")
                 .key('#', Items.CRAFTING_TABLE).key('X', Tags.Items.FEATHERS)
                 .addCriterion("hasFeather", InventoryChangeTrigger.Instance.forItems(
                         ItemPredicate.Builder.create().tag(Tags.Items.FEATHERS).build())
