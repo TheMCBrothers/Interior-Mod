@@ -4,7 +4,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
     }
 }
 
@@ -94,15 +94,11 @@ repositories {
     }
     maven {
         name 'prog'
-        url 'http://dvs1.progwml6.com/files/maven'
+        url 'https://dvs1.progwml6.com/files/maven'
     }
     maven {
         name 'curseforge'
         url 'https://minecraft.curseforge.com/api/maven/'
-    }
-    maven {
-        name 'opencomputers'
-        url 'http://maven.cil.li/'
     }
     maven {
         name 'hwyla'
@@ -111,10 +107,6 @@ repositories {
     maven {
         name 'tterrag'
         url 'https://maven.tterrag.com/'
-    }
-    maven {
-        name 'ic2'
-        url 'http://maven.ic2.player.to'
     }
     maven {
         name 'BlameJared - Crafttweaker'
