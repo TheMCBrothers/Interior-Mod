@@ -274,7 +274,8 @@ curseforge {
         mainArtifact(jar) {
             displayName = "${version} for ${minecraft_version}"
             relations {
-                optionalDependency 'themcbros-useless-mod'
+                optionalDependency 'jei'
+                optionalDependency 'the-one-probe'
                 optionalDependency 'biomes-o-plenty'
 	        }
         }
