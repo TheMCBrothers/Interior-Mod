@@ -9,6 +9,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import tk.themcbros.interiormod.InteriorMod;
 import tk.themcbros.interiormod.data.Events;
 import tk.themcbros.interiormod.init.FurnitureMaterials;
+import tk.themcbros.interiormod.init.InteriorRecipeTypes;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -18,6 +19,8 @@ import java.lang.reflect.InvocationTargetException;
 public class CommonProxy {
 
     public CommonProxy() {
+        InteriorRecipeTypes.init();
+
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         FurnitureMaterials.FURNITURE_MATERIALS.register(bus);

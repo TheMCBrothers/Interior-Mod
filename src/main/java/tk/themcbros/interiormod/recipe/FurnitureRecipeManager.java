@@ -12,8 +12,10 @@ import tk.themcbros.interiormod.api.furniture.FurnitureMaterial;
 import tk.themcbros.interiormod.api.furniture.FurnitureType;
 import tk.themcbros.interiormod.api.furniture.InteriorRegistries;
 import tk.themcbros.interiormod.init.FurnitureMaterials;
+import tk.themcbros.interiormod.init.InteriorRecipeTypes;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -41,20 +43,22 @@ public class FurnitureRecipeManager implements ISelectiveResourceReloadListener 
         recipeManager.recipes = new HashMap<>(recipeManager.recipes);
         recipeManager.recipes.replaceAll((t, v) -> new HashMap<>(recipeManager.recipes.get(t)));
 
-        Map<ResourceLocation, IRecipe<?>> recipes = recipeManager.recipes.get(IRecipeType.CRAFTING);
+        Map<ResourceLocation, IRecipe<?>> recipes = new HashMap<>();
 
         for (FurnitureMaterial primary : InteriorRegistries.FURNITURE_MATERIALS) {
             for (FurnitureMaterial secondary : InteriorRegistries.FURNITURE_MATERIALS) {
                 if (primary.isValidForType(FurnitureType.CHAIR) && secondary.isValidForType(FurnitureType.CHAIR)) {
-                    ShapedRecipe chair = createChairRecipe(primary, secondary);
+                    FurnitureShapedRecipe chair = new FurnitureShapedRecipe(createChairRecipe(primary, secondary));
                     recipes.put(chair.getId(), chair);
                 }
                 if (primary.isValidForType(FurnitureType.TABLE) && secondary.isValidForType(FurnitureType.TABLE)) {
-                    ShapedRecipe table = createTableRecipe(primary, secondary);
+                    FurnitureShapedRecipe table = new FurnitureShapedRecipe(createTableRecipe(primary, secondary));
                     recipes.put(table.getId(), table);
                 }
             }
         }
+
+        recipeManager.recipes.put(InteriorRecipeTypes.FURNITURE_CRAFTING, recipes);
     }
 
     private static ShapedRecipe createChairRecipe(FurnitureMaterial primary, FurnitureMaterial secondary) {

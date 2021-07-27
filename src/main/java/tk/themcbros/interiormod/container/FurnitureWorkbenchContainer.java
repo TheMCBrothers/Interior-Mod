@@ -11,12 +11,12 @@ import net.minecraft.inventory.container.CraftingResultSlot;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ICraftingRecipe;
-import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.network.play.server.SSetSlotPacket;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.world.World;
 import tk.themcbros.interiormod.init.InteriorBlocks;
 import tk.themcbros.interiormod.init.InteriorContainers;
+import tk.themcbros.interiormod.init.InteriorRecipeTypes;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -73,7 +73,7 @@ public class FurnitureWorkbenchContainer extends Container {
             ServerPlayerEntity serverplayerentity = (ServerPlayerEntity) player;
             ItemStack itemstack = ItemStack.EMPTY;
             Optional<ICraftingRecipe> optional = Objects.requireNonNull(world.getServer())
-                    .getRecipeManager().getRecipe(IRecipeType.CRAFTING, inventory, world);
+                    .getRecipeManager().getRecipe(InteriorRecipeTypes.FURNITURE_CRAFTING, inventory, world);
             if (optional.isPresent()) {
                 ICraftingRecipe icraftingrecipe = optional.get();
                 if (inventoryResult.canUseRecipe(world, serverplayerentity, icraftingrecipe)) {
