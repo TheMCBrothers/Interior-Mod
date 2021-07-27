@@ -250,33 +250,19 @@ String getChangelogText() {
     return str
 }
 
-class Secrets {
-    def data = null
-
-    def getProperty(String key) {
-        return data ? data[key] : ''
+String getCurseforgeAPIKey() {
+    def secretFile = file('secret.properties')
+    if (secretFile.canRead()) {
+        Properties secretProps = new Properties()
+        secretProps.load(new FileInputStream(secretFile))
+        return secretProps['curseforge_key'].toString()
     }
-}
-
-import groovy.json.JsonSlurper
-
-def secretFile
-if (System.getenv().SECRET_FILE) {
-    secretFile = file System.getenv().SECRET_FILE
-} else {
-    secretFile = file 'secret.json'
-}
-
-project.ext.secret = new Secrets()
-if (secretFile.exists()) {
-    secretFile.withReader {
-        project.ext.secret.data = new JsonSlurper().parse it
-    }
+    return null
 }
 
 curseforge {
     if (project.hasProperty('curse_type') && project.hasProperty('projectId')) {
-        apiKey = secret.curseforge_key
+        apiKey = getCurseforgeAPIKey();
     }
 
     project {

@@ -25,4 +25,5 @@ run
 forge*changelog.txt
 
 secret.json
+secret.properties
 logs
