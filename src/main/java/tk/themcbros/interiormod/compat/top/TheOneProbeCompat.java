@@ -1,14 +1,9 @@
 package tk.themcbros.interiormod.compat.top;
 
-import mcjty.theoneprobe.api.ITheOneProbe;
-import net.minecraftforge.fml.InterModComms;
-
-import java.util.function.Function;
-
 /**
  * @author TheMCBrothers
  */
-public class TheOneProbeCompat implements Function<ITheOneProbe, Void> {
+public class TheOneProbeCompat/* implements Function<ITheOneProbe, Void> {
 
     private TheOneProbeCompat() {
     }
@@ -22,4 +17,6 @@ public class TheOneProbeCompat implements Function<ITheOneProbe, Void> {
     public static void registerCompat() {
         InterModComms.sendTo("theoneprobe", "getTheOneProbe", TheOneProbeCompat::new);
     }
+}
+*/ {
 }

@@ -1,12 +1,12 @@
 package tk.themcbros.interiormod.data;
 
-import net.minecraft.advancements.criterion.InventoryChangeTrigger;
-import net.minecraft.advancements.criterion.ItemPredicate;
+import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.data.RecipeProvider;
-import net.minecraft.data.ShapedRecipeBuilder;
-import net.minecraft.item.Items;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
 import tk.themcbros.interiormod.init.InteriorItems;
 
@@ -22,56 +22,56 @@ public class RecipeDataProvider extends RecipeProvider {
     }
 
     @Override
-    protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shapedRecipe(InteriorItems.FRIDGE)
-                .patternLine("II")
-                .patternLine("II")
-                .patternLine("BC")
-                .key('I', Tags.Items.STORAGE_BLOCKS_IRON).key('B', Items.IRON_BARS).key('C', Tags.Items.CHESTS_WOODEN)
-                .addCriterion("hasIronBlock", InventoryChangeTrigger.Instance.forItems(ItemPredicate.Builder.create().tag(Tags.Items.STORAGE_BLOCKS_IRON).build()))
-                .build(consumer);
+    protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
+        ShapedRecipeBuilder.shaped(InteriorItems.FRIDGE)
+                .pattern("II")
+                .pattern("II")
+                .pattern("BC")
+                .define('I', Tags.Items.STORAGE_BLOCKS_IRON).define('B', Items.IRON_BARS).define('C', Tags.Items.CHESTS_WOODEN)
+                .unlockedBy("hasIronBlock", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(Tags.Items.STORAGE_BLOCKS_IRON).build()))
+                .save(consumer);
 
-        ShapedRecipeBuilder.shapedRecipe(InteriorItems.LAMP)
-                .patternLine("D")
-                .patternLine("L")
-                .key('D', Items.DAYLIGHT_DETECTOR).key('L', Items.REDSTONE_LAMP)
-                .addCriterion("hasItems", InventoryChangeTrigger.Instance.forItems(Items.REDSTONE_LAMP, Items.DAYLIGHT_DETECTOR))
-                .build(consumer);
+        ShapedRecipeBuilder.shaped(InteriorItems.LAMP)
+                .pattern("D")
+                .pattern("L")
+                .define('D', Items.DAYLIGHT_DETECTOR).define('L', Items.REDSTONE_LAMP)
+                .unlockedBy("hasItems", InventoryChangeTrigger.TriggerInstance.hasItems(Items.REDSTONE_LAMP, Items.DAYLIGHT_DETECTOR))
+                .save(consumer);
 
-        ShapedRecipeBuilder.shapedRecipe(InteriorItems.LAMP_ON_A_STICK)
-                .patternLine("L")
-                .patternLine("S")
-                .patternLine("S")
-                .key('L', InteriorItems.LAMP).key('S', Tags.Items.RODS_WOODEN)
-                .addCriterion("hasLamp", InventoryChangeTrigger.Instance.forItems(InteriorItems.LAMP))
-                .build(consumer);
+        ShapedRecipeBuilder.shaped(InteriorItems.LAMP_ON_A_STICK)
+                .pattern("L")
+                .pattern("S")
+                .pattern("S")
+                .define('L', InteriorItems.LAMP).define('S', Tags.Items.RODS_WOODEN)
+                .unlockedBy("hasLamp", InventoryChangeTrigger.TriggerInstance.hasItems(InteriorItems.LAMP))
+                .save(consumer);
 
-        ShapedRecipeBuilder.shapedRecipe(InteriorItems.TRASH_CAN)
-                .patternLine("ICI")
-                .patternLine(" B ")
-                .key('I', Tags.Items.INGOTS_IRON).key('C', Tags.Items.CHESTS_WOODEN).key('B', Items.IRON_BARS)
-                .addCriterion("hasMaterial", InventoryChangeTrigger.Instance.forItems(
-                        ItemPredicate.Builder.create().tag(Tags.Items.INGOTS_IRON).build(),
-                        ItemPredicate.Builder.create().tag(Tags.Items.CHESTS_WOODEN).build(),
-                        ItemPredicate.Builder.create().item(Items.IRON_BARS).build()
+        ShapedRecipeBuilder.shaped(InteriorItems.TRASH_CAN)
+                .pattern("ICI")
+                .pattern(" B ")
+                .define('I', Tags.Items.INGOTS_IRON).define('C', Tags.Items.CHESTS_WOODEN).define('B', Items.IRON_BARS)
+                .unlockedBy("hasMaterial", InventoryChangeTrigger.TriggerInstance.hasItems(
+                        ItemPredicate.Builder.item().of(Tags.Items.INGOTS_IRON).build(),
+                        ItemPredicate.Builder.item().of(Tags.Items.CHESTS_WOODEN).build(),
+                        ItemPredicate.Builder.item().of(Items.IRON_BARS).build()
                 ))
-                .build(consumer);
+                .save(consumer);
 
-        ShapedRecipeBuilder.shapedRecipe(InteriorItems.MODERN_DOOR)
-                .patternLine("#G")
-                .patternLine("##")
-                .patternLine("##")
-                .key('#', Items.WHITE_CONCRETE).key('G', Tags.Items.GLASS_PANES_COLORLESS)
-                .addCriterion("hasConcrete", InventoryChangeTrigger.Instance.forItems(Items.WHITE_CONCRETE))
-                .build(consumer);
+        ShapedRecipeBuilder.shaped(InteriorItems.MODERN_DOOR)
+                .pattern("#G")
+                .pattern("##")
+                .pattern("##")
+                .define('#', Items.WHITE_CONCRETE).define('G', Tags.Items.GLASS_PANES_COLORLESS)
+                .unlockedBy("hasConcrete", InventoryChangeTrigger.TriggerInstance.hasItems(Items.WHITE_CONCRETE))
+                .save(consumer);
 
-        ShapedRecipeBuilder.shapedRecipe(InteriorItems.FURNITURE_WORKBENCH)
-                .patternLine("X")
-                .patternLine("#")
-                .key('#', Items.CRAFTING_TABLE).key('X', Tags.Items.FEATHERS)
-                .addCriterion("hasFeather", InventoryChangeTrigger.Instance.forItems(
-                        ItemPredicate.Builder.create().tag(Tags.Items.FEATHERS).build())
-                ).build(consumer);
+        ShapedRecipeBuilder.shaped(InteriorItems.FURNITURE_WORKBENCH)
+                .pattern("X")
+                .pattern("#")
+                .define('#', Items.CRAFTING_TABLE).define('X', Tags.Items.FEATHERS)
+                .unlockedBy("hasFeather", InventoryChangeTrigger.TriggerInstance.hasItems(
+                        ItemPredicate.Builder.item().of(Tags.Items.FEATHERS).build())
+                ).save(consumer);
     }
 
     @Override

@@ -1,27 +1,6 @@
 2.2.0:
-- Updated to 1.16.5
-- Added furniture workbench
-- Added stats
-- Overhauled modern door
-- New Tooltip System
-- Fixed fridge
-- Fixed Nightlight Lamp
-- Fixed Fridge drops on harvest
-
-2.1.1:
-- Fix Dedicated server Sidedness issue. #4
-
-2.1.0:
-- Updated to 1.16.3
-- Mixing materials works again!
-- Modded materials are craftable again!
-- Tables now connect to each other
-
-2.0.0:
-- Updated to 1.16.1
-- Updated logo files
-- Updated license
-- Added advancements
-KNOWN ISSUES:
-- Furniture with modded materials won't be craftable!
-- Mixing materials won't work either!
+- Updated to 1.17.1
+- Same features as for 1.16.5
+Note
+- No JEI Integration!
+- No TOP Integration!

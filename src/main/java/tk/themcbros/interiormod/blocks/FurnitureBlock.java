@@ -1,83 +1,78 @@
 package tk.themcbros.interiormod.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.common.util.Constants;
 import tk.themcbros.interiormod.api.furniture.FurnitureMaterial;
 import tk.themcbros.interiormod.api.furniture.FurnitureType;
 import tk.themcbros.interiormod.api.furniture.InteriorRegistries;
+import tk.themcbros.interiormod.blockentity.ChairBlockEntity;
+import tk.themcbros.interiormod.blockentity.FurnitureBlockEntity;
 import tk.themcbros.interiormod.init.FurnitureMaterials;
-import tk.themcbros.interiormod.tileentity.ChairTileEntity;
-import tk.themcbros.interiormod.tileentity.FurnitureTileEntity;
 
 import javax.annotation.Nullable;
 
-public abstract class FurnitureBlock extends Block {
+public abstract class FurnitureBlock extends BaseEntityBlock {
 
-	private final FurnitureType furnitureType;
+    private final FurnitureType furnitureType;
 
-	public FurnitureBlock(FurnitureType furnitureType, Properties properties) {
-		super(properties);
-		this.furnitureType = furnitureType;
-	}
+    public FurnitureBlock(FurnitureType furnitureType, Properties properties) {
+        super(properties);
+        this.furnitureType = furnitureType;
+    }
 
-	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return true;
-	}
+    @Override
+    public RenderShape getRenderShape(BlockState p_49232_) {
+        return RenderShape.MODEL;
+    }
 
-	@Nullable
-	@Override
-	public abstract TileEntity createTileEntity(BlockState state, IBlockReader world);
-
-	@Override
-	public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-		for (FurnitureMaterial material : InteriorRegistries.FURNITURE_MATERIALS) {
-			items.add(FurnitureMaterials.createItemStack(this.furnitureType, material, material));
-		}
-	}
+    @Override
+    public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> items) {
+        for (FurnitureMaterial material : InteriorRegistries.FURNITURE_MATERIALS) {
+            items.add(FurnitureMaterials.createItemStack(this.furnitureType, material, material));
+        }
+    }
 
 	@Override
-	public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-		if (stack.hasTag() && stack.getOrCreateTag().contains("textures", Constants.NBT.TAG_COMPOUND)) {
-			CompoundNBT tag = stack.getOrCreateTag().getCompound("textures");
+    public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        if (stack.hasTag() && stack.getOrCreateTag().contains("textures", Constants.NBT.TAG_COMPOUND)) {
+            CompoundTag tag = stack.getOrCreateTag().getCompound("textures");
 
-			TileEntity tile = worldIn.getTileEntity(pos);
+            BlockEntity tile = worldIn.getBlockEntity(pos);
 
-			if (tile instanceof FurnitureTileEntity) {
-				FurnitureTileEntity furnitureTileEntity = (FurnitureTileEntity) tile;
+            if (tile instanceof FurnitureBlockEntity furnitureTileEntity) {
 				furnitureTileEntity.setPrimaryMaterial(
-						() -> InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryCreate(tag.getString("primary"))));
-				furnitureTileEntity.setSecondaryMaterial(
-						() -> InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryCreate(tag.getString("secondary"))));
+                        () -> InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("primary"))));
+                furnitureTileEntity.setSecondaryMaterial(
+                        () -> InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("secondary"))));
 
-				// todo maybe move this?
-				if (furnitureTileEntity instanceof ChairTileEntity)
-					((ChairTileEntity) furnitureTileEntity).setFacing(state.get(BlockStateProperties.HORIZONTAL_FACING));
-			}
-		}
-	}
+                // todo maybe move this?
+                if (furnitureTileEntity instanceof ChairBlockEntity chairBlockEntity)
+                    chairBlockEntity.setFacing(state.getValue(BlockStateProperties.HORIZONTAL_FACING));
+            }
+        }
+    }
 
 	@Override
-	public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
-		TileEntity tileEntity = world.getTileEntity(pos);
-		if(tileEntity instanceof FurnitureTileEntity) {
-			FurnitureTileEntity furnitureTileEntity = (FurnitureTileEntity) tileEntity;
-			return FurnitureMaterials.createItemStack(this.furnitureType, furnitureTileEntity.getPrimaryMaterial(),
-					furnitureTileEntity.getSecondaryMaterial());
+	public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+		BlockEntity blockEntity = world.getBlockEntity(pos);
+		if (blockEntity instanceof FurnitureBlockEntity furnitureBlockEntity) {
+			return FurnitureMaterials.createItemStack(this.furnitureType, furnitureBlockEntity.getPrimaryMaterial(),
+					furnitureBlockEntity.getSecondaryMaterial());
 		}
 		return super.getPickBlock(state, target, world, pos, player);
 	}

@@ -1,6 +1,6 @@
 package tk.themcbros.interiormod.api.furniture;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryBuilder;
 import tk.themcbros.interiormod.api.InteriorAPI;

@@ -1,12 +1,12 @@
 package tk.themcbros.interiormod.client.models.block.furniture;
 
-import net.minecraft.client.renderer.model.IBakedModel;
-import net.minecraft.client.renderer.model.ItemOverrideList;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.renderer.block.model.ItemOverrides;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import tk.themcbros.interiormod.api.furniture.FurnitureMaterial;
 import tk.themcbros.interiormod.api.furniture.InteriorRegistries;
 
@@ -15,15 +15,15 @@ import javax.annotation.Nullable;
 /**
  * @author TheMCBrothers
  */
-public class FurnitureItemOverride extends ItemOverrideList {
+public class FurnitureItemOverride extends ItemOverrides {
     @Nullable
     @Override
-    public IBakedModel getOverrideModel(IBakedModel modelOriginal, ItemStack stack, @Nullable ClientWorld worldIn, @Nullable LivingEntity entityIn) {
-        if(modelOriginal instanceof FurnitureModel) {
-            CompoundNBT tag = stack.getChildTag("textures");
-            if(tag != null) {
-                FurnitureMaterial primary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryCreate(tag.getString("primary")));
-                FurnitureMaterial secondary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryCreate(tag.getString("secondary")));
+    public BakedModel resolve(BakedModel modelOriginal, ItemStack stack, @Nullable ClientLevel worldIn, @Nullable LivingEntity entityIn, int i) {
+        if (modelOriginal instanceof FurnitureModel) {
+            CompoundTag tag = stack.getTagElement("textures");
+            if (tag != null) {
+                FurnitureMaterial primary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("primary")));
+                FurnitureMaterial secondary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("secondary")));
                 return ((FurnitureModel) modelOriginal).getCustomModel(primary, secondary);
             }
         }

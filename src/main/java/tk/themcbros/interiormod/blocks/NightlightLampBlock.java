@@ -1,67 +1,79 @@
 package tk.themcbros.interiormod.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer.Builder;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.LightType;
-import net.minecraft.world.World;
-import tk.themcbros.interiormod.init.InteriorTileEntities;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import tk.themcbros.interiormod.blockentity.NightlightLampBlockEntity;
+import tk.themcbros.interiormod.init.InteriorBlockEntities;
+
+import javax.annotation.Nullable;
 
 /**
  * @author TheMCBrothers
  */
-public class NightlightLampBlock extends Block {
+public class NightlightLampBlock extends BaseEntityBlock {
 
     private static final BooleanProperty LIT = BlockStateProperties.LIT;
 
     public NightlightLampBlock(Properties properties) {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(LIT, Boolean.FALSE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(LIT, Boolean.FALSE));
     }
 
     @Override
-    protected void fillStateContainer(Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(LIT);
     }
 
     @Override
-    public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
-        return state.get(LIT) ? 15 : 0;
+    public RenderShape getRenderShape(BlockState p_49232_) {
+        return RenderShape.MODEL;
     }
 
     @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
+    public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
+        return state.getValue(LIT) ? 15 : 0;
     }
 
+    @Nullable
     @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return InteriorTileEntities.LAMP.create();
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
+        return !level.isClientSide && level.dimensionType().hasSkyLight() ? createTickerHelper(blockEntityType, InteriorBlockEntities.LAMP, NightlightLampBlock::tickEntity) : null;
     }
 
-    /**
-     * Updates the LIT property of BlockState
-     *
-     * @param state {@link BlockState} of Block
-     * @param world {@link World} of Block
-     * @param pos   {@link BlockPos} of Block
-     */
-    public static void updatePower(BlockState state, World world, BlockPos pos) {
-        if (world.getDimensionType().hasSkyLight()) {
-            int i = world.getLightFor(LightType.SKY, pos.up()) - world.getSkylightSubtracted();
-            i = 15 - i;
-            i = MathHelper.clamp(i, 0, 15);
-            boolean lit = i > 0; // minimum light level 1
-            if (state.get(LIT) != lit) {
-                world.setBlockState(pos, state.with(LIT, lit), 2 | 1);
-            }
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+        return InteriorBlockEntities.LAMP.create(blockPos, blockState);
+    }
+
+    private static void updateSignalStrength(BlockState state, Level level, BlockPos pos) {
+        int value = level.getBrightness(LightLayer.SKY, pos.above()) - level.getSkyDarken();
+        value = Mth.clamp(15 - value, 0, 15);
+
+        boolean lit = value > 0;
+        if (state.getValue(LIT) != lit) {
+            level.setBlock(pos, state.setValue(LIT, lit), 3);
         }
+
     }
 
+    static void tickEntity(Level level, BlockPos pos, BlockState state, NightlightLampBlockEntity blockEntity) {
+        if (level.getGameTime() % 20L == 0L) {
+            updateSignalStrength(state, level, pos);
+        }
+
+    }
 }

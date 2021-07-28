@@ -19,10 +19,10 @@ apply plugin: 'maven-publish'
 group = 'themcbros.interiormod' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'TheMCBrothersInteriorMod'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 
 minecraft {
-    mappings channel: 'snapshot', version: "${mcp_mappings}"
+    mappings channel: 'official', version: project.minecraft_version
     
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 

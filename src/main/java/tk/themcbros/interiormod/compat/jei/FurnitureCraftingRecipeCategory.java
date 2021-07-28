@@ -1,28 +1,9 @@
 package tk.themcbros.interiormod.compat.jei;
 
-import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
-import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.ingredient.ICraftingGridHelper;
-import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
-import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.ICraftingRecipe;
-import net.minecraft.item.crafting.ShapedRecipe;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import tk.themcbros.interiormod.InteriorMod;
-import tk.themcbros.interiormod.init.InteriorBlocks;
-
-import java.util.List;
-
 /**
  * @author TheMCBrothers
  */
-public class FurnitureCraftingRecipeCategory implements IRecipeCategory<ICraftingRecipe> {
+public class FurnitureCraftingRecipeCategory/* implements IRecipeCategory<ICraftingRecipe> {
     private static final ResourceLocation CRAFTING_TABLE_GUI_TEXTURES = new ResourceLocation("textures/gui/container/crafting_table.png");
 
     public static final int width = 116;
@@ -100,4 +81,6 @@ public class FurnitureCraftingRecipeCategory implements IRecipeCategory<ICraftin
 
         guiItemStacks.set(0, outputs.get(0));
     }
+}
+*/ {
 }

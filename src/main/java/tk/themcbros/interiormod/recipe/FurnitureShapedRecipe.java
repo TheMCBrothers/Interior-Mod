@@ -1,12 +1,12 @@
 package tk.themcbros.interiormod.recipe;
 
 import com.google.gson.JsonObject;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.ShapedRecipe;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import tk.themcbros.interiormod.init.InteriorBlocks;
 import tk.themcbros.interiormod.init.InteriorRecipeSerializers;
@@ -18,12 +18,12 @@ import javax.annotation.Nullable;
  * @author TheMCBrothers
  */
 public class FurnitureShapedRecipe extends ShapedRecipe {
-    private static final IRecipeSerializer<ShapedRecipe> BASE_SERIALIZER = IRecipeSerializer.CRAFTING_SHAPED;
+    private static final RecipeSerializer<ShapedRecipe> BASE_SERIALIZER = RecipeSerializer.SHAPED_RECIPE;
 
     private final ShapedRecipe recipe;
 
     public FurnitureShapedRecipe(ShapedRecipe recipe) {
-        super(recipe.getId(), recipe.getGroup(), recipe.getRecipeWidth(), recipe.getRecipeHeight(), recipe.getIngredients(), recipe.getRecipeOutput());
+        super(recipe.getId(), recipe.getGroup(), recipe.getRecipeWidth(), recipe.getRecipeHeight(), recipe.getIngredients(), recipe.getResultItem());
         this.recipe = recipe;
     }
 
@@ -32,36 +32,36 @@ public class FurnitureShapedRecipe extends ShapedRecipe {
     }
 
     @Override
-    public IRecipeType<?> getType() {
+    public RecipeType<?> getType() {
         return InteriorRecipeTypes.FURNITURE_CRAFTING;
     }
 
     @Override
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return InteriorRecipeSerializers.FURNITURE_SHAPED;
     }
 
     @Override
-    public ItemStack getIcon() {
+    public ItemStack getToastSymbol() {
         return new ItemStack(InteriorBlocks.FURNITURE_WORKBENCH);
     }
 
-    public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<FurnitureShapedRecipe> {
+    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<FurnitureShapedRecipe> {
         @Override
-        public FurnitureShapedRecipe read(ResourceLocation recipeId, JsonObject json) {
-            return new FurnitureShapedRecipe(BASE_SERIALIZER.read(recipeId, json));
+        public FurnitureShapedRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
+            return new FurnitureShapedRecipe(BASE_SERIALIZER.fromJson(recipeId, json));
         }
 
         @Nullable
         @Override
-        public FurnitureShapedRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
-            final ShapedRecipe recipe = BASE_SERIALIZER.read(recipeId, buffer);
+        public FurnitureShapedRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
+            final ShapedRecipe recipe = BASE_SERIALIZER.fromNetwork(recipeId, buffer);
             return recipe != null ? new FurnitureShapedRecipe(recipe) : null;
         }
 
         @Override
-        public void write(PacketBuffer buffer, FurnitureShapedRecipe recipe) {
-            BASE_SERIALIZER.write(buffer, recipe.getBaseRecipe());
+        public void toNetwork(FriendlyByteBuf buffer, FurnitureShapedRecipe recipe) {
+            BASE_SERIALIZER.toNetwork(buffer, recipe.getBaseRecipe());
         }
     }
 

@@ -1,6 +1,6 @@
 package tk.themcbros.interiormod.compat.waila;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import tk.themcbros.interiormod.api.InteriorAPI;
 
 /**

@@ -1,9 +1,11 @@
 package tk.themcbros.interiormod.items;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * @author TheMCBrothers
@@ -15,8 +17,11 @@ public class TooltipTallBlockItem extends TooltipBlockItem {
     }
 
     @Override
-    protected boolean placeBlock(BlockItemUseContext context, BlockState state) {
-        context.getWorld().setBlockState(context.getPos().up(), Blocks.AIR.getDefaultState(), 27);
+    protected boolean placeBlock(BlockPlaceContext context, BlockState state) {
+        Level level = context.getLevel();
+        BlockPos pos = context.getClickedPos().above();
+        BlockState blockState = level.isWaterAt(pos) ? Blocks.WATER.defaultBlockState() : Blocks.AIR.defaultBlockState();
+        level.setBlock(pos, blockState, 27);
         return super.placeBlock(context, state);
     }
 }

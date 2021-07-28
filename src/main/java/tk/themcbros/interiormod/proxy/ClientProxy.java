@@ -1,11 +1,11 @@
 package tk.themcbros.interiormod.proxy;
 
-import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import tk.themcbros.interiormod.InteriorMod;
@@ -25,22 +25,25 @@ public class ClientProxy extends CommonProxy {
         super();
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::modelLoading);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::entityRender);
     }
 
-    private void clientSetup(FMLClientSetupEvent event) {
-        RenderingRegistry.registerEntityRenderingHandler(InteriorEntities.SEAT, SeatRenderer::new);
+    private void clientSetup(final FMLClientSetupEvent event) {
+        MenuScreens.register(InteriorContainers.FURNITURE_WORKBENCH, FurnitureWorkbenchScreen::new);
 
-        ScreenManager.registerFactory(InteriorContainers.FURNITURE_WORKBENCH, FurnitureWorkbenchScreen::new);
-
-        RenderTypeLookup.setRenderLayer(InteriorBlocks.FRIDGE, RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(InteriorBlocks.TRASH_CAN, RenderType.getTranslucent());
-        RenderTypeLookup.setRenderLayer(InteriorBlocks.MODERN_DOOR, RenderType.getCutout());
+        ItemBlockRenderTypes.setRenderLayer(InteriorBlocks.FRIDGE, RenderType.cutout());
+        ItemBlockRenderTypes.setRenderLayer(InteriorBlocks.TRASH_CAN, RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(InteriorBlocks.MODERN_DOOR, RenderType.cutout());
 
         InteriorMod.LOGGER.info("ClientProxy clientSetup");
     }
 
     private void modelLoading(final ModelRegistryEvent event) {
         ModelLoaderRegistry.registerLoader(InteriorMod.getId("furniture"), FurnitureModel.Loader.INSTANCE);
+    }
+
+    private void entityRender(final EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(InteriorEntities.SEAT, SeatRenderer::new);
     }
 
 }

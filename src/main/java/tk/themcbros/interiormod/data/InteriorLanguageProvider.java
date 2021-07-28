@@ -19,17 +19,17 @@ public class InteriorLanguageProvider extends LanguageProvider {
         this.add(InteriorBlocks.CHAIR, "Chair");
         this.add(InteriorBlocks.TABLE, "Table");
         this.add(InteriorBlocks.FRIDGE, "Fridge");
-        this.add(InteriorBlocks.FRIDGE.getTranslationKey() + ".tooltip", "Can store food in it");
+        this.add(InteriorBlocks.FRIDGE.getDescriptionId() + ".tooltip", "Can store food in it");
         this.add(InteriorBlocks.LAMP, "Nightlight Lamp");
-        this.add(InteriorBlocks.LAMP.getTranslationKey() + ".tooltip", "A lamp with an integrated\ninverted daylight detector");
+        this.add(InteriorBlocks.LAMP.getDescriptionId() + ".tooltip", "A lamp with an integrated\ninverted daylight detector");
         this.add(InteriorBlocks.LAMP_ON_A_STICK, "Lamp on a Stick");
-        this.add(InteriorBlocks.LAMP_ON_A_STICK.getTranslationKey() + ".tooltip", "The Nightlight Lamp on two sticks");
+        this.add(InteriorBlocks.LAMP_ON_A_STICK.getDescriptionId() + ".tooltip", "The Nightlight Lamp on two sticks");
         this.add(InteriorBlocks.TRASH_CAN, "Trash Can");
-        this.add(InteriorBlocks.TRASH_CAN.getTranslationKey() + ".tooltip", "Destroys any item that is put in");
+        this.add(InteriorBlocks.TRASH_CAN.getDescriptionId() + ".tooltip", "Destroys any item that is put in");
         this.add(InteriorBlocks.MODERN_DOOR, "Modern Door");
-        this.add(InteriorBlocks.MODERN_DOOR.getTranslationKey() + ".tooltip", "A modern variant of the vanilla door");
+        this.add(InteriorBlocks.MODERN_DOOR.getDescriptionId() + ".tooltip", "A modern variant of the vanilla door");
         this.add(InteriorBlocks.FURNITURE_WORKBENCH, "Furniture Workbench");
-        this.add(InteriorBlocks.FURNITURE_WORKBENCH.getTranslationKey() + ".tooltip", "Construct your customized furniture");
+        this.add(InteriorBlocks.FURNITURE_WORKBENCH.getDescriptionId() + ".tooltip", "Construct your customized furniture");
 
         this.add("advancement.interiormod.root.title", "TheMCBrothers Interior Mod");
         this.add("advancement.interiormod.root.description", "Furniture freely customizable");

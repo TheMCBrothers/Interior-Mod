@@ -3,12 +3,12 @@ package tk.themcbros.interiormod.api.furniture;
 import java.util.Locale;
 import java.util.function.Supplier;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import tk.themcbros.interiormod.init.InteriorBlocks;
 
-public enum FurnitureType implements IStringSerializable {
+public enum FurnitureType implements StringRepresentable {
 
 	CHAIR(() -> InteriorBlocks.CHAIR),
 	TABLE(() -> InteriorBlocks.TABLE);
@@ -20,7 +20,7 @@ public enum FurnitureType implements IStringSerializable {
 	}
 
 	@Override
-	public String getString() {
+	public String getSerializedName() {
 		return name().toLowerCase(Locale.ROOT);
 	}
 

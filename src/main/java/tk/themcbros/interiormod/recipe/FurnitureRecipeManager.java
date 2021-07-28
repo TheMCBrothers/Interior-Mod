@@ -1,12 +1,14 @@
 package tk.themcbros.interiormod.recipe;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.*;
-import net.minecraft.resources.IResourceManager;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.resource.IResourceType;
-import net.minecraftforge.resource.ISelectiveResourceReloadListener;
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 import tk.themcbros.interiormod.InteriorMod;
 import tk.themcbros.interiormod.api.furniture.FurnitureMaterial;
 import tk.themcbros.interiormod.api.furniture.FurnitureType;
@@ -15,16 +17,14 @@ import tk.themcbros.interiormod.init.FurnitureMaterials;
 import tk.themcbros.interiormod.init.InteriorRecipeTypes;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Predicate;
 
 /**
  * @author TheMCBrothers
  */
 @ParametersAreNonnullByDefault
-public class FurnitureRecipeManager implements ISelectiveResourceReloadListener {
+public class FurnitureRecipeManager implements ResourceManagerReloadListener {
 
     private final RecipeManager recipeManager;
 
@@ -33,17 +33,11 @@ public class FurnitureRecipeManager implements ISelectiveResourceReloadListener 
     }
 
     @Override
-    public void onResourceManagerReload(IResourceManager resourceManager) {
-        // FIXME: Remove this. We need this patch in order to prevent trying to load ReloadRequirements.
-        this.onResourceManagerReload(resourceManager, x -> true);
-    }
-
-    @Override
-    public void onResourceManagerReload(IResourceManager resourceManager, Predicate<IResourceType> resourcePredicate) {
+    public void onResourceManagerReload(ResourceManager resourceManager) {
         recipeManager.recipes = new HashMap<>(recipeManager.recipes);
         recipeManager.recipes.replaceAll((t, v) -> new HashMap<>(recipeManager.recipes.get(t)));
 
-        Map<ResourceLocation, IRecipe<?>> recipes = new HashMap<>();
+        Map<ResourceLocation, Recipe<?>> recipes = new HashMap<>();
 
         for (FurnitureMaterial primary : InteriorRegistries.FURNITURE_MATERIALS) {
             for (FurnitureMaterial secondary : InteriorRegistries.FURNITURE_MATERIALS) {
@@ -64,7 +58,7 @@ public class FurnitureRecipeManager implements ISelectiveResourceReloadListener 
     private static ShapedRecipe createChairRecipe(FurnitureMaterial primary, FurnitureMaterial secondary) {
         Ingredient primaryIngredient = primary.getIngredient();
         Ingredient secondaryIngredient = secondary.getIngredient();
-        NonNullList<Ingredient> inputs = NonNullList.from(Ingredient.EMPTY,
+        NonNullList<Ingredient> inputs = NonNullList.of(Ingredient.EMPTY,
                 primaryIngredient, Ingredient.EMPTY, Ingredient.EMPTY,
                 primaryIngredient, secondaryIngredient, secondaryIngredient,
                 primaryIngredient, Ingredient.EMPTY, primaryIngredient
@@ -80,7 +74,7 @@ public class FurnitureRecipeManager implements ISelectiveResourceReloadListener 
     private static ShapedRecipe createTableRecipe(FurnitureMaterial primary, FurnitureMaterial secondary) {
         Ingredient primaryIngredient = primary.getIngredient();
         Ingredient secondaryIngredient = secondary.getIngredient();
-        NonNullList<Ingredient> inputs = NonNullList.from(Ingredient.EMPTY,
+        NonNullList<Ingredient> inputs = NonNullList.of(Ingredient.EMPTY,
                 primaryIngredient, primaryIngredient, primaryIngredient,
                 secondaryIngredient, Ingredient.EMPTY, secondaryIngredient,
                 secondaryIngredient, Ingredient.EMPTY, secondaryIngredient

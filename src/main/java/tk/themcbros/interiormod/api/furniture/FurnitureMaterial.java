@@ -1,12 +1,12 @@
 package tk.themcbros.interiormod.api.furniture;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.data.EmptyModelData;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
@@ -23,7 +23,7 @@ public class FurnitureMaterial extends ForgeRegistryEntry<FurnitureMaterial> {
     @Nonnull
     private final Supplier<? extends Block> blockSupplier;
     @Nonnull
-    private final Supplier<? extends IItemProvider> itemProvider;
+    private final Supplier<? extends ItemLike> itemProvider;
     @Nullable
     private final ResourceLocation textureLocationOverride;
     @Nonnull
@@ -42,7 +42,7 @@ public class FurnitureMaterial extends ForgeRegistryEntry<FurnitureMaterial> {
      * @param itemProvider Item used for crafting.
      * @param textureLocationOverride Optional texture override. Leave null for particle texture.
      */
-    public FurnitureMaterial(@Nonnull Supplier<? extends Block> blockSupplier, @Nonnull Supplier<? extends IItemProvider> itemProvider,
+    public FurnitureMaterial(@Nonnull Supplier<? extends Block> blockSupplier, @Nonnull Supplier<? extends ItemLike> itemProvider,
                              @Nullable ResourceLocation textureLocationOverride) {
         this.blockSupplier = blockSupplier;
         this.itemProvider = itemProvider;
@@ -66,8 +66,8 @@ public class FurnitureMaterial extends ForgeRegistryEntry<FurnitureMaterial> {
      * @return Display Name of the material (Translated block name)
      */
     @Nonnull
-    public IFormattableTextComponent getDisplayName() {
-        return new TranslationTextComponent(this.blockSupplier.get().getTranslationKey());
+    public MutableComponent getDisplayName() {
+        return new TranslatableComponent(this.blockSupplier.get().getDescriptionId());
     }
 
     /**
@@ -76,8 +76,8 @@ public class FurnitureMaterial extends ForgeRegistryEntry<FurnitureMaterial> {
     @Nonnull
     public ResourceLocation getTextureLocation() {
         if (this.textureLocationOverride == null) {
-            return Minecraft.getInstance().getBlockRendererDispatcher().getModelForState(this.blockSupplier.get().getDefaultState())
-                    .getParticleTexture(EmptyModelData.INSTANCE).getName();
+            return Minecraft.getInstance().getBlockRenderer().getBlockModel(this.blockSupplier.get().defaultBlockState())
+                    .getParticleIcon(EmptyModelData.INSTANCE).getName();
         }
         return this.textureLocationOverride;
     }
@@ -86,7 +86,7 @@ public class FurnitureMaterial extends ForgeRegistryEntry<FurnitureMaterial> {
      * @return Ingredient for crafting recipe
      */
     public Ingredient getIngredient() {
-        return Ingredient.fromItems(this.itemProvider.get());
+        return Ingredient.of(this.itemProvider.get());
     }
 
     public boolean isValidForType(FurnitureType furnitureType) {

@@ -1,14 +1,14 @@
 package tk.themcbros.interiormod.init;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import tk.themcbros.interiormod.api.InteriorAPI;
@@ -62,7 +62,7 @@ public class FurnitureMaterials {
     public static ItemStack createItemStack(FurnitureType furnitureType, FurnitureMaterial primary, FurnitureMaterial secondary) {
         ItemStack stack = furnitureType.getStack();
 
-        CompoundNBT tag = stack.getOrCreateChildTag("textures");
+        CompoundTag tag = stack.getOrCreateTagElement("textures");
         tag.putString("primary", String.valueOf(primary.getRegistryName()));
         tag.putString("secondary", String.valueOf(secondary.getRegistryName()));
         return stack;

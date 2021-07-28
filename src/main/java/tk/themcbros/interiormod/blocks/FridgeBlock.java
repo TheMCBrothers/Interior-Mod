@@ -3,41 +3,38 @@ package tk.themcbros.interiormod.blocks;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.EnumProperty;
-import net.minecraft.state.StateContainer.Builder;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.state.properties.DoubleBlockHalf;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.*;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.EmptyHandler;
-import tk.themcbros.interiormod.init.InteriorTileEntities;
-import tk.themcbros.interiormod.tileentity.FridgeTileEntity;
+import tk.themcbros.interiormod.blockentity.FridgeBlockEntity;
+import tk.themcbros.interiormod.init.InteriorBlockEntities;
 import tk.themcbros.interiormod.util.ShapeUtils;
 
 import javax.annotation.Nullable;
@@ -47,7 +44,7 @@ import java.util.List;
  * @author TheMCBrothers
  */
 @SuppressWarnings("deprecation")
-public class FridgeBlock extends Block {
+public class FridgeBlock extends Block implements EntityBlock {
 
     private static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     private static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
@@ -56,8 +53,8 @@ public class FridgeBlock extends Block {
 
     public FridgeBlock(Properties properties) {
         super(properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(HALF, DoubleBlockHalf.LOWER));
-        SHAPES = this.generateShapes(this.getStateContainer().getValidStates());
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(HALF, DoubleBlockHalf.LOWER));
+        SHAPES = this.generateShapes(this.getStateDefinition().getPossibleStates());
     }
 
     private ImmutableMap<BlockState, VoxelShape> generateShapes(ImmutableList<BlockState> validStates) {
@@ -66,30 +63,30 @@ public class FridgeBlock extends Block {
 
         for (BlockState blockState : validStates) {
             List<VoxelShape> shapes = Lists.newArrayList();
-            Direction facing = blockState.get(FACING);
+            Direction facing = blockState.getValue(FACING);
             // Fridge Top
-            shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 19, 9, 14, 20, 10))[facing.getHorizontalIndex()]);
-            shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 16, 5, 14, 17, 6))[facing.getHorizontalIndex()]);
-            shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(14, 28, 10, 15, 29, 11))[facing.getHorizontalIndex()]);
-            shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 16, 0, 13, 32, 16))[facing.getHorizontalIndex()]);
-            shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 24, 8, 14, 29, 13))[facing.getHorizontalIndex()]);
-            shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 26, 2, 15, 27, 3))[facing.getHorizontalIndex()]);
-            shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 19, 2, 15, 20, 3))[facing.getHorizontalIndex()]);
-            shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(15, 19, 2, 16, 27, 3))[facing.getHorizontalIndex()]);
+            shapes.add(ShapeUtils.getRotatedShapes(Block.box(13, 19, 9, 14, 20, 10))[facing.get2DDataValue()]);
+            shapes.add(ShapeUtils.getRotatedShapes(Block.box(13, 16, 5, 14, 17, 6))[facing.get2DDataValue()]);
+            shapes.add(ShapeUtils.getRotatedShapes(Block.box(14, 28, 10, 15, 29, 11))[facing.get2DDataValue()]);
+            shapes.add(ShapeUtils.getRotatedShapes(Block.box(1, 16, 0, 13, 32, 16))[facing.get2DDataValue()]);
+            shapes.add(ShapeUtils.getRotatedShapes(Block.box(13, 24, 8, 14, 29, 13))[facing.get2DDataValue()]);
+            shapes.add(ShapeUtils.getRotatedShapes(Block.box(13, 26, 2, 15, 27, 3))[facing.get2DDataValue()]);
+            shapes.add(ShapeUtils.getRotatedShapes(Block.box(13, 19, 2, 15, 20, 3))[facing.get2DDataValue()]);
+            shapes.add(ShapeUtils.getRotatedShapes(Block.box(15, 19, 2, 16, 27, 3))[facing.get2DDataValue()]);
 
             // Fridge Bottom
-            shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 6, 2, 2, 7, 14))[facing.getHorizontalIndex()]);
-            shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 0, 13, 2, 7, 14))[facing.getHorizontalIndex()]);
-            shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 0, 2, 2, 7, 3))[facing.getHorizontalIndex()]);
-            shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(2, 0, 3, 2, 6, 13))[facing.getHorizontalIndex()]);
-            shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 1, 3, 2, 2, 13))[facing.getHorizontalIndex()]);
-            shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 5, 3, 2, 6, 13))[facing.getHorizontalIndex()]);
-            shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 3, 3, 2, 4, 13))[facing.getHorizontalIndex()]);
-            shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 0, 2, 2, 0, 14))[facing.getHorizontalIndex()]);
-            shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(1, 0, 0, 13, 16, 16))[facing.getHorizontalIndex()]);
-            shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 12, 11, 14, 13, 12))[facing.getHorizontalIndex()]);
-            shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 15, 3, 14, 16, 4))[facing.getHorizontalIndex()]);
-            shapes.add(ShapeUtils.getRotatedShapes(Block.makeCuboidShape(13, 11, 6, 14, 12, 7))[facing.getHorizontalIndex()]);
+            shapes.add(ShapeUtils.getRotatedShapes(Block.box(1, 6, 2, 2, 7, 14))[facing.get2DDataValue()]);
+            shapes.add(ShapeUtils.getRotatedShapes(Block.box(1, 0, 13, 2, 7, 14))[facing.get2DDataValue()]);
+            shapes.add(ShapeUtils.getRotatedShapes(Block.box(1, 0, 2, 2, 7, 3))[facing.get2DDataValue()]);
+            shapes.add(ShapeUtils.getRotatedShapes(Block.box(2, 0, 3, 2, 6, 13))[facing.get2DDataValue()]);
+            shapes.add(ShapeUtils.getRotatedShapes(Block.box(1, 1, 3, 2, 2, 13))[facing.get2DDataValue()]);
+            shapes.add(ShapeUtils.getRotatedShapes(Block.box(1, 5, 3, 2, 6, 13))[facing.get2DDataValue()]);
+            shapes.add(ShapeUtils.getRotatedShapes(Block.box(1, 3, 3, 2, 4, 13))[facing.get2DDataValue()]);
+            shapes.add(ShapeUtils.getRotatedShapes(Block.box(1, 0, 2, 2, 0, 14))[facing.get2DDataValue()]);
+            shapes.add(ShapeUtils.getRotatedShapes(Block.box(1, 0, 0, 13, 16, 16))[facing.get2DDataValue()]);
+            shapes.add(ShapeUtils.getRotatedShapes(Block.box(13, 12, 11, 14, 13, 12))[facing.get2DDataValue()]);
+            shapes.add(ShapeUtils.getRotatedShapes(Block.box(13, 15, 3, 14, 16, 4))[facing.get2DDataValue()]);
+            shapes.add(ShapeUtils.getRotatedShapes(Block.box(13, 11, 6, 14, 12, 7))[facing.get2DDataValue()]);
 
             builder.put(blockState, ShapeUtils.combineAll(shapes));
         }
@@ -98,139 +95,121 @@ public class FridgeBlock extends Block {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return state.get(HALF) == DoubleBlockHalf.LOWER ? SHAPES.get(state) : SHAPES.get(state).withOffset(0d, -1d, 0d);
+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        return state.getValue(HALF) == DoubleBlockHalf.LOWER ? SHAPES.get(state) : SHAPES.get(state).move(0d, -1d, 0d);
     }
 
     @Override
-    public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return VoxelShapes.empty();
+    public VoxelShape getOcclusionShape(BlockState state, BlockGetter world, BlockPos pos) {
+        return Shapes.empty();
     }
 
     @Override
-    protected void fillStateContainer(Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, HALF);
     }
 
-    /**
-     * Update the provided state given the provided neighbor facing and neighbor
-     * state, returning a new state. For example, fences make their connections to
-     * the passed in state if possible, and wet concrete powder immediately returns
-     * its solidified counterpart. Note that this method should ideally consider
-     * only the specific face passed in.
-     */
     @Override
-    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn,
-                                          BlockPos currentPos, BlockPos facingPos) {
-        DoubleBlockHalf doubleBlockHalf = stateIn.get(HALF);
+    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn,
+                                  BlockPos currentPos, BlockPos facingPos) {
+        DoubleBlockHalf doubleBlockHalf = stateIn.getValue(HALF);
         if (facing.getAxis() == Direction.Axis.Y && doubleBlockHalf == DoubleBlockHalf.LOWER == (facing == Direction.UP)) {
-            return facingState.matchesBlock(this) && facingState.get(HALF) != doubleBlockHalf ? stateIn.with(FACING, facingState.get(FACING)) : Blocks.AIR.getDefaultState();
+            return facingState.is(this) && facingState.getValue(HALF) != doubleBlockHalf ? stateIn.setValue(FACING, facingState.getValue(FACING)) : Blocks.AIR.defaultBlockState();
         } else {
-            return doubleBlockHalf == DoubleBlockHalf.LOWER && facing == Direction.DOWN && !stateIn.isValidPosition(worldIn, currentPos)
-                    ? Blocks.AIR.getDefaultState()
-                    : super.updatePostPlacement(stateIn, facing, facingState, worldIn, currentPos, facingPos);
+            return doubleBlockHalf == DoubleBlockHalf.LOWER && facing == Direction.DOWN && !stateIn.canSurvive(worldIn, currentPos)
+                    ? Blocks.AIR.defaultBlockState()
+                    : super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
         }
     }
 
     @Override
     @Nullable
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        BlockPos blockPos = context.getPos();
-        if (blockPos.getY() < 255 && context.getWorld().getBlockState(blockPos.up()).isReplaceable(context)) {
-            return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite()).with(HALF, DoubleBlockHalf.LOWER);
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        BlockPos blockPos = context.getClickedPos();
+        Level level = context.getLevel();
+        if (blockPos.getY() < level.getMaxBuildHeight() - 1 && level.getBlockState(blockPos.above()).canBeReplaced(context)) {
+            return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite()).setValue(HALF, DoubleBlockHalf.LOWER);
         } else {
             return null;
         }
     }
 
-    /**
-     * Called by ItemBlocks after a block is set in the world, to allow post-place
-     * logic
-     */
     @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-        worldIn.setBlockState(pos.up(), state.with(HALF, DoubleBlockHalf.UPPER), 2 | 1);
+    public void setPlacedBy(Level level, BlockPos blockPos, BlockState state, LivingEntity entity, ItemStack stack) {
+        level.setBlock(blockPos.above(), state.setValue(HALF, DoubleBlockHalf.UPPER), 3);
     }
 
     @Override
-    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-        BlockPos blockpos = pos.down();
-        BlockState blockstate = worldIn.getBlockState(blockpos);
-        return state.get(HALF) == DoubleBlockHalf.LOWER ? super.isValidPosition(state, worldIn, pos) : blockstate.matchesBlock(this);
+    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+        BlockPos blockPos = pos.below();
+        BlockState blockState = world.getBlockState(blockPos);
+        return state.getValue(HALF) == DoubleBlockHalf.LOWER ? blockState.isFaceSturdy(world, blockPos, Direction.UP) : blockState.is(this);
     }
 
-    /**
-     * Called before the Block is set to air in the world. Called regardless of if
-     * the player's tool can actually collect this block
-     */
     @Override
-    public void onBlockHarvested(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
-        if (!worldIn.isRemote && player.isCreative()) {
-            DoubleBlockHalf doubleblockhalf = state.get(HALF);
+    public void playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player) {
+        if (!worldIn.isClientSide && player.isCreative()) {
+            DoubleBlockHalf doubleblockhalf = state.getValue(HALF);
             if (doubleblockhalf == DoubleBlockHalf.UPPER) {
-                BlockPos blockpos = pos.down();
+                BlockPos blockpos = pos.below();
                 BlockState blockstate = worldIn.getBlockState(blockpos);
-                if (blockstate.getBlock() == state.getBlock() && blockstate.get(HALF) == DoubleBlockHalf.LOWER) {
-                    worldIn.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 32 | 2 | 1);
-                    worldIn.playEvent(player, 2001, blockpos, Block.getStateId(blockstate));
+                if (blockstate.is(state.getBlock()) && blockstate.getValue(HALF) == DoubleBlockHalf.LOWER) {
+                    worldIn.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 35);
+                    worldIn.levelEvent(player, 2001, blockpos, Block.getId(blockstate));
                 }
             }
         }
 
-        super.onBlockHarvested(worldIn, pos, state, player);
+        super.playerWillDestroy(worldIn, pos, state, player);
     }
 
     @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
+    public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player,
+                                 InteractionHand handIn, BlockHitResult hitResult) {
+        if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
+            pos = pos.below();
+        }
+        BlockEntity blockEntity = worldIn.getBlockEntity(pos);
+        if (blockEntity instanceof FridgeBlockEntity && player instanceof ServerPlayer) {
+            NetworkHooks.openGui((ServerPlayer) player, (MenuProvider) blockEntity);
+        }
+        return InteractionResult.SUCCESS;
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player,
-                                             Hand handIn, BlockRayTraceResult p_225533_6_) {
-        if (state.get(HALF) == DoubleBlockHalf.UPPER) {
-            pos = pos.down();
+    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+        if (state.getValue(HALF) == DoubleBlockHalf.UPPER) {
+            pos = pos.below();
         }
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof FridgeTileEntity && player instanceof ServerPlayerEntity) {
-            NetworkHooks.openGui((ServerPlayerEntity) player, (INamedContainerProvider) tileEntity);
-        }
-        return ActionResultType.SUCCESS;
-    }
-
-    @Override
-    public int getComparatorInputOverride(BlockState state, World worldIn, BlockPos pos) {
-        if (state.get(HALF) == DoubleBlockHalf.UPPER) {
-            pos = pos.down();
-        }
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof FridgeTileEntity && tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).isPresent()) {
-            return ItemHandlerHelper.calcRedstoneFromInventory(tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity instanceof FridgeBlockEntity && blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).isPresent()) {
+            return ItemHandlerHelper.calcRedstoneFromInventory(blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
                     .orElse(EmptyHandler.INSTANCE));
         }
         return 0;
     }
 
     @Override
-    public boolean hasComparatorInputOverride(BlockState state) {
+    public boolean hasAnalogOutputSignal(BlockState state) {
         return true;
     }
 
+    @Nullable
     @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return state.get(HALF) == DoubleBlockHalf.LOWER ? InteriorTileEntities.FRIDGE.create() : null;
+    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+        return blockState.getValue(HALF) == DoubleBlockHalf.LOWER ? InteriorBlockEntities.FRIDGE.create(blockPos, blockState) : null;
     }
 
     @Override
-    public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (!state.matchesBlock(newState.getBlock())) {
-            TileEntity tileEntity = world.getTileEntity(pos);
-            if (tileEntity instanceof IInventory) {
-                InventoryHelper.dropInventoryItems(world, pos, (IInventory) tileEntity);
-                world.updateComparatorOutputLevel(pos, this);
+    public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.is(newState.getBlock())) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof Container) {
+                Containers.dropContents(world, pos, (Container) blockEntity);
+                world.updateNeighbourForOutputSignal(pos, this);
             }
 
-            super.onReplaced(state, world, pos, newState, isMoving);
+            super.onRemove(state, world, pos, newState, isMoving);
         }
     }
 }

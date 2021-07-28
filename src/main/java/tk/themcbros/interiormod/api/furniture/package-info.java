@@ -1,6 +1,6 @@
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-package tk.themcbros.interiormod.client.models.block.furniture;
+package tk.themcbros.interiormod.api.furniture;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 

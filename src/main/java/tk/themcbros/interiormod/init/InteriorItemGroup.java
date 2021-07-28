@@ -1,22 +1,21 @@
 package tk.themcbros.interiormod.init;
 
 import com.google.common.collect.Lists;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import tk.themcbros.interiormod.InteriorMod;
 import tk.themcbros.interiormod.api.furniture.FurnitureMaterial;
 import tk.themcbros.interiormod.api.furniture.FurnitureType;
 import tk.themcbros.interiormod.api.furniture.InteriorRegistries;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
 /**
  * @author TheMCBrothers
  */
-public class InteriorItemGroup extends ItemGroup {
+public class InteriorItemGroup extends CreativeModeTab {
 
     public static final InteriorItemGroup INSTANCE = new InteriorItemGroup(InteriorMod.MOD_ID);
 
@@ -27,7 +26,7 @@ public class InteriorItemGroup extends ItemGroup {
     }
 
     @Override
-    public ItemStack createIcon() {
+    public ItemStack makeIcon() {
         return this.chooseRandomFurniture();
     }
 

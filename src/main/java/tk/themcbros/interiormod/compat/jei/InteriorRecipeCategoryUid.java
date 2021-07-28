@@ -1,6 +1,6 @@
 package tk.themcbros.interiormod.compat.jei;
 
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import tk.themcbros.interiormod.InteriorMod;
 
 /**

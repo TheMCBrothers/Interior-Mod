@@ -2,8 +2,7 @@ package tk.themcbros.interiormod.data;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
+import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import tk.themcbros.interiormod.api.InteriorAPI;
 
 /**
@@ -17,7 +16,7 @@ public class Events {
             generator.addProvider(new InteriorLanguageProvider(generator, InteriorAPI.MOD_ID));
         }
         if (event.includeServer()) {
-            generator.addProvider(new InteriorLootTables(generator));
+            generator.addProvider(new InteriorLootTableProvider(generator));
             generator.addProvider(new RecipeDataProvider(generator));
             generator.addProvider(new InteriorAdvancementProvider(generator));
         }

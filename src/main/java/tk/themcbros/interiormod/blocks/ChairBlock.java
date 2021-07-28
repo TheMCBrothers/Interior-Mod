@@ -3,41 +3,42 @@ package tk.themcbros.interiormod.blocks;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.IWaterLoggable;
-import net.minecraft.block.SoundType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.StateContainer.Builder;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import tk.themcbros.interiormod.api.furniture.FurnitureType;
 import tk.themcbros.interiormod.entity.SeatEntity;
+import tk.themcbros.interiormod.init.InteriorBlockEntities;
 import tk.themcbros.interiormod.init.InteriorStats;
-import tk.themcbros.interiormod.init.InteriorTileEntities;
 import tk.themcbros.interiormod.util.ShapeUtils;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
  * @author TheMCBrothers
  */
-public class ChairBlock extends FurnitureBlock implements IWaterLoggable {
+public class ChairBlock extends FurnitureBlock implements SimpleWaterloggedBlock {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -47,57 +48,46 @@ public class ChairBlock extends FurnitureBlock implements IWaterLoggable {
 
     public ChairBlock(Properties properties) {
         super(FurnitureType.CHAIR, properties);
-        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH));
-        SEAT_SHAPES = ShapeUtils.getRotatedShapes(VoxelShapes.create(0.125, 0.562, 0.125, 0.75, 0.688, 0.875)); // SEAT
-        SHAPES = this.generateShapes(this.getStateContainer().getValidStates());
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+        SEAT_SHAPES = ShapeUtils.getRotatedShapes(Shapes.create(0.125, 0.562, 0.125, 0.75, 0.688, 0.875)); // SEAT
+        SHAPES = this.generateShapes(this.getStateDefinition().getPossibleStates());
     }
 
     @Override
-    protected void fillStateContainer(Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, WATERLOGGED);
     }
 
     private ImmutableMap<BlockState, VoxelShape> generateShapes(ImmutableList<BlockState> states) {
-        final VoxelShape[] legNorthWest = ShapeUtils.getRotatedShapes(VoxelShapes.create(0.125, 0, 0.75, 0.25, 0.562, 0.875)); // LEGNW
-        final VoxelShape[] legNorthEast = ShapeUtils.getRotatedShapes(VoxelShapes.create(0.125, 0, 0.125, 0.25, 0.562, 0.25)); // LEGNE
-        final VoxelShape[] legSouthWest = ShapeUtils.getRotatedShapes(VoxelShapes.create(0.75, 0, 0.75, 0.875, 0.688, 0.875)); // LEGSW
-        final VoxelShape[] legSouthEast = ShapeUtils.getRotatedShapes(VoxelShapes.create(0.75, 0, 0.125, 0.875, 0.688, 0.25)); // LEGSE
-        final VoxelShape[] cube1 = ShapeUtils.getRotatedShapes(VoxelShapes.create(0.75, 1.125, 0.25, 0.875, 1.25, 0.75)); // CUBE
-        final VoxelShape[] cube2 = ShapeUtils.getRotatedShapes(VoxelShapes.create(0.75, 0.812, 0.25, 0.875, 0.938, 0.75)); // CUBE
-        final VoxelShape[] legSouthWest2 = ShapeUtils.getRotatedShapes(VoxelShapes.create(0.75, 0.688, 0.75, 0.875, 1.25, 0.875)); // LEGSW
-        final VoxelShape[] legSouthEast2 = ShapeUtils.getRotatedShapes(VoxelShapes.create(0.75, 0.688, 0.125, 0.875, 1.25, 0.25)); // LEGSE
+        final VoxelShape[] legNorthWest = ShapeUtils.getRotatedShapes(Shapes.create(0.125, 0, 0.75, 0.25, 0.562, 0.875)); // LEGNW
+        final VoxelShape[] legNorthEast = ShapeUtils.getRotatedShapes(Shapes.create(0.125, 0, 0.125, 0.25, 0.562, 0.25)); // LEGNE
+        final VoxelShape[] legSouthWest = ShapeUtils.getRotatedShapes(Shapes.create(0.75, 0, 0.75, 0.875, 0.688, 0.875)); // LEGSW
+        final VoxelShape[] legSouthEast = ShapeUtils.getRotatedShapes(Shapes.create(0.75, 0, 0.125, 0.875, 0.688, 0.25)); // LEGSE
+        final VoxelShape[] cube1 = ShapeUtils.getRotatedShapes(Shapes.create(0.75, 1.125, 0.25, 0.875, 1.25, 0.75)); // CUBE
+        final VoxelShape[] cube2 = ShapeUtils.getRotatedShapes(Shapes.create(0.75, 0.812, 0.25, 0.875, 0.938, 0.75)); // CUBE
+        final VoxelShape[] legSouthWest2 = ShapeUtils.getRotatedShapes(Shapes.create(0.75, 0.688, 0.75, 0.875, 1.25, 0.875)); // LEGSW
+        final VoxelShape[] legSouthEast2 = ShapeUtils.getRotatedShapes(Shapes.create(0.75, 0.688, 0.125, 0.875, 1.25, 0.25)); // LEGSE
 
         ImmutableMap.Builder<BlockState, VoxelShape> builder = new ImmutableMap.Builder<>();
         for (BlockState state : states) {
-            Direction direction = state.get(FACING);
+            Direction direction = state.getValue(FACING);
             List<VoxelShape> shapes = Lists.newArrayList();
-            shapes.add(legNorthWest[direction.getHorizontalIndex()]);
-            shapes.add(legNorthEast[direction.getHorizontalIndex()]);
-            shapes.add(legSouthWest[direction.getHorizontalIndex()]);
-            shapes.add(legSouthEast[direction.getHorizontalIndex()]);
-            shapes.add(cube1[direction.getHorizontalIndex()]);
-            shapes.add(cube2[direction.getHorizontalIndex()]);
-            shapes.add(SEAT_SHAPES[direction.getHorizontalIndex()]);
-            shapes.add(legSouthWest2[direction.getHorizontalIndex()]);
-            shapes.add(legSouthEast2[direction.getHorizontalIndex()]);
+            shapes.add(legNorthWest[direction.get2DDataValue()]);
+            shapes.add(legNorthEast[direction.get2DDataValue()]);
+            shapes.add(legSouthWest[direction.get2DDataValue()]);
+            shapes.add(legSouthEast[direction.get2DDataValue()]);
+            shapes.add(cube1[direction.get2DDataValue()]);
+            shapes.add(cube2[direction.get2DDataValue()]);
+            shapes.add(SEAT_SHAPES[direction.get2DDataValue()]);
+            shapes.add(legSouthWest2[direction.get2DDataValue()]);
+            shapes.add(legSouthEast2[direction.get2DDataValue()]);
             builder.put(state, ShapeUtils.combineAll(shapes));
         }
         return builder.build();
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return SHAPES.get(state);
-    }
-
-    @Override
-    public VoxelShape getRenderShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
-        return SHAPES.get(state);
-    }
-
-    @Override
-    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos,
-                                        ISelectionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext p_60558_) {
         return SHAPES.get(state);
     }
 
@@ -107,26 +97,27 @@ public class ChairBlock extends FurnitureBlock implements IWaterLoggable {
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        player.addStat(InteriorStats.SIT_DOWN);
-        return SeatEntity.create(worldIn, pos, 0.5d, player);
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        player.awardStat(InteriorStats.SIT_DOWN);
+        return SeatEntity.create(world, pos, 0.5d, player);
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        FluidState iFluidState = context.getWorld().getFluidState(context.getPos());
-        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing())
-                .with(WATERLOGGED, iFluidState.getFluid() == Fluids.WATER);
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
+        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection())
+                .setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
     }
 
+    @Nullable
     @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return InteriorTileEntities.CHAIR.create();
+    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+        return InteriorBlockEntities.CHAIR.create(blockPos, blockState);
     }
 
     @Override
     public FluidState getFluidState(BlockState state) {
-        return state.get(WATERLOGGED) ? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState();
+        return state.getValue(WATERLOGGED) ? Fluids.WATER.defaultFluidState() : Fluids.EMPTY.defaultFluidState();
     }
 
 }

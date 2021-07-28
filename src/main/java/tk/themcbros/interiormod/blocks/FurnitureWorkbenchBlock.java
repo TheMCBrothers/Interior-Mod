@@ -1,46 +1,48 @@
 package tk.themcbros.interiormod.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.inventory.container.SimpleNamedContainerProvider;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-import tk.themcbros.interiormod.container.FurnitureWorkbenchContainer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import tk.themcbros.interiormod.container.FurnitureWorkbenchMenu;
 import tk.themcbros.interiormod.init.InteriorStats;
+
+import javax.annotation.Nullable;
 
 /**
  * @author TheMCBrothers
  */
 @SuppressWarnings("deprecation")
 public class FurnitureWorkbenchBlock extends Block {
-    private static final ITextComponent CONTAINER_NAME = new TranslationTextComponent("container.interiormod.furniture_crafting");
+    private static final Component CONTAINER_TITLE = new TranslatableComponent("container.interiormod.furniture_crafting");
 
     public FurnitureWorkbenchBlock(Properties properties) {
         super(properties);
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (worldIn.isRemote) {
-            return ActionResultType.SUCCESS;
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        if (level.isClientSide) {
+            return InteractionResult.SUCCESS;
         } else {
-            player.openContainer(state.getContainer(worldIn, pos));
-            player.addStat(InteriorStats.INTERACT_WITH_FURNITURE_WORKBENCH);
-            return ActionResultType.CONSUME;
+            player.openMenu(state.getMenuProvider(level, pos));
+            player.awardStat(InteriorStats.INTERACT_WITH_FURNITURE_WORKBENCH);
+            return InteractionResult.CONSUME;
         }
     }
 
+    @Nullable
     @Override
-    public INamedContainerProvider getContainer(BlockState state, World worldIn, BlockPos pos) {
-        return new SimpleNamedContainerProvider((id, inventory, player) ->
-                new FurnitureWorkbenchContainer(id, inventory, IWorldPosCallable.of(worldIn, pos)), CONTAINER_NAME);
+    public MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
+        return new SimpleMenuProvider((id, inventory, player) -> new FurnitureWorkbenchMenu(id, inventory, ContainerLevelAccess.create(level, pos)), CONTAINER_TITLE);
     }
 }

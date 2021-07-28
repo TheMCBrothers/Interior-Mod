@@ -1,12 +1,13 @@
-package tk.themcbros.interiormod.tileentity;
+package tk.themcbros.interiormod.blockentity;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.ModelDataManager;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelDataMap;
@@ -22,7 +23,7 @@ import java.util.function.Supplier;
 /**
  * @author TheMCBrothers
  */
-public abstract class FurnitureTileEntity extends TileEntity {
+public abstract class FurnitureBlockEntity extends BlockEntity {
 
     public static ModelProperty<FurnitureMaterial> PRIMARY_MATERIAL = new ModelProperty<>();
     public static ModelProperty<FurnitureMaterial> SECONDARY_MATERIAL = new ModelProperty<>();
@@ -30,9 +31,10 @@ public abstract class FurnitureTileEntity extends TileEntity {
     private Supplier<FurnitureMaterial> primaryMaterial = FurnitureMaterials.OAK_PLANKS;
     private Supplier<FurnitureMaterial> secondaryMaterial = FurnitureMaterials.OAK_PLANKS;
 
-    public FurnitureTileEntity(TileEntityType<?> tileEntityTypeIn) {
-        super(tileEntityTypeIn);
+    public FurnitureBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
+        super(blockEntityType, blockPos, blockState);
     }
+
 
     @Nonnull
     @Override
@@ -42,50 +44,50 @@ public abstract class FurnitureTileEntity extends TileEntity {
     }
 
     @Override
-    public CompoundNBT getUpdateTag() {
-        return this.write(new CompoundNBT());
+    public CompoundTag getUpdateTag() {
+        return this.save(new CompoundTag());
     }
 
     @Nullable
     @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(this.pos, 0, this.getUpdateTag());
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return new ClientboundBlockEntityDataPacket(this.worldPosition, 0, this.getUpdateTag());
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        if (world != null) this.read(world.getBlockState(pkt.getPos()), pkt.getNbtCompound());
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+        if (level != null) this.load(pkt.getTag());
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    public CompoundTag save(CompoundTag compound) {
         compound.putString("primaryMaterial", String.valueOf(this.primaryMaterial.get().getRegistryName()));
         compound.putString("secondaryMaterial", String.valueOf(this.secondaryMaterial.get().getRegistryName()));
-        return super.write(compound);
+        return super.save(compound);
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT compound) {
-        super.read(state, compound);
+    public void load(CompoundTag compound) {
+        super.load(compound);
         this.primaryMaterial =
-                () -> InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryCreate(compound.getString("primaryMaterial")));
+                () -> InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(compound.getString("primaryMaterial")));
         this.secondaryMaterial =
-                () -> InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryCreate(compound.getString("secondaryMaterial")));
+                () -> InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(compound.getString("secondaryMaterial")));
     }
 
     public void setPrimaryMaterial(Supplier<FurnitureMaterial> primaryMaterial) {
         this.primaryMaterial = primaryMaterial;
-        if(this.world != null && this.world.isRemote) {
+        if (this.level != null && this.level.isClientSide) {
             ModelDataManager.requestModelDataRefresh(this);
-            this.world.notifyBlockUpdate(pos, world.getBlockState(pos), this.world.getBlockState(pos), 3);
+            this.level.sendBlockUpdated(this.worldPosition, this.level.getBlockState(this.worldPosition), this.level.getBlockState(this.worldPosition), 3);
         }
     }
 
     public void setSecondaryMaterial(Supplier<FurnitureMaterial> secondaryMaterial) {
         this.secondaryMaterial = secondaryMaterial;
-        if(this.world != null && this.world.isRemote) {
+        if (this.level != null && this.level.isClientSide) {
             ModelDataManager.requestModelDataRefresh(this);
-            this.world.notifyBlockUpdate(pos, world.getBlockState(pos), this.world.getBlockState(pos), 3);
+            this.level.sendBlockUpdated(this.worldPosition, this.level.getBlockState(this.worldPosition), this.level.getBlockState(this.worldPosition), 3);
         }
     }
 

@@ -2,6 +2,6 @@
 @ParametersAreNonnullByDefault
 package tk.themcbros.interiormod.data;
 
-import mcp.MethodsReturnNonnullByDefault;
+import net.minecraft.MethodsReturnNonnullByDefault;
 
 import javax.annotation.ParametersAreNonnullByDefault;
