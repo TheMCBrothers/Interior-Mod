@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[36,)"
+loaderVersion="[37,)"
 issueTrackerURL="https://github.com/TheMCBrothers/Interior-Mod/issues"
 license="CC BY-NC-ND 4.0"
 
@@ -18,12 +18,12 @@ license="CC BY-NC-ND 4.0"
 [[dependencies.interiormod]]
     modId="forge"
     mandatory=true
-    versionRange="[34,)"
+    versionRange="[37,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.interiormod]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.3,)"
+    versionRange="[1.17,)"
     ordering="NONE"
     side="BOTH"
