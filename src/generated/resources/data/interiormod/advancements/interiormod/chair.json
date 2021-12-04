@@ -3,7 +3,7 @@
   "display": {
     "icon": {
       "item": "interiormod:chair",
-      "nbt": "{textures:{secondary:\"minecraft:crimson_planks\",primary:\"minecraft:crimson_planks\"}}"
+      "nbt": "{textures:{primary:\"minecraft:crimson_planks\",secondary:\"minecraft:crimson_planks\"}}"
     },
     "title": {
       "translate": "advancement.interiormod.chair.title"
@@ -22,7 +22,9 @@
       "conditions": {
         "items": [
           {
-            "item": "interiormod:chair"
+            "items": [
+              "interiormod:chair"
+            ]
           }
         ]
       }

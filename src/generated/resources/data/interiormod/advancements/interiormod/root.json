@@ -2,7 +2,7 @@
   "display": {
     "icon": {
       "item": "interiormod:chair",
-      "nbt": "{textures:{secondary:\"minecraft:dark_oak_planks\",primary:\"minecraft:birch_planks\"}}"
+      "nbt": "{textures:{primary:\"minecraft:birch_planks\",secondary:\"minecraft:dark_oak_planks\"}}"
     },
     "title": {
       "translate": "advancement.interiormod.root.title"
@@ -22,7 +22,9 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:crafting_table"
+            "items": [
+              "minecraft:crafting_table"
+            ]
           }
         ]
       }

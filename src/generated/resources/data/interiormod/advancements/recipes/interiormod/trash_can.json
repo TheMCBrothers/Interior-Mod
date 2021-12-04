@@ -17,7 +17,9 @@
             "tag": "forge:chests/wooden"
           },
           {
-            "item": "minecraft:iron_bars"
+            "items": [
+              "minecraft:iron_bars"
+            ]
           }
         ]
       }

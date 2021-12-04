@@ -13,7 +13,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.themcbrothers.interiormod.blocks.*;
 import net.themcbrothers.interiormod.InteriorMod;
-import tk.themcbros.interiormod.blocks.*;
 
 import java.util.List;
 

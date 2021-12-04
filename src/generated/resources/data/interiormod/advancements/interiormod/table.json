@@ -3,7 +3,7 @@
   "display": {
     "icon": {
       "item": "interiormod:table",
-      "nbt": "{textures:{secondary:\"minecraft:warped_planks\",primary:\"minecraft:warped_planks\"}}"
+      "nbt": "{textures:{primary:\"minecraft:warped_planks\",secondary:\"minecraft:warped_planks\"}}"
     },
     "title": {
       "translate": "advancement.interiormod.table.title"
@@ -22,7 +22,9 @@
       "conditions": {
         "items": [
           {
-            "item": "interiormod:table"
+            "items": [
+              "interiormod:table"
+            ]
           }
         ]
       }
