@@ -3,6 +3,7 @@ package tk.themcbros.interiormod.blocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -16,7 +17,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.common.util.Constants;
 import tk.themcbros.interiormod.api.furniture.FurnitureMaterial;
 import tk.themcbros.interiormod.api.furniture.FurnitureType;
 import tk.themcbros.interiormod.api.furniture.InteriorRegistries;
@@ -49,7 +49,7 @@ public abstract class FurnitureBlock extends BaseEntityBlock {
 
 	@Override
     public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-        if (stack.hasTag() && stack.getOrCreateTag().contains("textures", Constants.NBT.TAG_COMPOUND)) {
+        if (stack.hasTag() && stack.getOrCreateTag().contains("textures", Tag.TAG_COMPOUND)) {
             CompoundTag tag = stack.getOrCreateTag().getCompound("textures");
 
             BlockEntity tile = worldIn.getBlockEntity(pos);
@@ -68,12 +68,12 @@ public abstract class FurnitureBlock extends BaseEntityBlock {
     }
 
 	@Override
-	public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
 		BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof FurnitureBlockEntity furnitureBlockEntity) {
 			return FurnitureMaterials.createItemStack(this.furnitureType, furnitureBlockEntity.getPrimaryMaterial(),
 					furnitureBlockEntity.getSecondaryMaterial());
 		}
-		return super.getPickBlock(state, target, world, pos, player);
+		return super.getCloneItemStack(state, target, world, pos, player);
 	}
 }

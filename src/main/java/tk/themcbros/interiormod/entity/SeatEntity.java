@@ -8,7 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.fmllegacy.network.NetworkHooks;
+import net.minecraftforge.network.NetworkHooks;
 import tk.themcbros.interiormod.init.InteriorEntities;
 
 import javax.annotation.Nonnull;
@@ -43,7 +43,7 @@ public class SeatEntity extends Entity {
         }
         if (!this.level.isClientSide) {
             if (this.getPassengers().isEmpty() || this.level.getBlockState(source).isAir()) {
-                this.remove(false);
+                this.remove(RemovalReason.KILLED);
                 level.updateNeighborsAt(getSource(), level.getBlockState(getSource()).getBlock());
             }
         }

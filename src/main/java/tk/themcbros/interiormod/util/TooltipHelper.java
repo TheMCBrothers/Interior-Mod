@@ -4,7 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fmllegacy.ForgeI18n;
+import net.minecraftforge.common.ForgeI18n;
 
 import java.util.List;
 

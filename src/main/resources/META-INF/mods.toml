@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[37,)"
+loaderVersion="[38,)"
 issueTrackerURL="https://github.com/TheMCBrothers/Interior-Mod/issues"
 license="CC BY-NC-ND 4.0"
 
@@ -8,7 +8,7 @@ license="CC BY-NC-ND 4.0"
     version="${file.jarVersion}"
     displayName="TheMCBrothers Interior Mod"
     updateJSONURL="https://raw.githubusercontent.com/TheMCBrothers-Manager/Version/master/interiormod_update.json"
-    displayURL="https://themcbrothers.github.io/"
+    displayURL="https://themcbrothers.net/mods/interiormod"
     logoFile="longlogo.png"
     authors="TheMCLoveMan, TheMCCrazyMan"
     description='''
@@ -18,12 +18,12 @@ license="CC BY-NC-ND 4.0"
 [[dependencies.interiormod]]
     modId="forge"
     mandatory=true
-    versionRange="[37,)"
+    versionRange="[38,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.interiormod]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.17,)"
+    versionRange="[1.18,)"
     ordering="NONE"
     side="BOTH"

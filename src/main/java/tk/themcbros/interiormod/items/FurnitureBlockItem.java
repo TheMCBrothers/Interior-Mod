@@ -2,13 +2,13 @@ package tk.themcbros.interiormod.items;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.util.Constants;
 import tk.themcbros.interiormod.api.furniture.FurnitureMaterial;
 import tk.themcbros.interiormod.api.furniture.FurnitureType;
 import tk.themcbros.interiormod.api.furniture.InteriorRegistries;
@@ -27,7 +27,7 @@ public class FurnitureBlockItem extends BlockItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        if (stack.hasTag() && stack.getOrCreateTag().contains("textures", Constants.NBT.TAG_COMPOUND)) {
+        if (stack.hasTag() && stack.getOrCreateTag().contains("textures", Tag.TAG_COMPOUND)) {
             CompoundTag tag = stack.getOrCreateTag().getCompound("textures");
             FurnitureMaterial primary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("primary")));
             FurnitureMaterial secondary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("secondary")));
