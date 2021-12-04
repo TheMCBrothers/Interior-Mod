@@ -56,14 +56,15 @@ public abstract class FurnitureBlockEntity extends BlockEntity {
 
     @Override
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        if (level != null) this.load(pkt.getTag());
+        if (pkt.getTag() != null)
+            this.load(pkt.getTag());
     }
 
     @Override
-    public CompoundTag save(CompoundTag compound) {
+    public void saveAdditional(CompoundTag compound) {
+        compound.putString("testString", "Oh NO");
         compound.putString("primaryMaterial", String.valueOf(this.primaryMaterial.get().getRegistryName()));
         compound.putString("secondaryMaterial", String.valueOf(this.secondaryMaterial.get().getRegistryName()));
-        return super.save(compound);
     }
 
     @Override

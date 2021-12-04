@@ -23,9 +23,9 @@ public class ChairBlockEntity extends FurnitureBlockEntity {
     }
 
     @Override
-    public CompoundTag save(CompoundTag compound) {
+    public void saveAdditional(CompoundTag compound) {
+        super.saveAdditional(compound);
         compound.putString("facing", this.facing != null ? this.facing.getSerializedName() : "north");
-        return super.save(compound);
     }
 
     @Override

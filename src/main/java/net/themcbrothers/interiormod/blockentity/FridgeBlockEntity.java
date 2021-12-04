@@ -37,9 +37,8 @@ public class FridgeBlockEntity extends BlockEntity implements Container, MenuPro
     }
 
     @Override
-    public CompoundTag save(CompoundTag compound) {
+    public void saveAdditional(CompoundTag compound) {
         ContainerHelper.saveAllItems(compound, this.stacks);
-        return super.save(compound);
     }
 
     @Override

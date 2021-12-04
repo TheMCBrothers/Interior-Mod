@@ -16,6 +16,7 @@ public class InteriorRegistries {
     public static final IForgeRegistry<FurnitureMaterial> FURNITURE_MATERIALS = new RegistryBuilder<FurnitureMaterial>()
             .setType(FurnitureMaterial.class)
             .setName(new ResourceLocation(InteriorAPI.MOD_ID, "furniture_material"))
+            .setDefaultKey(new ResourceLocation("minecraft:oak_planks"))
             .create();
 
 }
