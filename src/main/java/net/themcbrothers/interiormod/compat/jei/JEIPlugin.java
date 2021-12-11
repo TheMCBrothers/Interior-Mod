@@ -1,13 +1,23 @@
 package net.themcbrothers.interiormod.compat.jei;
 
-import net.minecraft.MethodsReturnNonnullByDefault;
+import mezz.jei.api.IModPlugin;
+import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.helpers.IJeiHelpers;
+import mezz.jei.api.registration.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.themcbrothers.interiormod.InteriorMod;
+import net.themcbrothers.interiormod.client.screen.FurnitureWorkbenchScreen;
+import net.themcbrothers.interiormod.container.FurnitureWorkbenchMenu;
+import net.themcbrothers.interiormod.init.InteriorBlocks;
+import net.themcbrothers.interiormod.init.InteriorItems;
 
 /**
  * @author TheMCBrothers
  */
-//@JeiPlugin
-@MethodsReturnNonnullByDefault
-public class JEIPlugin/* implements IModPlugin {
+@JeiPlugin
+public class JEIPlugin implements IModPlugin {
 
     private final ResourceLocation PLUGIN_UID = new ResourceLocation(InteriorMod.MOD_ID, "jeiplugin");
 
@@ -50,6 +60,4 @@ public class JEIPlugin/* implements IModPlugin {
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(new ItemStack(InteriorBlocks.FURNITURE_WORKBENCH), InteriorRecipeCategoryUid.FURNITURE_CRAFTING);
     }
-}
-*/ {
 }

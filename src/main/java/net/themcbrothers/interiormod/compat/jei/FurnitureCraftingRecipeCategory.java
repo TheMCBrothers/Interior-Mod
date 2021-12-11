@@ -1,20 +1,39 @@
 package net.themcbrothers.interiormod.compat.jei;
 
+import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.ingredient.ICraftingGridHelper;
+import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
+import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.themcbrothers.interiormod.InteriorMod;
+import net.themcbrothers.interiormod.init.InteriorBlocks;
+
+import java.util.List;
+
 /**
  * @author TheMCBrothers
  */
-public class FurnitureCraftingRecipeCategory/* implements IRecipeCategory<ICraftingRecipe> {
+public class FurnitureCraftingRecipeCategory implements IRecipeCategory<CraftingRecipe> {
     private static final ResourceLocation CRAFTING_TABLE_GUI_TEXTURES = new ResourceLocation("textures/gui/container/crafting_table.png");
 
     public static final int width = 116;
     public static final int height = 54;
 
-    private final ITextComponent localizedText;
+    private final Component localizedText;
     private final IDrawable background, icon;
     private final ICraftingGridHelper craftingGridHelper;
 
     public FurnitureCraftingRecipeCategory(IGuiHelper guiHelper) {
-        this.localizedText = new TranslationTextComponent("container.interiormod.furniture_crafting");
+        this.localizedText = new TranslatableComponent("container.interiormod.furniture_crafting");
         this.background = guiHelper.createDrawable(CRAFTING_TABLE_GUI_TEXTURES, 29, 16, width, height);
         this.icon = guiHelper.createDrawableIngredient(new ItemStack(InteriorBlocks.FURNITURE_WORKBENCH));
         this.craftingGridHelper = guiHelper.createCraftingGridHelper(1);
@@ -26,17 +45,12 @@ public class FurnitureCraftingRecipeCategory/* implements IRecipeCategory<ICraft
     }
 
     @Override
-    public Class<? extends ICraftingRecipe> getRecipeClass() {
-        return ICraftingRecipe.class;
+    public Class<? extends CraftingRecipe> getRecipeClass() {
+        return CraftingRecipe.class;
     }
 
     @Override
-    public String getTitle() {
-        return getTitleAsTextComponent().getString();
-    }
-
-    @Override
-    public ITextComponent getTitleAsTextComponent() {
+    public Component getTitle() {
         return this.localizedText;
     }
 
@@ -51,13 +65,13 @@ public class FurnitureCraftingRecipeCategory/* implements IRecipeCategory<ICraft
     }
 
     @Override
-    public void setIngredients(ICraftingRecipe recipe, IIngredients ingredients) {
+    public void setIngredients(CraftingRecipe recipe, IIngredients ingredients) {
         ingredients.setInputIngredients(recipe.getIngredients());
-        ingredients.setOutput(VanillaTypes.ITEM, recipe.getRecipeOutput());
+        ingredients.setOutput(VanillaTypes.ITEM, recipe.getResultItem());
     }
 
     @Override
-    public void setRecipe(IRecipeLayout recipeLayout, ICraftingRecipe recipe, IIngredients ingredients) {
+    public void setRecipe(IRecipeLayout recipeLayout, CraftingRecipe recipe, IIngredients ingredients) {
         IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
 
         guiItemStacks.init(0, false, 94, 18);
@@ -81,6 +95,4 @@ public class FurnitureCraftingRecipeCategory/* implements IRecipeCategory<ICraft
 
         guiItemStacks.set(0, outputs.get(0));
     }
-}
-*/ {
 }
