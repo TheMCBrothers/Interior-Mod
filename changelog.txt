@@ -1,6 +1,4 @@
 2.2.0:
-- Updated to 1.17.1
+- Updated to 1.18.1
 - Same features as for 1.16.5
-Note
-- No JEI Integration!
-- No TOP Integration!
+- Removed The One Probe Integration
