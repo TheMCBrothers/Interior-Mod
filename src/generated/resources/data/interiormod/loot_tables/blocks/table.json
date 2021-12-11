@@ -14,12 +14,12 @@
               "ops": [
                 {
                   "source": "primaryMaterial",
-                  "target": "textures.primary",
+                  "target": "BlockEntityTag.primaryMaterial",
                   "op": "replace"
                 },
                 {
                   "source": "secondaryMaterial",
-                  "target": "textures.secondary",
+                  "target": "BlockEntityTag.secondaryMaterial",
                   "op": "replace"
                 }
               ]

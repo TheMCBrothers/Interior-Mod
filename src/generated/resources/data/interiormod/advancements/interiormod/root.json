@@ -2,7 +2,7 @@
   "display": {
     "icon": {
       "item": "interiormod:chair",
-      "nbt": "{textures:{primary:\"minecraft:birch_planks\",secondary:\"minecraft:dark_oak_planks\"}}"
+      "nbt": "{BlockEntityTags:{primaryMaterial:\"minecraft:birch_planks\",secondaryMaterial:\"minecraft:dark_oak_planks\"}}"
     },
     "title": {
       "translate": "advancement.interiormod.root.title"
