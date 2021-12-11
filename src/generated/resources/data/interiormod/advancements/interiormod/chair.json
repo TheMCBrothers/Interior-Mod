@@ -3,7 +3,7 @@
   "display": {
     "icon": {
       "item": "interiormod:chair",
-      "nbt": "{BlockEntityTags:{primaryMaterial:\"minecraft:crimson_planks\",secondaryMaterial:\"minecraft:crimson_planks\"}}"
+      "nbt": "{BlockEntityTag:{primaryMaterial:\"minecraft:crimson_planks\",secondaryMaterial:\"minecraft:crimson_planks\"}}"
     },
     "title": {
       "translate": "advancement.interiormod.chair.title"
