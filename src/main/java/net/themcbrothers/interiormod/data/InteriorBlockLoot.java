@@ -43,8 +43,8 @@ public class InteriorBlockLoot extends BlockLoot {
                 .setRolls(ConstantValue.exactly(1))
                 .add(LootItem.lootTableItem(block)
                         .apply(CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY)
-                                .copy("primaryMaterial", "textures.primary")
-                                .copy("secondaryMaterial", "textures.secondary"))));
+                                .copy("primaryMaterial", "BlockEntityTag.primaryMaterial")
+                                .copy("secondaryMaterial", "BlockEntityTag.secondaryMaterial"))));
         return LootTable.lootTable().withPool(builder);
     }
 

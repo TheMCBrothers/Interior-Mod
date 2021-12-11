@@ -13,15 +13,14 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.HitResult;
-import net.themcbrothers.interiormod.blockentity.ChairBlockEntity;
-import net.themcbrothers.interiormod.blockentity.FurnitureBlockEntity;
 import net.themcbrothers.interiormod.api.furniture.FurnitureMaterial;
 import net.themcbrothers.interiormod.api.furniture.FurnitureType;
 import net.themcbrothers.interiormod.api.furniture.InteriorRegistries;
+import net.themcbrothers.interiormod.blockentity.ChairBlockEntity;
+import net.themcbrothers.interiormod.blockentity.FurnitureBlockEntity;
 import net.themcbrothers.interiormod.init.FurnitureMaterials;
 
 import javax.annotation.Nullable;
@@ -47,18 +46,16 @@ public abstract class FurnitureBlock extends BaseEntityBlock {
         }
     }
 
-	@Override
+    @Override
     public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-        if (stack.hasTag() && stack.getOrCreateTag().contains("textures", Tag.TAG_COMPOUND)) {
-            CompoundTag tag = stack.getOrCreateTag().getCompound("textures");
+        if (stack.hasTag() && stack.getOrCreateTag().contains("BlockEntityTag", Tag.TAG_COMPOUND)) {
+            CompoundTag tag = stack.getOrCreateTag().getCompound("BlockEntityTag");
 
-            BlockEntity tile = worldIn.getBlockEntity(pos);
-
-            if (tile instanceof FurnitureBlockEntity furnitureTileEntity) {
-				furnitureTileEntity.setPrimaryMaterial(
-                        () -> InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("primary"))));
+            if (worldIn.getBlockEntity(pos) instanceof FurnitureBlockEntity furnitureTileEntity) {
+                furnitureTileEntity.setPrimaryMaterial(
+                        () -> InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("primaryMaterial"))));
                 furnitureTileEntity.setSecondaryMaterial(
-                        () -> InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("secondary"))));
+                        () -> InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("secondaryMaterial"))));
 
                 // todo maybe move this?
                 if (furnitureTileEntity instanceof ChairBlockEntity chairBlockEntity)
@@ -67,13 +64,12 @@ public abstract class FurnitureBlock extends BaseEntityBlock {
         }
     }
 
-	@Override
-	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
-		BlockEntity blockEntity = world.getBlockEntity(pos);
-		if (blockEntity instanceof FurnitureBlockEntity furnitureBlockEntity) {
-			return FurnitureMaterials.createItemStack(this.furnitureType, furnitureBlockEntity.getPrimaryMaterial(),
-					furnitureBlockEntity.getSecondaryMaterial());
-		}
-		return super.getCloneItemStack(state, target, world, pos, player);
-	}
+    @Override
+    public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+        if (world.getBlockEntity(pos) instanceof FurnitureBlockEntity furnitureBlockEntity) {
+            return FurnitureMaterials.createItemStack(this.furnitureType, furnitureBlockEntity.getPrimaryMaterial(),
+                    furnitureBlockEntity.getSecondaryMaterial());
+        }
+        return super.getCloneItemStack(state, target, world, pos, player);
+    }
 }

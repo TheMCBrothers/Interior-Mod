@@ -20,10 +20,10 @@ public class FurnitureItemOverride extends ItemOverrides {
     @Override
     public BakedModel resolve(BakedModel modelOriginal, ItemStack stack, @Nullable ClientLevel worldIn, @Nullable LivingEntity entityIn, int i) {
         if (modelOriginal instanceof FurnitureModel) {
-            CompoundTag tag = stack.getTagElement("textures");
+            CompoundTag tag = stack.getTagElement("BlockEntityTag");
             if (tag != null) {
-                FurnitureMaterial primary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("primary")));
-                FurnitureMaterial secondary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("secondary")));
+                FurnitureMaterial primary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("primaryMaterial")));
+                FurnitureMaterial secondary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("secondaryMaterial")));
                 return ((FurnitureModel) modelOriginal).getCustomModel(primary, secondary);
             }
         }

@@ -45,7 +45,9 @@ public abstract class FurnitureBlockEntity extends BlockEntity {
 
     @Override
     public CompoundTag getUpdateTag() {
-        return this.save(new CompoundTag());
+        CompoundTag tag = new CompoundTag();
+        this.saveAdditional(tag);
+        return tag;
     }
 
     @Nullable
@@ -62,7 +64,6 @@ public abstract class FurnitureBlockEntity extends BlockEntity {
 
     @Override
     public void saveAdditional(CompoundTag compound) {
-        compound.putString("testString", "Oh NO");
         compound.putString("primaryMaterial", String.valueOf(this.primaryMaterial.get().getRegistryName()));
         compound.putString("secondaryMaterial", String.valueOf(this.secondaryMaterial.get().getRegistryName()));
     }

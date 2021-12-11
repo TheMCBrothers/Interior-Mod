@@ -83,6 +83,6 @@ public class SeatEntity extends Entity {
             }
         }
 
-        return InteractionResult.SUCCESS;
+        return InteractionResult.sidedSuccess(world.isClientSide);
     }
 }

@@ -16,16 +16,15 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.level.BlockAndTintGetter;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.IModelConfiguration;
 import net.minecraftforge.client.model.IModelLoader;
 import net.minecraftforge.client.model.data.IDynamicBakedModel;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.geometry.IModelGeometry;
-import net.themcbrothers.interiormod.blockentity.FurnitureBlockEntity;
 import net.themcbrothers.interiormod.InteriorMod;
 import net.themcbrothers.interiormod.api.furniture.FurnitureMaterial;
+import net.themcbrothers.interiormod.blockentity.FurnitureBlockEntity;
 import net.themcbrothers.interiormod.init.FurnitureMaterials;
 
 import javax.annotation.Nonnull;
@@ -122,10 +121,9 @@ public class FurnitureModel implements IDynamicBakedModel {
         FurnitureMaterial primary = FurnitureMaterials.OAK_PLANKS.get();
         FurnitureMaterial secondary = FurnitureMaterials.OAK_PLANKS.get();
 
-        BlockEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof FurnitureBlockEntity) {
-            primary = ((FurnitureBlockEntity) tile).getPrimaryMaterial();
-            secondary = ((FurnitureBlockEntity) tile).getSecondaryMaterial();
+        if (world.getBlockEntity(pos) instanceof FurnitureBlockEntity furniture) {
+            primary = furniture.getPrimaryMaterial();
+            secondary = furniture.getSecondaryMaterial();
         }
 
         tileData.setData(FurnitureBlockEntity.PRIMARY_MATERIAL, primary);

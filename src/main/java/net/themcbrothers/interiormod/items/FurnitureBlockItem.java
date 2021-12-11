@@ -27,10 +27,10 @@ public class FurnitureBlockItem extends BlockItem {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
-        if (stack.hasTag() && stack.getOrCreateTag().contains("textures", Tag.TAG_COMPOUND)) {
-            CompoundTag tag = stack.getOrCreateTag().getCompound("textures");
-            FurnitureMaterial primary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("primary")));
-            FurnitureMaterial secondary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("secondary")));
+        if (stack.hasTag() && stack.getOrCreateTag().contains("BlockEntityTag", Tag.TAG_COMPOUND)) {
+            CompoundTag tag = stack.getOrCreateTag().getCompound("BlockEntityTag");
+            FurnitureMaterial primary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("primaryMaterial")));
+            FurnitureMaterial secondary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("secondaryMaterial")));
 
             if (primary != null) {
                 tooltip.add(primary.getDisplayName().withStyle(ChatFormatting.GREEN));

@@ -62,9 +62,9 @@ public class FurnitureMaterials {
     public static ItemStack createItemStack(FurnitureType furnitureType, FurnitureMaterial primary, FurnitureMaterial secondary) {
         ItemStack stack = furnitureType.getStack();
 
-        CompoundTag tag = stack.getOrCreateTagElement("textures");
-        tag.putString("primary", String.valueOf(primary.getRegistryName()));
-        tag.putString("secondary", String.valueOf(secondary.getRegistryName()));
+        CompoundTag tag = stack.getOrCreateTagElement("BlockEntityTag");
+        tag.putString("primaryMaterial", String.valueOf(primary.getRegistryName()));
+        tag.putString("secondaryMaterial", String.valueOf(secondary.getRegistryName()));
         return stack;
     }
 
