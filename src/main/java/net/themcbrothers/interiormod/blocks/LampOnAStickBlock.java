@@ -139,11 +139,6 @@ public class LampOnAStickBlock extends BaseEntityBlock implements SimpleWaterlog
                 : part == Part.TOP ? SHAPE.move(0, -2d, 0) : Shapes.block();
     }
 
-    @Override
-    public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
-        return state.getValue(LIT) && state.getValue(PART) == Part.TOP ? 15 : 0;
-    }
-
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {

@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "interiormod:fridge"
+    "interiormod:fridge",
+    "interiormod:trash_can",
+    "interiormod:modern_door"
   ]
 }

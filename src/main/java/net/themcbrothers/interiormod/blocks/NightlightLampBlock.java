@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
  */
 public class NightlightLampBlock extends BaseEntityBlock {
 
-    private static final BooleanProperty LIT = BlockStateProperties.LIT;
+    public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
     public NightlightLampBlock(Properties properties) {
         super(properties);
@@ -40,11 +40,6 @@ public class NightlightLampBlock extends BaseEntityBlock {
     @Override
     public RenderShape getRenderShape(BlockState p_49232_) {
         return RenderShape.MODEL;
-    }
-
-    @Override
-    public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
-        return state.getValue(LIT) ? 15 : 0;
     }
 
     @Nullable

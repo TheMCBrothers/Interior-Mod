@@ -27,4 +27,5 @@ f324f894698ca7a5d238cf2d1d87ed38aef44ea7 data/interiormod/recipes/lamp.json
 77e94ed394bd276cc517d6c6260fcf81e2417e6e data/interiormod/recipes/lamp_on_a_stick.json
 9ee2aa74a14fb917c29bdebd9d51a698b2f6aa5f data/interiormod/recipes/modern_door.json
 98fbed9f142c9e6c124ce4fda8eeac2d29325919 data/interiormod/recipes/trash_can.json
-70c7ceb3da6220fc5c6cdb78d3580ee6934dc89b data/minecraft/tags/blocks/mineable/pickaxe.json
+0e6812c432f9c9f24c6aec4b5714d641433bb14c data/minecraft/tags/blocks/mineable/axe.json
+5135a00b103fd9566617fd88c2764171224f46d9 data/minecraft/tags/blocks/mineable/pickaxe.json

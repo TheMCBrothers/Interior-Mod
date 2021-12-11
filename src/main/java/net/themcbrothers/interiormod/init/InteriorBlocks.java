@@ -26,11 +26,11 @@ public class InteriorBlocks {
     public static final ChairBlock CHAIR = registerBlock("chair", new ChairBlock(BlockBehaviour.Properties.of(Material.DECORATION).strength(0.5F).sound(SoundType.WOOD)));
     public static final TableBlock TABLE = registerBlock("table", new TableBlock(BlockBehaviour.Properties.of(Material.DECORATION).strength(0.5F).sound(SoundType.WOOD)));
     public static final FridgeBlock FRIDGE = registerBlock("fridge", new FridgeBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).requiresCorrectToolForDrops().strength(2.0F, 4.0F).sound(SoundType.METAL)));
-    public static final NightlightLampBlock LAMP = registerBlock("lamp", new NightlightLampBlock(BlockBehaviour.Properties.of(Material.DECORATION).strength(1.0F).sound(SoundType.WOOD)));
-    public static final LampOnAStickBlock LAMP_ON_A_STICK = registerBlock("lamp_on_a_stick", new LampOnAStickBlock(BlockBehaviour.Properties.of(Material.DECORATION).strength(1.0F).sound(SoundType.WOOD)));
+    public static final NightlightLampBlock LAMP = registerBlock("lamp", new NightlightLampBlock(BlockBehaviour.Properties.of(Material.BUILDABLE_GLASS).lightLevel(state -> state.getValue(NightlightLampBlock.LIT) ? 15 : 0).strength(0.3F).sound(SoundType.GLASS)));
+    public static final LampOnAStickBlock LAMP_ON_A_STICK = registerBlock("lamp_on_a_stick", new LampOnAStickBlock(BlockBehaviour.Properties.of(Material.DECORATION).lightLevel(state -> state.getValue(LampOnAStickBlock.LIT) && state.getValue(LampOnAStickBlock.PART) == LampOnAStickBlock.Part.TOP ? 15 : 0).strength(1.0F).sound(SoundType.WOOD)));
     public static final TrashCanBlock TRASH_CAN = registerBlock("trash_can", new TrashCanBlock(BlockBehaviour.Properties.of(Material.DECORATION).strength(1.0F).sound(SoundType.LANTERN)));
     public static final DoorBlock MODERN_DOOR = registerBlock("modern_door", new DoorBlock(BlockBehaviour.Properties.of(Material.STONE, DyeColor.WHITE).strength(2.5f).sound(SoundType.STONE).dynamicShape()));
-    public static final FurnitureWorkbenchBlock FURNITURE_WORKBENCH = registerBlock("furniture_workbench", new FurnitureWorkbenchBlock(BlockBehaviour.Properties.of(Material.WOOD).strength(2.0F).sound(SoundType.WOOD)));
+    public static final FurnitureWorkbenchBlock FURNITURE_WORKBENCH = registerBlock("furniture_workbench", new FurnitureWorkbenchBlock(BlockBehaviour.Properties.of(Material.WOOD).strength(2.5F).sound(SoundType.WOOD)));
 
     private static <T extends Block> T registerBlock(String registryName, T block) {
         block.setRegistryName(InteriorMod.getId(registryName));

@@ -15,7 +15,8 @@ public class InteriorBlockTagsProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags() {
-        this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(InteriorBlocks.FRIDGE);
+        this.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(InteriorBlocks.FRIDGE, InteriorBlocks.TRASH_CAN, InteriorBlocks.MODERN_DOOR);
+        this.tag(BlockTags.MINEABLE_WITH_AXE).add(InteriorBlocks.FURNITURE_WORKBENCH);
     }
 
     @Override
