@@ -85,40 +85,23 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     maven {
-        name 'ForgeFS'
-        url 'https://files.minecraftforge.net/maven'
+        name = 'prog'
+        url = 'https://dvs1.progwml6.com/files/maven'
     }
     maven {
-        name 'amadornes'
-        url 'https://maven.amadornes.com/'
+        name = 'tterrag'
+        url = 'https://maven.tterrag.com/'
     }
     maven {
-        name 'prog'
-        url 'https://dvs1.progwml6.com/files/maven'
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.dev"
     }
     maven {
-        name 'curseforge'
-        url 'https://minecraft.curseforge.com/api/maven/'
-    }
-    maven {
-        name 'hwyla'
-        url 'https://tehnut.info/maven'
-    }
-    maven {
-        name 'tterrag'
-        url 'https://maven.tterrag.com/'
-    }
-    maven {
-        name 'BlameJared - Crafttweaker'
-        url 'https://maven.blamejared.com/'
-    }
-    maven {
-        name 'thiakil'
-        url 'https://maven.thiakil.com'
-    }
-    maven { url 'https://maven.latmod.com/' }
-    maven {
-        url = "https://www.cursemaven.com"
+        url = "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
     }
 }
 
@@ -127,7 +110,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     
     if (project.hasProperty('jei_version')) { // JEI
-        compileOnly fg.deobf('com.feed_the_beast.mods:ftb-gui-library:1.0.0.18')
+        runtimeOnly fg.deobf("curse.maven:configured-457570:3559398")
 	    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
 	    runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
     }
@@ -144,14 +127,14 @@ dependencies {
 }
 
 jar {
-	appendix = "${project.minecraft_version}"
+	archiveAppendix.set("$project.minecraft_version")
     manifest {
         attributes([
             "Specification-Title": "interiormod",
             "Specification-Vendor": "themcbrothers",
             "Specification-Version": "1", // We are version 1 of ourselves
             "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
+            "Implementation-Version": "${archiveVersion}",
             "Implementation-Vendor" :"themcbrothers",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
@@ -163,26 +146,26 @@ javadoc {
 }
 
 task deobfJar(type: Jar) {
-    appendix = "${project.minecraft_version}"
-    classifier = 'deobf'
+    archiveAppendix.set("$project.minecraft_version")
+    archiveClassifier.set('deobf')
     from sourceSets.main.output
 }
 
 task sourcesJar(type: Jar) {
-    appendix = "${project.minecraft_version}"
-    classifier = 'sources'
+    archiveAppendix.set("$project.minecraft_version")
+    archiveClassifier.set('sources')
     from sourceSets.main.allJava
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    appendix = "${project.minecraft_version}"
-    classifier = 'javadoc'
+    archiveAppendix.set("$project.minecraft_version")
+    archiveClassifier.set('javadoc')
     from javadoc.getDestinationDir()
 }
 
 task apiJar(type: Jar) {
-    appendix = "${project.minecraft_version}"
-    classifier = 'api'
+    archiveAppendix.set "${project.minecraft_version}"
+    archiveClassifier.set 'api'
     include 'tk/themcbros/interiormod/api/**'
 }
 
@@ -201,26 +184,23 @@ artifacts {
     }
 }
 
+jar.finalizedBy('reobfJar')
+
 publishing {
-    tasks.publish.dependsOn 'build'
     publications {
         mavenJava(MavenPublication) {
-            from components.java
-            //artifact apiJar
+            artifact jar
         }
     }
-
     repositories {
-        if (project.hasProperty('mavendir')) {
-            maven { url mavendir }
-        } else {
-            mavenLocal()
+        maven {
+            url "file:///${project.projectDir}/mcmodsrepo"
         }
     }
 }
 
-String getChangelogText() {
-    def changelogFile = file('changelog.txt')
+private String getChangelogText() {
+    File changelogFile = file('changelog.txt')
     String str = ''
     int lineCount = 0
     boolean done = false
@@ -228,15 +208,15 @@ String getChangelogText() {
         if (done || it == null) {
             return
         }
-        if (it.size() > 1) {
-            def temp = it
+        if (it.length() > 1) {
+            String temp = it
             if (lineCount == 0) {
                 temp = "${modname} ${version}"
                 temp = "<h2>$temp</h2>"
             } else if (it.startsWith('-')) {
                 temp = "&nbsp;&nbsp;&nbsp;$temp"
-                temp = temp.replaceAll("(\\S+\\/\\S+)#([0-9]+)\\b", "<a href=\"https://github.com/\$1/issues/\$2\">\$0</a>");
-                temp = temp.replaceAll("#([0-9]+)\\b(?!<\\/a>)", "<a href=\"https://github.com/$github_project/issues/\$1\">\$0</a>");
+                temp = temp.replaceAll("(\\S+/\\S+)#([0-9]+)\\b", "<a href=\"https://github.com/\$1/issues/\$2\">\$0</a>");
+                temp = temp.replaceAll("#([0-9]+)\\b(?!</a>)", "<a href=\"https://github.com/$github_project/issues/\$1\">\$0</a>");
             } else {
                 temp = "<h4>$temp</h4>"
             }
@@ -250,19 +230,19 @@ String getChangelogText() {
     return str
 }
 
-String getCurseforgeAPIKey() {
-    def secretFile = file('secret.properties')
+private String getCurseForgeAPIKey() {
+    File secretFile = file('secret.properties')
     if (secretFile.canRead()) {
         Properties secretProps = new Properties()
         secretProps.load(new FileInputStream(secretFile))
-        return secretProps['curseforge_key'].toString()
+        return secretProps.getProperty('curseforge_key').toString()
     }
     return null
 }
 
 curseforge {
     if (project.hasProperty('curse_type') && project.hasProperty('projectId')) {
-        apiKey = getCurseforgeAPIKey();
+        apiKey = getCurseForgeAPIKey();
     }
 
     project {
