@@ -1,3 +1,6 @@
+2.2.1:
+- Fixed Furniture Workbench result slot (duplication glitch)
+
 2.2.0:
 - Updated to 1.18.1
 - Same features as for 1.16.5
