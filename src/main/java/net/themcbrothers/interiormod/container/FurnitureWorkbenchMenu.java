@@ -9,6 +9,7 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.level.Level;
+import net.themcbrothers.interiormod.container.slot.FurnitureResultSlot;
 import net.themcbrothers.interiormod.init.InteriorBlocks;
 import net.themcbrothers.interiormod.init.InteriorContainers;
 import net.themcbrothers.interiormod.init.InteriorRecipeTypes;
@@ -33,7 +34,7 @@ public class FurnitureWorkbenchMenu extends AbstractContainerMenu {
         super(InteriorContainers.FURNITURE_WORKBENCH, id);
         this.access = worldPosCallable;
         this.player = playerInventory.player;
-        this.addSlot(new ResultSlot(playerInventory.player, this.craftSlots, this.resultSlots, 0, 124, 35));
+        this.addSlot(new FurnitureResultSlot(playerInventory.player, this.craftSlots, this.resultSlots, 0, 124, 35));
 
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 3; ++j) {
@@ -53,30 +54,21 @@ public class FurnitureWorkbenchMenu extends AbstractContainerMenu {
 
     }
 
-    /**
-     * From Vanilla Crafting Table
-     *
-     * @param containerMenu
-     * @param level
-     * @param player
-     * @param craftingContainer
-     * @param resultContainer
-     */
-    protected static void slotChangedCraftingGrid(AbstractContainerMenu containerMenu, Level level, Player player, CraftingContainer craftingContainer, ResultContainer resultContainer) {
+    protected static void slotChangedCraftingGrid(AbstractContainerMenu menu, Level level, Player player, CraftingContainer craftingContainer, ResultContainer resultContainer) {
         if (!level.isClientSide) {
             ServerPlayer serverPlayer = (ServerPlayer) player;
             ItemStack itemStack = ItemStack.EMPTY;
-            Optional<CraftingRecipe> recipe = level.getServer().getRecipeManager().getRecipeFor(InteriorRecipeTypes.FURNITURE_CRAFTING, craftingContainer, level);
+            Optional<CraftingRecipe> recipe = serverPlayer.getServer().getRecipeManager().getRecipeFor(InteriorRecipeTypes.FURNITURE_CRAFTING, craftingContainer, level);
             if (recipe.isPresent()) {
-                CraftingRecipe var8 = recipe.get();
-                if (resultContainer.setRecipeUsed(level, serverPlayer, var8)) {
-                    itemStack = var8.assemble(craftingContainer);
+                CraftingRecipe craftingRecipe = recipe.get();
+                if (resultContainer.setRecipeUsed(level, serverPlayer, craftingRecipe)) {
+                    itemStack = craftingRecipe.assemble(craftingContainer);
                 }
             }
 
             resultContainer.setItem(0, itemStack);
-            containerMenu.setRemoteSlot(0, itemStack);
-            serverPlayer.connection.send(new ClientboundContainerSetSlotPacket(containerMenu.containerId, containerMenu.incrementStateId(), 0, itemStack));
+            menu.setRemoteSlot(0, itemStack);
+            serverPlayer.connection.send(new ClientboundContainerSetSlotPacket(menu.containerId, menu.incrementStateId(), 0, itemStack));
         }
     }
 
@@ -95,8 +87,9 @@ public class FurnitureWorkbenchMenu extends AbstractContainerMenu {
         });
     }
 
-    public boolean stillValid(Player p_39368_) {
-        return stillValid(this.access, p_39368_, InteriorBlocks.FURNITURE_WORKBENCH);
+    @Override
+    public boolean stillValid(Player player) {
+        return stillValid(this.access, player, InteriorBlocks.FURNITURE_WORKBENCH);
     }
 
     @Override
