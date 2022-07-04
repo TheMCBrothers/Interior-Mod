@@ -1,45 +1,32 @@
 package net.themcbrothers.interiormod.api;
 
-import net.minecraftforge.fml.ModList;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.RegistryManager;
 import net.themcbrothers.interiormod.api.furniture.FurnitureMaterial;
 
 /**
  * @author TheMCBrothers
  */
 public class InteriorAPI {
-
     public static final String MOD_ID = "interiormod";
 
-    private static IInteriorAPI instance;
+    public static final ResourceKey<Registry<FurnitureMaterial>> FURNITURE_KEY =
+            ResourceKey.createRegistryKey(new ResourceLocation(MOD_ID, "furniture_material"));
+
+    private static IForgeRegistry<FurnitureMaterial> FURNITURE_REGISTRY;
 
     /**
-     * @return The InteriorMod API Instance
-     */
-    public static IInteriorAPI getInstance() {
-        return instance;
-    }
-
-    public interface IInteriorAPI {
-
-        /**
-         * @return The furniture registry for all materials
-         */
-        IForgeRegistry<FurnitureMaterial> getFurnitureMaterialRegistry();
-
-    }
-
-    /**
-     * Internal use! Do not use this!
+     * Gets the Forge Registry for {@link FurnitureMaterial}
      *
-     * @param inst instance of api
+     * @return Forge Registry
      */
-    public static void init(IInteriorAPI inst) {
-        if (instance == null && ModList.get().isLoaded("interiormod")) {
-            instance = inst;
-        } else {
-            throw new IllegalStateException("This method should be called from InteriorMod only!");
+    public static IForgeRegistry<FurnitureMaterial> furnitureRegistry() {
+        if (FURNITURE_REGISTRY == null) {
+            FURNITURE_REGISTRY = RegistryManager.ACTIVE.getRegistry(FURNITURE_KEY);
         }
+        return FURNITURE_REGISTRY;
     }
-
 }

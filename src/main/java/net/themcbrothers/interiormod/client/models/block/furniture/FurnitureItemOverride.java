@@ -7,8 +7,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.themcbrothers.interiormod.api.InteriorAPI;
 import net.themcbrothers.interiormod.api.furniture.FurnitureMaterial;
-import net.themcbrothers.interiormod.api.furniture.InteriorRegistries;
 
 import javax.annotation.Nullable;
 
@@ -22,8 +22,8 @@ public class FurnitureItemOverride extends ItemOverrides {
         if (modelOriginal instanceof FurnitureModel) {
             CompoundTag tag = stack.getTagElement("BlockEntityTag");
             if (tag != null) {
-                FurnitureMaterial primary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("primaryMaterial")));
-                FurnitureMaterial secondary = InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("secondaryMaterial")));
+                FurnitureMaterial primary = InteriorAPI.furnitureRegistry().getValue(ResourceLocation.tryParse(tag.getString("primaryMaterial")));
+                FurnitureMaterial secondary = InteriorAPI.furnitureRegistry().getValue(ResourceLocation.tryParse(tag.getString("secondaryMaterial")));
                 return ((FurnitureModel) modelOriginal).getCustomModel(primary, secondary);
             }
         }

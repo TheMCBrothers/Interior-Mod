@@ -4,9 +4,9 @@ import com.google.common.collect.Lists;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.themcbrothers.interiormod.InteriorMod;
+import net.themcbrothers.interiormod.api.InteriorAPI;
 import net.themcbrothers.interiormod.api.furniture.FurnitureMaterial;
 import net.themcbrothers.interiormod.api.furniture.FurnitureType;
-import net.themcbrothers.interiormod.api.furniture.InteriorRegistries;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +32,7 @@ public class InteriorItemGroup extends CreativeModeTab {
 
     private ItemStack chooseRandomFurniture() {
         FurnitureType type = this.pickRandomString(Arrays.asList(FurnitureType.values()));
-        FurnitureMaterial material = this.pickRandomString(Lists.newArrayList(InteriorRegistries.FURNITURE_MATERIALS));
+        FurnitureMaterial material = this.pickRandomString(Lists.newArrayList(InteriorAPI.furnitureRegistry()));
         return FurnitureMaterials.createItemStack(type, material, material);
     }
 

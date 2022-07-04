@@ -14,7 +14,6 @@ import net.minecraftforge.registries.RegistryObject;
 import net.themcbrothers.interiormod.api.InteriorAPI;
 import net.themcbrothers.interiormod.api.furniture.FurnitureMaterial;
 import net.themcbrothers.interiormod.api.furniture.FurnitureType;
-import net.themcbrothers.interiormod.api.furniture.InteriorRegistries;
 
 import java.util.Objects;
 
@@ -25,7 +24,7 @@ import java.util.Objects;
 public class FurnitureMaterials {
 
     public static final DeferredRegister<FurnitureMaterial> FURNITURE_MATERIALS = DeferredRegister
-            .create(InteriorRegistries.FURNITURE_MATERIALS, "minecraft");
+            .create(InteriorAPI.FURNITURE_KEY, "minecraft");
 
     public static final RegistryObject<FurnitureMaterial> OAK_PLANKS = FURNITURE_MATERIALS.register("oak_planks",
             () -> new FurnitureMaterial(() -> Blocks.OAK_PLANKS, null));

@@ -12,8 +12,8 @@ import net.minecraftforge.client.model.ModelDataManager;
 import net.minecraftforge.client.model.data.IModelData;
 import net.minecraftforge.client.model.data.ModelDataMap;
 import net.minecraftforge.client.model.data.ModelProperty;
+import net.themcbrothers.interiormod.api.InteriorAPI;
 import net.themcbrothers.interiormod.api.furniture.FurnitureMaterial;
-import net.themcbrothers.interiormod.api.furniture.InteriorRegistries;
 import net.themcbrothers.interiormod.init.FurnitureMaterials;
 
 import javax.annotation.Nonnull;
@@ -72,9 +72,9 @@ public abstract class FurnitureBlockEntity extends BlockEntity {
     public void load(CompoundTag compound) {
         super.load(compound);
         this.primaryMaterial =
-                () -> InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(compound.getString("primaryMaterial")));
+                () -> InteriorAPI.furnitureRegistry().getValue(ResourceLocation.tryParse(compound.getString("primaryMaterial")));
         this.secondaryMaterial =
-                () -> InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(compound.getString("secondaryMaterial")));
+                () -> InteriorAPI.furnitureRegistry().getValue(ResourceLocation.tryParse(compound.getString("secondaryMaterial")));
     }
 
     public void setPrimaryMaterial(Supplier<FurnitureMaterial> primaryMaterial) {

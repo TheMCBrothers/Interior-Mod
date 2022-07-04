@@ -33,7 +33,7 @@ public class FurnitureShapedRecipe extends ShapedRecipe {
 
     @Override
     public RecipeType<?> getType() {
-        return InteriorRecipeTypes.FURNITURE_CRAFTING;
+        return InteriorRecipeTypes.FURNITURE_CRAFTING.get();
     }
 
     @Override

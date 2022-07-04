@@ -25,7 +25,7 @@ public class InteriorRecipes {
     }
 
     public List<CraftingRecipe> getFurnitureCraftingRecipes() {
-        return new ArrayList<>(getRecipes(recipeManager, InteriorRecipeTypes.FURNITURE_CRAFTING));
+        return new ArrayList<>(getRecipes(recipeManager, InteriorRecipeTypes.FURNITURE_CRAFTING.get()));
     }
 
     @SuppressWarnings("unchecked")

@@ -20,28 +20,26 @@ import org.apache.logging.log4j.Logger;
  */
 @Mod(InteriorMod.MOD_ID)
 public class InteriorMod {
-	public static final String MOD_ID = InteriorAPI.MOD_ID;
+    public static final String MOD_ID = InteriorAPI.MOD_ID;
     public static final Logger LOGGER = LogManager.getFormatterLogger(MOD_ID);
 
     public static InteriorMod instance;
     public static CommonProxy proxy;
-    
+
     public InteriorMod() {
         instance = this;
-        
+
         MinecraftForge.EVENT_BUS.register(this);
-        
-        InteriorAPI.init(new InteriorModAPI());
-        
+
         proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
     }
-    
+
     public static ResourceLocation getId(String path) {
-    	return new ResourceLocation(MOD_ID, path);
+        return new ResourceLocation(MOD_ID, path);
     }
-    
+
     @SubscribeEvent(priority = EventPriority.HIGH)
-	public void addReloadListeners(final AddReloadListenerEvent event) {
-        event.addListener(new FurnitureRecipeManager(event.getDataPackRegistries().getRecipeManager()));
-	}
+    public void addReloadListeners(final AddReloadListenerEvent event) {
+        event.addListener(new FurnitureRecipeManager(event.getServerResources().getRecipeManager()));
+    }
 }

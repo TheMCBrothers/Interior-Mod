@@ -110,7 +110,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     
     if (project.hasProperty('jei_version')) { // JEI
-        runtimeOnly fg.deobf("curse.maven:configured-457570:3559398")
+        runtimeOnly fg.deobf("curse.maven:configured-457570:3721946")
 	    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
 	    runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
     }
@@ -189,12 +189,19 @@ jar.finalizedBy('reobfJar')
 publishing {
     publications {
         mavenJava(MavenPublication) {
+            version = "$project.minecraft_version-$project.version"
+            artifactId = "$project.mavenname"
             artifact jar
         }
     }
     repositories {
         maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
+            credentials {
+                username = getSecret('nexus_uname')
+                password = getSecret('nexus_pwd')
+            }
+
+            url 'https://nexus.themcbrothers.net/repository/maven-releases/'
         }
     }
 }
@@ -230,20 +237,18 @@ private String getChangelogText() {
     return str
 }
 
-private String getCurseForgeAPIKey() {
+private String getSecret(String key) {
     File secretFile = file('secret.properties')
     if (secretFile.canRead()) {
         Properties secretProps = new Properties()
         secretProps.load(new FileInputStream(secretFile))
-        return secretProps.getProperty('curseforge_key').toString()
+        return secretProps.getProperty(key).toString()
     }
     return null
 }
 
 curseforge {
-    if (project.hasProperty('curse_type') && project.hasProperty('projectId')) {
-        apiKey = getCurseForgeAPIKey();
-    }
+    apiKey = getSecret('cf_key');
 
     project {
         id = project.projectId

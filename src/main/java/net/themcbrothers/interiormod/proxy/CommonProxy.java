@@ -10,6 +10,7 @@ import net.themcbrothers.interiormod.InteriorMod;
 import net.themcbrothers.interiormod.data.Events;
 import net.themcbrothers.interiormod.init.FurnitureMaterials;
 import net.themcbrothers.interiormod.init.InteriorRecipeTypes;
+import net.themcbrothers.interiormod.init.InteriorStats;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -19,10 +20,11 @@ import java.lang.reflect.InvocationTargetException;
 public class CommonProxy {
 
     public CommonProxy() {
-        InteriorRecipeTypes.init();
 
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
+        InteriorRecipeTypes.REGISTER.register(bus);
+        InteriorStats.REGISTER.register(bus);
         FurnitureMaterials.FURNITURE_MATERIALS.register(bus);
 
         bus.register(new Events());

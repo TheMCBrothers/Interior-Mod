@@ -10,9 +10,9 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.themcbrothers.interiormod.InteriorMod;
+import net.themcbrothers.interiormod.api.InteriorAPI;
 import net.themcbrothers.interiormod.api.furniture.FurnitureMaterial;
 import net.themcbrothers.interiormod.api.furniture.FurnitureType;
-import net.themcbrothers.interiormod.api.furniture.InteriorRegistries;
 import net.themcbrothers.interiormod.init.FurnitureMaterials;
 import net.themcbrothers.interiormod.init.InteriorRecipeTypes;
 
@@ -39,8 +39,8 @@ public class FurnitureRecipeManager implements ResourceManagerReloadListener {
 
         Map<ResourceLocation, Recipe<?>> recipes = new HashMap<>();
 
-        for (FurnitureMaterial primary : InteriorRegistries.FURNITURE_MATERIALS) {
-            for (FurnitureMaterial secondary : InteriorRegistries.FURNITURE_MATERIALS) {
+        for (FurnitureMaterial primary : InteriorAPI.furnitureRegistry()) {
+            for (FurnitureMaterial secondary : InteriorAPI.furnitureRegistry()) {
                 if (primary.isValidForType(FurnitureType.CHAIR) && secondary.isValidForType(FurnitureType.CHAIR)) {
                     FurnitureShapedRecipe chair = new FurnitureShapedRecipe(createChairRecipe(primary, secondary));
                     recipes.put(chair.getId(), chair);
@@ -52,7 +52,7 @@ public class FurnitureRecipeManager implements ResourceManagerReloadListener {
             }
         }
 
-        recipeManager.recipes.put(InteriorRecipeTypes.FURNITURE_CRAFTING, recipes);
+        recipeManager.recipes.put(InteriorRecipeTypes.FURNITURE_CRAFTING.get(), recipes);
     }
 
     private static ShapedRecipe createChairRecipe(FurnitureMaterial primary, FurnitureMaterial secondary) {

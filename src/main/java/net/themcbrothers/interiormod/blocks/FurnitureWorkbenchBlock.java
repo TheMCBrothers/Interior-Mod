@@ -35,7 +35,7 @@ public class FurnitureWorkbenchBlock extends Block {
             return InteractionResult.SUCCESS;
         } else {
             player.openMenu(state.getMenuProvider(level, pos));
-            player.awardStat(InteriorStats.INTERACT_WITH_FURNITURE_WORKBENCH);
+            player.awardStat(InteriorStats.INTERACT_WITH_FURNITURE_WORKBENCH.get());
             return InteractionResult.CONSUME;
         }
     }

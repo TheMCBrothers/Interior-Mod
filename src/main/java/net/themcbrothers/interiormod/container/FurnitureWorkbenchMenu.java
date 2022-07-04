@@ -58,7 +58,7 @@ public class FurnitureWorkbenchMenu extends AbstractContainerMenu {
         if (!level.isClientSide) {
             ServerPlayer serverPlayer = (ServerPlayer) player;
             ItemStack itemStack = ItemStack.EMPTY;
-            Optional<CraftingRecipe> recipe = serverPlayer.getServer().getRecipeManager().getRecipeFor(InteriorRecipeTypes.FURNITURE_CRAFTING, craftingContainer, level);
+            Optional<CraftingRecipe> recipe = serverPlayer.getServer().getRecipeManager().getRecipeFor(InteriorRecipeTypes.FURNITURE_CRAFTING.get(), craftingContainer, level);
             if (recipe.isPresent()) {
                 CraftingRecipe craftingRecipe = recipe.get();
                 if (resultContainer.setRecipeUsed(level, serverPlayer, craftingRecipe)) {

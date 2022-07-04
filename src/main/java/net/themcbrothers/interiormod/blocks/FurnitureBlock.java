@@ -16,9 +16,9 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.HitResult;
+import net.themcbrothers.interiormod.api.InteriorAPI;
 import net.themcbrothers.interiormod.api.furniture.FurnitureMaterial;
 import net.themcbrothers.interiormod.api.furniture.FurnitureType;
-import net.themcbrothers.interiormod.api.furniture.InteriorRegistries;
 import net.themcbrothers.interiormod.blockentity.ChairBlockEntity;
 import net.themcbrothers.interiormod.blockentity.FurnitureBlockEntity;
 import net.themcbrothers.interiormod.init.FurnitureMaterials;
@@ -41,7 +41,7 @@ public abstract class FurnitureBlock extends BaseEntityBlock {
 
     @Override
     public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> items) {
-        for (FurnitureMaterial material : InteriorRegistries.FURNITURE_MATERIALS) {
+        for (FurnitureMaterial material : InteriorAPI.furnitureRegistry()) {
             items.add(FurnitureMaterials.createItemStack(this.furnitureType, material, material));
         }
     }
@@ -53,9 +53,9 @@ public abstract class FurnitureBlock extends BaseEntityBlock {
 
             if (worldIn.getBlockEntity(pos) instanceof FurnitureBlockEntity furnitureTileEntity) {
                 furnitureTileEntity.setPrimaryMaterial(
-                        () -> InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("primaryMaterial"))));
+                        () -> InteriorAPI.furnitureRegistry().getValue(ResourceLocation.tryParse(tag.getString("primaryMaterial"))));
                 furnitureTileEntity.setSecondaryMaterial(
-                        () -> InteriorRegistries.FURNITURE_MATERIALS.getValue(ResourceLocation.tryParse(tag.getString("secondaryMaterial"))));
+                        () -> InteriorAPI.furnitureRegistry().getValue(ResourceLocation.tryParse(tag.getString("secondaryMaterial"))));
 
                 // todo maybe move this?
                 if (furnitureTileEntity instanceof ChairBlockEntity chairBlockEntity)

@@ -23,7 +23,7 @@ public class FurnitureResultSlot extends ResultSlot {
     @Override
     public void onTake(@Nonnull Player player, @Nonnull ItemStack stack) {
         this.checkTakeAchievements(stack);
-        NonNullList<ItemStack> remainingItems = player.level.getRecipeManager().getRemainingItemsFor(InteriorRecipeTypes.FURNITURE_CRAFTING, this.craftSlots, player.level);
+        NonNullList<ItemStack> remainingItems = player.level.getRecipeManager().getRemainingItemsFor(InteriorRecipeTypes.FURNITURE_CRAFTING.get(), this.craftSlots, player.level);
         for (int i = 0; i < remainingItems.size(); ++i) {
             ItemStack itemStack = this.craftSlots.getItem(i);
             ItemStack itemStack1 = remainingItems.get(i);
