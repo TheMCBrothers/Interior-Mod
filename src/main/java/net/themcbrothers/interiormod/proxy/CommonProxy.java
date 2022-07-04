@@ -9,6 +9,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.themcbrothers.interiormod.InteriorMod;
 import net.themcbrothers.interiormod.data.Events;
 import net.themcbrothers.interiormod.init.FurnitureMaterials;
+import net.themcbrothers.interiormod.init.InteriorRecipeBookExtensions;
 import net.themcbrothers.interiormod.init.InteriorRecipeTypes;
 import net.themcbrothers.interiormod.init.InteriorStats;
 
@@ -40,6 +41,9 @@ public class CommonProxy {
 
     protected void init(InterModEnqueueEvent event) {
         InteriorMod.LOGGER.info("CommonProxy init");
+
+        InteriorRecipeBookExtensions.init();
+
         if (ModList.get().isLoaded("theoneprobe")) {
             try {
                 Class.forName("net.themcbrothers.interiormod.compat.top.TheOneProbeCompat").getDeclaredMethod("registerCompat").invoke(null);
