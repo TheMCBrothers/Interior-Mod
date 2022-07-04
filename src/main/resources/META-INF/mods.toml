@@ -9,7 +9,7 @@ license="CC BY-NC-ND 4.0"
     displayName="TheMCBrothers Interior Mod"
     updateJSONURL="https://raw.githubusercontent.com/TheMCBrothers-Manager/Version/master/interiormod_update.json"
     displayURL="https://themcbrothers.net/mods/interiormod"
-    logoFile="longlogo.png"
+    logoFile="logo.png"
     authors="TheMCLoveMan, TheMCCrazyMan"
     description='''
     This is a mod that adds interior stuff to your worlds.
