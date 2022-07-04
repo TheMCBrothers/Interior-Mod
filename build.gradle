@@ -13,17 +13,17 @@ plugins {
 }
 
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'maven-publish'
 
-group = 'themcbros.interiormod' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group = 'net.themcbrothers'
 archivesBaseName = 'TheMCBrothersInteriorMod'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
     mappings channel: 'official', version: project.minecraft_version
-    
+
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
@@ -106,37 +106,27 @@ repositories {
 }
 
 dependencies {
-	// Minecraft Forge
+    // Minecraft Forge
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    
+
     if (project.hasProperty('jei_version')) { // JEI
-        runtimeOnly fg.deobf("curse.maven:configured-457570:3721946")
-	    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
-	    runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
+        runtimeOnly fg.deobf("curse.maven:configured-457570:$project.configured_file_id")
+        compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
+        runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
     }
-    
-    if (project.hasProperty('hwyla_version')) { // Hwyla
-    	compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
-    }
-
-    if (project.hasProperty('top_version')) { // The One Probe
-        compileOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-${top_version}:api")
-        runtimeOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-${top_version}")
-    }
-
 }
 
 jar {
-	archiveAppendix.set("$project.minecraft_version")
+    archiveAppendix.set("$project.minecraft_version")
     manifest {
         attributes([
-            "Specification-Title": "interiormod",
-            "Specification-Vendor": "themcbrothers",
-            "Specification-Version": "1", // We are version 1 of ourselves
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${archiveVersion.get()}",
-            "Implementation-Vendor" :"themcbrothers",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                "Specification-Title"     : "interiormod",
+                "Specification-Vendor"    : "TheMCBrothers",
+                "Specification-Version"   : "1", // We are version 1 of ourselves
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : project.jar.archiveVersion,
+                "Implementation-Vendor"   : "TheMCBrothers",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 }
@@ -164,9 +154,9 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 }
 
 task apiJar(type: Jar) {
-    archiveAppendix.set "${project.minecraft_version}"
-    archiveClassifier.set 'api'
-    include 'tk/themcbros/interiormod/api/**'
+    archiveAppendix.set("$project.minecraft_version")
+    archiveClassifier.set('api')
+    include 'net/themcbrothers/interiormod/api/**'
 }
 
 artifacts {
@@ -222,8 +212,8 @@ private String getChangelogText() {
                 temp = "<h2>$temp</h2>"
             } else if (it.startsWith('-')) {
                 temp = "&nbsp;&nbsp;&nbsp;$temp"
-                temp = temp.replaceAll("(\\S+/\\S+)#([0-9]+)\\b", "<a href=\"https://github.com/\$1/issues/\$2\">\$0</a>");
-                temp = temp.replaceAll("#([0-9]+)\\b(?!</a>)", "<a href=\"https://github.com/$github_project/issues/\$1\">\$0</a>");
+                temp = temp.replaceAll("(\\S+/\\S+)#(\\d+)\\b", "<a href=\"https://github.com/\$1/issues/\$2\">\$0</a>");
+                temp = temp.replaceAll("#(\\d+)\\b(?!</a>)", "<a href=\"https://github.com/$github_project/issues/\$1\">\$0</a>");
             } else {
                 temp = "<h4>$temp</h4>"
             }
@@ -260,9 +250,7 @@ curseforge {
             displayName = "${version} for ${minecraft_version}"
             relations {
                 optionalDependency 'jei'
-                optionalDependency 'the-one-probe'
-                optionalDependency 'biomes-o-plenty'
-	        }
+            }
         }
         // addArtifact apiJar
     }
