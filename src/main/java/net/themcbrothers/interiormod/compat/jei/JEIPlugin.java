@@ -18,7 +18,6 @@ import net.themcbrothers.interiormod.init.InteriorItems;
  */
 @JeiPlugin
 public class JEIPlugin implements IModPlugin {
-
     private final ResourceLocation PLUGIN_UID = new ResourceLocation(InteriorMod.MOD_ID, "jeiplugin");
 
     @Override
@@ -34,7 +33,7 @@ public class JEIPlugin implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         InteriorRecipes recipes = new InteriorRecipes();
-        registration.addRecipes(recipes.getFurnitureCraftingRecipes(), InteriorRecipeCategoryUid.FURNITURE_CRAFTING);
+        registration.addRecipes(InteriorRecipeCategories.FURNITURE_CRAFTING, recipes.getFurnitureCraftingRecipes());
     }
 
     @Override
@@ -48,16 +47,16 @@ public class JEIPlugin implements IModPlugin {
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
-        registration.addRecipeClickArea(FurnitureWorkbenchScreen.class, 88, 32, 28, 23, InteriorRecipeCategoryUid.FURNITURE_CRAFTING);
+        registration.addRecipeClickArea(FurnitureWorkbenchScreen.class, 88, 32, 28, 23, InteriorRecipeCategories.FURNITURE_CRAFTING);
     }
 
     @Override
     public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
-        registration.addRecipeTransferHandler(FurnitureWorkbenchMenu.class, InteriorRecipeCategoryUid.FURNITURE_CRAFTING, 1, 9, 10, 36);
+        registration.addRecipeTransferHandler(FurnitureWorkbenchMenu.class, InteriorRecipeCategories.FURNITURE_CRAFTING, 1, 9, 10, 36);
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(InteriorBlocks.FURNITURE_WORKBENCH), InteriorRecipeCategoryUid.FURNITURE_CRAFTING);
+        registration.addRecipeCatalyst(new ItemStack(InteriorBlocks.FURNITURE_WORKBENCH), InteriorRecipeCategories.FURNITURE_CRAFTING);
     }
 }
