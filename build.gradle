@@ -10,6 +10,7 @@ buildscript {
 
 plugins {
     id 'com.matthewprenger.cursegradle' version '1.4.0'
+    id 'com.modrinth.minotaur' version '2.4.3'
 }
 
 apply plugin: 'net.minecraftforge.gradle'
@@ -254,4 +255,14 @@ curseforge {
         }
         // addArtifact apiJar
     }
+}
+
+modrinth {
+    token = getSecret('modrinth_token')
+    projectId = project.modrinth_project
+    versionNumber = project.version
+    versionType = project.curse_type
+    changelog = getChangelogText()
+    uploadFile = jar
+    gameVersions = ["$project.minecraft_version"]
 }
