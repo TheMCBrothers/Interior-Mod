@@ -78,7 +78,7 @@ public class FurnitureCraftingRecipeCategory implements IRecipeCategory<Crafting
         int width = recipe instanceof IShapedRecipe<?> shapedRecipe ? shapedRecipe.getRecipeWidth() : 0;
         int height = recipe instanceof IShapedRecipe<?> shapedRecipe ? shapedRecipe.getRecipeHeight() : 0;
 
-        craftingGridHelper.setOutputs(builder, VanillaTypes.ITEM_STACK, List.of(resultItem));
-        craftingGridHelper.setInputs(builder, VanillaTypes.ITEM_STACK, inputs, width, height);
+        craftingGridHelper.createAndSetOutputs(builder, List.of(resultItem));
+        craftingGridHelper.createAndSetInputs(builder, inputs, width, height);
     }
 }
