@@ -264,7 +264,8 @@ curseforge {
 modrinth {
     token = getSecret('modrinth_token')
     projectId = project.modrinth_project
-    versionNumber = project.version
+    versionNumber = "$project.minecraft_version-$project.version"
+    versionName = project.version
     versionType = project.artifact_type
     changelog = getChangelogText()
     uploadFile = jar
