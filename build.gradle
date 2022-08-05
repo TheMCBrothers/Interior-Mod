@@ -246,10 +246,10 @@ curseforge {
     apiKey = getSecret('cf_key');
 
     project {
-        id = project.projectId
+        id = project.cf_project
         changelog = getChangelogText()
         changelogType = 'html'
-        releaseType = project.curse_type
+        releaseType = project.artifact_type
         addGameVersion(project.minecraft_version)
         mainArtifact(jar) {
             displayName = "${version} for ${minecraft_version}"
@@ -265,7 +265,7 @@ modrinth {
     token = getSecret('modrinth_token')
     projectId = project.modrinth_project
     versionNumber = project.version
-    versionType = project.curse_type
+    versionType = project.artifact_type
     changelog = getChangelogText()
     uploadFile = jar
     gameVersions = ["$project.minecraft_version"]
