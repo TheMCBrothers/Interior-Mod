@@ -5,24 +5,21 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 import net.themcbrothers.interiormod.api.InteriorAPI;
 import net.themcbrothers.interiormod.api.furniture.FurnitureMaterial;
 import net.themcbrothers.interiormod.api.furniture.FurnitureType;
-
-import java.util.Objects;
 
 /**
  * @author TheMCBrothers
  */
 @Mod.EventBusSubscriber(modid = InteriorAPI.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class FurnitureMaterials {
-
     public static final DeferredRegister<FurnitureMaterial> FURNITURE_MATERIALS = DeferredRegister
             .create(InteriorAPI.FURNITURE_KEY, "minecraft");
 
@@ -44,17 +41,19 @@ public class FurnitureMaterials {
             () -> new FurnitureMaterial(() -> Blocks.WARPED_PLANKS, null));
 
     @SubscribeEvent
-    public static void onMaterialRegistry(final RegistryEvent.Register<FurnitureMaterial> event) {
-        for (Block block : ForgeRegistries.BLOCKS) {
-            ResourceLocation registryName = block.getRegistryName();
-            assert registryName != null;
-            if (registryName.getNamespace().equalsIgnoreCase("minecraft")
-                    || !registryName.getPath().endsWith("_planks")) continue;
+    public static void onMaterialRegistry(final RegisterEvent event) {
+        if (event.getRegistryKey() == InteriorAPI.FURNITURE_KEY) {
+            for (Block block : ForgeRegistries.BLOCKS) {
+                ResourceLocation registryName = ForgeRegistries.BLOCKS.getKey(block);
+                assert registryName != null;
+                if (registryName.getNamespace().equalsIgnoreCase("minecraft")
+                        || !registryName.getPath().endsWith("_planks")) continue;
 
-            if (registryName.getNamespace().equalsIgnoreCase("quark") && registryName.getPath().contains("vertical_"))
-                continue;
+                if (registryName.getNamespace().equalsIgnoreCase("quark") && registryName.getPath().contains("vertical_"))
+                    continue;
 
-            event.getRegistry().register(new FurnitureMaterial(() -> block, null).setRegistryName(Objects.requireNonNull(block.getRegistryName())));
+                event.register(InteriorAPI.FURNITURE_KEY, registryName, () -> new FurnitureMaterial(() -> block, null));
+            }
         }
     }
 
@@ -62,9 +61,11 @@ public class FurnitureMaterials {
         ItemStack stack = furnitureType.getStack();
 
         CompoundTag tag = stack.getOrCreateTagElement("BlockEntityTag");
-        tag.putString("primaryMaterial", String.valueOf(primary.getRegistryName()));
-        tag.putString("secondaryMaterial", String.valueOf(secondary.getRegistryName()));
+        tag.putString("primaryMaterial", String.valueOf(InteriorAPI.furnitureRegistry().getKey(primary)));
+        tag.putString("secondaryMaterial", String.valueOf(InteriorAPI.furnitureRegistry().getKey(secondary)));
         return stack;
     }
 
+    static void init() {
+    }
 }

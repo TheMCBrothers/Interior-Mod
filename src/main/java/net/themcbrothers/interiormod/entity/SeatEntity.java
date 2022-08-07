@@ -9,7 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.network.NetworkHooks;
-import net.themcbrothers.interiormod.init.InteriorEntities;
+import net.themcbrothers.interiormod.init.InteriorEntityTypes;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -21,7 +21,7 @@ public class SeatEntity extends Entity {
     private BlockPos source;
 
     public SeatEntity(Level world) {
-        super(InteriorEntities.SEAT, world);
+        super(InteriorEntityTypes.SEAT.get(), world);
         this.noPhysics = true;
     }
 

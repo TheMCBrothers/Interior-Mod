@@ -8,9 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.ModelDataManager;
-import net.minecraftforge.client.model.data.IModelData;
-import net.minecraftforge.client.model.data.ModelDataMap;
+import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.client.model.data.ModelProperty;
 import net.themcbrothers.interiormod.api.InteriorAPI;
 import net.themcbrothers.interiormod.api.furniture.FurnitureMaterial;
@@ -38,10 +36,11 @@ public abstract class FurnitureBlockEntity extends BlockEntity {
 
     @Nonnull
     @Override
-    public IModelData getModelData() {
-        return new ModelDataMap.Builder().withInitial(PRIMARY_MATERIAL, primaryMaterial.get()).withInitial(SECONDARY_MATERIAL, secondaryMaterial.get())
-                .build();
+    public ModelData getModelData() {
+        return ModelData.builder().with(PRIMARY_MATERIAL, this.primaryMaterial.get())
+                .with(SECONDARY_MATERIAL, this.secondaryMaterial.get()).build();
     }
+
 
     @Override
     public CompoundTag getUpdateTag() {
@@ -64,8 +63,8 @@ public abstract class FurnitureBlockEntity extends BlockEntity {
 
     @Override
     public void saveAdditional(CompoundTag compound) {
-        compound.putString("primaryMaterial", String.valueOf(this.primaryMaterial.get().getRegistryName()));
-        compound.putString("secondaryMaterial", String.valueOf(this.secondaryMaterial.get().getRegistryName()));
+        compound.putString("primaryMaterial", String.valueOf(InteriorAPI.furnitureRegistry().getKey(this.primaryMaterial.get())));
+        compound.putString("secondaryMaterial", String.valueOf(InteriorAPI.furnitureRegistry().getKey(this.secondaryMaterial.get())));
     }
 
     @Override
@@ -80,7 +79,7 @@ public abstract class FurnitureBlockEntity extends BlockEntity {
     public void setPrimaryMaterial(Supplier<FurnitureMaterial> primaryMaterial) {
         this.primaryMaterial = primaryMaterial;
         if (this.level != null && this.level.isClientSide) {
-            ModelDataManager.requestModelDataRefresh(this);
+            this.requestModelDataUpdate();
             this.level.sendBlockUpdated(this.worldPosition, this.level.getBlockState(this.worldPosition), this.level.getBlockState(this.worldPosition), 3);
         }
     }
@@ -88,7 +87,7 @@ public abstract class FurnitureBlockEntity extends BlockEntity {
     public void setSecondaryMaterial(Supplier<FurnitureMaterial> secondaryMaterial) {
         this.secondaryMaterial = secondaryMaterial;
         if (this.level != null && this.level.isClientSide) {
-            ModelDataManager.requestModelDataRefresh(this);
+            this.requestModelDataUpdate();
             this.level.sendBlockUpdated(this.worldPosition, this.level.getBlockState(this.worldPosition), this.level.getBlockState(this.worldPosition), 3);
         }
     }

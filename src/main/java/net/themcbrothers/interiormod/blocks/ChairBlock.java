@@ -28,7 +28,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.themcbrothers.interiormod.api.furniture.FurnitureType;
 import net.themcbrothers.interiormod.entity.SeatEntity;
-import net.themcbrothers.interiormod.init.InteriorBlockEntities;
+import net.themcbrothers.interiormod.init.InteriorBlockEntityTypes;
 import net.themcbrothers.interiormod.init.InteriorStats;
 import net.themcbrothers.interiormod.util.ShapeUtils;
 
@@ -112,7 +112,7 @@ public class ChairBlock extends FurnitureBlock implements SimpleWaterloggedBlock
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return InteriorBlockEntities.CHAIR.create(blockPos, blockState);
+        return InteriorBlockEntityTypes.CHAIR.get().create(blockPos, blockState);
     }
 
     @Override

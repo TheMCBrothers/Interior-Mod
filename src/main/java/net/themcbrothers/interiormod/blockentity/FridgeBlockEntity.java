@@ -5,7 +5,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
@@ -20,7 +19,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
-import net.themcbrothers.interiormod.init.InteriorBlockEntities;
+import net.themcbrothers.interiormod.init.InteriorBlockEntityTypes;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -33,7 +32,7 @@ public class FridgeBlockEntity extends BlockEntity implements Container, MenuPro
     private final NonNullList<ItemStack> stacks = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
 
     public FridgeBlockEntity(BlockPos pos, BlockState state) {
-        super(InteriorBlockEntities.FRIDGE, pos, state);
+        super(InteriorBlockEntityTypes.FRIDGE.get(), pos, state);
     }
 
     @Override
@@ -106,7 +105,7 @@ public class FridgeBlockEntity extends BlockEntity implements Container, MenuPro
 
     @Override
     public Component getDisplayName() {
-        return new TranslatableComponent("container.interiormod.fridge");
+        return Component.translatable("container.interiormod.fridge");
     }
 
     @Nonnull

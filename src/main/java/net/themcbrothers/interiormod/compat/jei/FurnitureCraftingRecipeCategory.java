@@ -9,7 +9,6 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
@@ -32,20 +31,10 @@ public class FurnitureCraftingRecipeCategory implements IRecipeCategory<Crafting
     private final ICraftingGridHelper craftingGridHelper;
 
     public FurnitureCraftingRecipeCategory(IGuiHelper guiHelper) {
-        this.localizedText = new TranslatableComponent("container.interiormod.furniture_crafting");
+        this.localizedText = Component.translatable("container.interiormod.furniture_crafting");
         this.background = guiHelper.createDrawable(CRAFTING_TABLE_GUI_TEXTURES, 29, 16, width, height);
-        this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(InteriorBlocks.FURNITURE_WORKBENCH));
-        this.craftingGridHelper = guiHelper.createCraftingGridHelper(1);
-    }
-
-    @Override
-    public ResourceLocation getUid() {
-        return getRecipeType().getUid();
-    }
-
-    @Override
-    public Class<? extends CraftingRecipe> getRecipeClass() {
-        return getRecipeType().getRecipeClass();
+        this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(InteriorBlocks.FURNITURE_WORKBENCH.get()));
+        this.craftingGridHelper = guiHelper.createCraftingGridHelper();
     }
 
     @Override

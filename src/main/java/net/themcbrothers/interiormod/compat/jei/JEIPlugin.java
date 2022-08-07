@@ -12,6 +12,7 @@ import net.themcbrothers.interiormod.client.screen.FurnitureWorkbenchScreen;
 import net.themcbrothers.interiormod.container.FurnitureWorkbenchMenu;
 import net.themcbrothers.interiormod.init.InteriorBlocks;
 import net.themcbrothers.interiormod.init.InteriorItems;
+import net.themcbrothers.interiormod.init.InteriorMenuTypes;
 
 /**
  * @author TheMCBrothers
@@ -27,7 +28,7 @@ public class JEIPlugin implements IModPlugin {
 
     @Override
     public void registerItemSubtypes(ISubtypeRegistration registration) {
-        registration.useNbtForSubtypes(InteriorItems.CHAIR, InteriorItems.TABLE);
+        registration.useNbtForSubtypes(InteriorItems.CHAIR.get(), InteriorItems.TABLE.get());
     }
 
     @Override
@@ -52,11 +53,11 @@ public class JEIPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
-        registration.addRecipeTransferHandler(FurnitureWorkbenchMenu.class, InteriorRecipeCategories.FURNITURE_CRAFTING, 1, 9, 10, 36);
+        registration.addRecipeTransferHandler(FurnitureWorkbenchMenu.class, InteriorMenuTypes.FURNITURE_WORKBENCH.get(), InteriorRecipeCategories.FURNITURE_CRAFTING, 1, 9, 10, 36);
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(InteriorBlocks.FURNITURE_WORKBENCH), InteriorRecipeCategories.FURNITURE_CRAFTING);
+        registration.addRecipeCatalyst(new ItemStack(InteriorBlocks.FURNITURE_WORKBENCH.get()), InteriorRecipeCategories.FURNITURE_CRAFTING);
     }
 }

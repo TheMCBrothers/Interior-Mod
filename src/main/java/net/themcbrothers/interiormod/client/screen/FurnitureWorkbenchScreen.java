@@ -9,6 +9,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.themcbrothers.interiormod.container.FurnitureWorkbenchMenu;
 
+/**
+ * @author TheMCBrothers
+ */
 public class FurnitureWorkbenchScreen extends AbstractContainerScreen<FurnitureWorkbenchMenu> {
     private static final ResourceLocation CRAFTING_TABLE_GUI_TEXTURES = new ResourceLocation("textures/gui/container/crafting_table.png");
 

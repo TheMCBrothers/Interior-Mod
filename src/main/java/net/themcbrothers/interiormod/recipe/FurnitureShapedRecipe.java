@@ -7,7 +7,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.ShapedRecipe;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.themcbrothers.interiormod.init.InteriorBlocks;
 import net.themcbrothers.interiormod.init.InteriorRecipeSerializers;
 import net.themcbrothers.interiormod.init.InteriorRecipeTypes;
@@ -38,15 +37,15 @@ public class FurnitureShapedRecipe extends ShapedRecipe {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return InteriorRecipeSerializers.FURNITURE_SHAPED;
+        return InteriorRecipeSerializers.FURNITURE_SHAPED.get();
     }
 
     @Override
     public ItemStack getToastSymbol() {
-        return new ItemStack(InteriorBlocks.FURNITURE_WORKBENCH);
+        return new ItemStack(InteriorBlocks.FURNITURE_WORKBENCH.get());
     }
 
-    public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<FurnitureShapedRecipe> {
+    public static class Serializer implements RecipeSerializer<FurnitureShapedRecipe> {
         @Override
         public FurnitureShapedRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
             return new FurnitureShapedRecipe(BASE_SERIALIZER.fromJson(recipeId, json));

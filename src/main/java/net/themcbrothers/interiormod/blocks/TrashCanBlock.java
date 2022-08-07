@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Inventory;
@@ -45,28 +44,28 @@ public class TrashCanBlock extends Block implements SimpleWaterloggedBlock, Menu
         this.SHAPE = this.generateShape();
     }
 
-	@Override
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(WATERLOGGED);
-	}
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(WATERLOGGED);
+    }
 
-	@Override
+    @Override
     public FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.defaultFluidState() : Fluids.EMPTY.defaultFluidState();
     }
 
-	@Nullable
-	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		return  this.defaultBlockState().setValue(WATERLOGGED, context.getLevel().getFluidState(context.getClickedPos()).equals(Fluids.WATER.defaultFluidState()));
-	}
+    @Nullable
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(WATERLOGGED, context.getLevel().getFluidState(context.getClickedPos()).equals(Fluids.WATER.defaultFluidState()));
+    }
 
-	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext collisionContext) {
-		return SHAPE;
-	}
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext collisionContext) {
+        return SHAPE;
+    }
 
-	private VoxelShape generateShape() {
+    private VoxelShape generateShape() {
         List<VoxelShape> shapes = Lists.newArrayList();
         shapes.add(Block.box(3, 15, 6.32, 4, 16, 9.63));
         shapes.add(Block.box(4.699999999999999, 15, 10.3, 5.699999999999999, 16, 11.3));
@@ -105,7 +104,7 @@ public class TrashCanBlock extends Block implements SimpleWaterloggedBlock, Menu
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (state.getBlock() instanceof MenuProvider && player instanceof ServerPlayer) {
-            NetworkHooks.openGui((ServerPlayer) player, (MenuProvider) state.getBlock());
+            NetworkHooks.openScreen((ServerPlayer) player, (MenuProvider) state.getBlock());
         }
         return InteractionResult.SUCCESS;
     }
@@ -122,12 +121,12 @@ public class TrashCanBlock extends Block implements SimpleWaterloggedBlock, Menu
         return ChestMenu.oneRow(id, inventory);
     }
 
-	@Override
-	public Component getDisplayName() {
-		return new TranslatableComponent("container.interiormod.trash_can");
-	}
+    @Override
+    public Component getDisplayName() {
+        return Component.translatable("container.interiormod.trash_can");
+    }
 
-	@Override
+    @Override
     public WorldlyContainer getContainer(BlockState blockState, LevelAccessor levelAccessor, BlockPos blockPos) {
         return new Inv();
     }

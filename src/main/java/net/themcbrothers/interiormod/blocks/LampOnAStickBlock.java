@@ -24,7 +24,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.themcbrothers.interiormod.init.InteriorBlockEntities;
+import net.themcbrothers.interiormod.init.InteriorBlockEntityTypes;
 import net.themcbrothers.interiormod.util.ShapeUtils;
 
 import javax.annotation.Nullable;
@@ -142,13 +142,13 @@ public class LampOnAStickBlock extends BaseEntityBlock implements SimpleWaterlog
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return !level.isClientSide && level.dimensionType().hasSkyLight() ? createTickerHelper(blockEntityType, InteriorBlockEntities.LAMP, NightlightLampBlock::tickEntity) : null;
+        return !level.isClientSide && level.dimensionType().hasSkyLight() ? createTickerHelper(blockEntityType, InteriorBlockEntityTypes.LAMP.get(), NightlightLampBlock::tickEntity) : null;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return InteriorBlockEntities.LAMP.create(blockPos, blockState);
+        return InteriorBlockEntityTypes.LAMP.get().create(blockPos, blockState);
     }
 
     public enum Part implements StringRepresentable {

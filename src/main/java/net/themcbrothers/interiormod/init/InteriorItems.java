@@ -1,47 +1,28 @@
 package net.themcbrothers.interiormod.init;
 
-import com.google.common.collect.Lists;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.RegistryObject;
+import net.themcbrothers.interiormod.api.furniture.FurnitureType;
 import net.themcbrothers.interiormod.items.FurnitureBlockItem;
 import net.themcbrothers.interiormod.items.TooltipBlockItem;
 import net.themcbrothers.interiormod.items.TooltipTallBlockItem;
-import net.themcbrothers.interiormod.InteriorMod;
-import net.themcbrothers.interiormod.api.furniture.FurnitureType;
 
-import java.util.List;
+import static net.themcbrothers.interiormod.init.Registration.ITEMS;
 
 /**
  * @author TheMCBrothers
  */
 public class InteriorItems {
+    public static final RegistryObject<BlockItem> CHAIR = ITEMS.register("chair", () -> new FurnitureBlockItem(FurnitureType.CHAIR, new Item.Properties().tab(InteriorItemGroup.INSTANCE)));
+    public static final RegistryObject<BlockItem> TABLE = ITEMS.register("table", () -> new FurnitureBlockItem(FurnitureType.TABLE, new Item.Properties().tab(InteriorItemGroup.INSTANCE)));
+    public static final RegistryObject<BlockItem> FRIDGE = ITEMS.register("fridge", () -> new TooltipTallBlockItem(InteriorBlocks.FRIDGE.get(), new Item.Properties().tab(InteriorItemGroup.INSTANCE)));
+    public static final RegistryObject<BlockItem> LAMP = ITEMS.register("lamp", () -> new TooltipBlockItem(InteriorBlocks.LAMP.get(), new Item.Properties().tab(InteriorItemGroup.INSTANCE)));
+    public static final RegistryObject<BlockItem> LAMP_ON_A_STICK = ITEMS.register("lamp_on_a_stick", () -> new TooltipTallBlockItem(InteriorBlocks.LAMP_ON_A_STICK.get(), new Item.Properties().tab(InteriorItemGroup.INSTANCE)));
+    public static final RegistryObject<BlockItem> TRASH_CAN = ITEMS.register("trash_can", () -> new TooltipTallBlockItem(InteriorBlocks.TRASH_CAN.get(), new Item.Properties().tab(InteriorItemGroup.INSTANCE)));
+    public static final RegistryObject<BlockItem> MODERN_DOOR = ITEMS.register("modern_door", () -> new TooltipTallBlockItem(InteriorBlocks.MODERN_DOOR.get(), new Item.Properties().tab(InteriorItemGroup.INSTANCE)));
+    public static final RegistryObject<BlockItem> FURNITURE_WORKBENCH = ITEMS.register("furniture_workbench", () -> new TooltipBlockItem(InteriorBlocks.FURNITURE_WORKBENCH.get(), new Item.Properties().tab(InteriorItemGroup.INSTANCE)));
 
-    private static final List<Item> ITEMS = Lists.newArrayList();
-
-    public static final BlockItem CHAIR = registerItem("chair", new FurnitureBlockItem(FurnitureType.CHAIR, new Item.Properties().tab(InteriorItemGroup.INSTANCE)));
-    public static final BlockItem TABLE = registerItem("table", new FurnitureBlockItem(FurnitureType.TABLE, new Item.Properties().tab(InteriorItemGroup.INSTANCE)));
-    public static final BlockItem FRIDGE = registerItem("fridge", new TooltipTallBlockItem(InteriorBlocks.FRIDGE, new Item.Properties().tab(InteriorItemGroup.INSTANCE)));
-    public static final BlockItem LAMP = registerItem("lamp", new TooltipBlockItem(InteriorBlocks.LAMP, new Item.Properties().tab(InteriorItemGroup.INSTANCE)));
-    public static final BlockItem LAMP_ON_A_STICK = registerItem("lamp_on_a_stick", new TooltipTallBlockItem(InteriorBlocks.LAMP_ON_A_STICK, new Item.Properties().tab(InteriorItemGroup.INSTANCE)));
-    public static final BlockItem TRASH_CAN = registerItem("trash_can", new TooltipTallBlockItem(InteriorBlocks.TRASH_CAN, new Item.Properties().tab(InteriorItemGroup.INSTANCE)));
-    public static final BlockItem MODERN_DOOR = registerItem("modern_door", new TooltipTallBlockItem(InteriorBlocks.MODERN_DOOR, new Item.Properties().tab(InteriorItemGroup.INSTANCE)));
-    public static final BlockItem FURNITURE_WORKBENCH = registerItem("furniture_workbench", new TooltipBlockItem(InteriorBlocks.FURNITURE_WORKBENCH, new Item.Properties().tab(InteriorItemGroup.INSTANCE)));
-
-    private static <T extends Item> T registerItem(String registryName, T item) {
-        item.setRegistryName(InteriorMod.getId(registryName));
-        ITEMS.add(item);
-        return item;
+    static void init() {
     }
-
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = InteriorMod.MOD_ID)
-    public static class Registration {
-        @SubscribeEvent
-        public static void onItemRegistry(final RegistryEvent.Register<Item> event) {
-            ITEMS.forEach(event.getRegistry()::register);
-        }
-    }
-
 }

@@ -21,7 +21,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.themcbrothers.interiormod.api.furniture.FurnitureType;
-import net.themcbrothers.interiormod.init.InteriorBlockEntities;
+import net.themcbrothers.interiormod.init.InteriorBlockEntityTypes;
 import net.themcbrothers.interiormod.util.ShapeUtils;
 
 import javax.annotation.Nullable;
@@ -141,7 +141,7 @@ public class TableBlock extends FurnitureBlock implements SimpleWaterloggedBlock
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return InteriorBlockEntities.TABLE.create(blockPos, blockState);
+        return InteriorBlockEntityTypes.TABLE.get().create(blockPos, blockState);
     }
 
     @Override

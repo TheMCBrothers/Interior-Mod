@@ -13,7 +13,6 @@ import net.themcbrothers.interiormod.api.InteriorAPI;
 @Mod.EventBusSubscriber(modid = InteriorAPI.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class InteriorRegistries {
     private static final RegistryBuilder<FurnitureMaterial> BUILDER = new RegistryBuilder<FurnitureMaterial>()
-            .setType(FurnitureMaterial.class)
             .setName(new ResourceLocation(InteriorAPI.MOD_ID, "furniture_material"))
             .setDefaultKey(new ResourceLocation("minecraft:oak_planks"));
 

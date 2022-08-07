@@ -23,7 +23,7 @@ public class RecipeDataProvider extends RecipeProvider {
 
     @Override
     protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
-        ShapedRecipeBuilder.shaped(InteriorItems.FRIDGE)
+        ShapedRecipeBuilder.shaped(InteriorItems.FRIDGE.get())
                 .pattern("II")
                 .pattern("II")
                 .pattern("BC")
@@ -31,22 +31,22 @@ public class RecipeDataProvider extends RecipeProvider {
                 .unlockedBy("hasIronBlock", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(Tags.Items.STORAGE_BLOCKS_IRON).build()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(InteriorItems.LAMP)
+        ShapedRecipeBuilder.shaped(InteriorItems.LAMP.get())
                 .pattern("D")
                 .pattern("L")
                 .define('D', Items.DAYLIGHT_DETECTOR).define('L', Items.REDSTONE_LAMP)
                 .unlockedBy("hasItems", InventoryChangeTrigger.TriggerInstance.hasItems(Items.REDSTONE_LAMP, Items.DAYLIGHT_DETECTOR))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(InteriorItems.LAMP_ON_A_STICK)
+        ShapedRecipeBuilder.shaped(InteriorItems.LAMP_ON_A_STICK.get())
                 .pattern("L")
                 .pattern("S")
                 .pattern("S")
-                .define('L', InteriorItems.LAMP).define('S', Tags.Items.RODS_WOODEN)
-                .unlockedBy("hasLamp", InventoryChangeTrigger.TriggerInstance.hasItems(InteriorItems.LAMP))
+                .define('L', InteriorItems.LAMP.get()).define('S', Tags.Items.RODS_WOODEN)
+                .unlockedBy("hasLamp", InventoryChangeTrigger.TriggerInstance.hasItems(InteriorItems.LAMP.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(InteriorItems.TRASH_CAN)
+        ShapedRecipeBuilder.shaped(InteriorItems.TRASH_CAN.get())
                 .pattern("ICI")
                 .pattern(" B ")
                 .define('I', Tags.Items.INGOTS_IRON).define('C', Tags.Items.CHESTS_WOODEN).define('B', Items.IRON_BARS)
@@ -57,7 +57,7 @@ public class RecipeDataProvider extends RecipeProvider {
                 ))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(InteriorItems.MODERN_DOOR)
+        ShapedRecipeBuilder.shaped(InteriorItems.MODERN_DOOR.get())
                 .pattern("#G")
                 .pattern("##")
                 .pattern("##")
@@ -65,7 +65,7 @@ public class RecipeDataProvider extends RecipeProvider {
                 .unlockedBy("hasConcrete", InventoryChangeTrigger.TriggerInstance.hasItems(Items.WHITE_CONCRETE))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(InteriorItems.FURNITURE_WORKBENCH)
+        ShapedRecipeBuilder.shaped(InteriorItems.FURNITURE_WORKBENCH.get())
                 .pattern("X")
                 .pattern("#")
                 .define('#', Items.CRAFTING_TABLE).define('X', Tags.Items.FEATHERS)

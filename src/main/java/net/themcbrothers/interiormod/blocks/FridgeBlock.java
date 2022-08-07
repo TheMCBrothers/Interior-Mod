@@ -34,7 +34,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.EmptyHandler;
 import net.minecraftforge.network.NetworkHooks;
 import net.themcbrothers.interiormod.blockentity.FridgeBlockEntity;
-import net.themcbrothers.interiormod.init.InteriorBlockEntities;
+import net.themcbrothers.interiormod.init.InteriorBlockEntityTypes;
 import net.themcbrothers.interiormod.util.ShapeUtils;
 
 import javax.annotation.Nullable;
@@ -171,7 +171,7 @@ public class FridgeBlock extends Block implements EntityBlock {
         }
         BlockEntity blockEntity = worldIn.getBlockEntity(pos);
         if (blockEntity instanceof FridgeBlockEntity && player instanceof ServerPlayer) {
-            NetworkHooks.openGui((ServerPlayer) player, (MenuProvider) blockEntity);
+            NetworkHooks.openScreen((ServerPlayer) player, (MenuProvider) blockEntity);
         }
         return InteractionResult.SUCCESS;
     }
@@ -197,7 +197,7 @@ public class FridgeBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return blockState.getValue(HALF) == DoubleBlockHalf.LOWER ? InteriorBlockEntities.FRIDGE.create(blockPos, blockState) : null;
+        return blockState.getValue(HALF) == DoubleBlockHalf.LOWER ? InteriorBlockEntityTypes.FRIDGE.get().create(blockPos, blockState) : null;
     }
 
     @Override

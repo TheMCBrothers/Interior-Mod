@@ -65,8 +65,8 @@ public class FurnitureRecipeManager implements ResourceManagerReloadListener {
         );
         ItemStack output = FurnitureMaterials.createItemStack(FurnitureType.CHAIR, primary, secondary);
 
-        String saveId = "chair/" + String.valueOf(primary.getRegistryName()).replace(':', '_') + "/" +
-                String.valueOf(secondary.getRegistryName()).replace(':', '_');
+        String saveId = "chair/" + String.valueOf(InteriorAPI.furnitureRegistry().getKey(primary)).replace(':', '_') + "/" +
+                String.valueOf(InteriorAPI.furnitureRegistry().getKey(secondary)).replace(':', '_');
         ResourceLocation name = new ResourceLocation(InteriorMod.MOD_ID, saveId);
         return new ShapedRecipe(name, "interiormod:chairs", 3, 3, inputs, output);
     }
@@ -81,8 +81,8 @@ public class FurnitureRecipeManager implements ResourceManagerReloadListener {
         );
         ItemStack output = FurnitureMaterials.createItemStack(FurnitureType.TABLE, primary, secondary);
 
-        String saveId = "table/" + String.valueOf(primary.getRegistryName()).replace(':', '_') + "/" +
-                String.valueOf(secondary.getRegistryName()).replace(':', '_');
+        String saveId = "table/" + String.valueOf(InteriorAPI.furnitureRegistry().getKey(primary)).replace(':', '_') + "/" +
+                String.valueOf(InteriorAPI.furnitureRegistry().getKey(secondary)).replace(':', '_');
         ResourceLocation name = new ResourceLocation(InteriorMod.MOD_ID, saveId);
         return new ShapedRecipe(name, "interiormod:tables", 3, 3, inputs, output);
     }

@@ -2,7 +2,6 @@ package net.themcbrothers.interiormod.blocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -16,7 +15,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.themcbrothers.interiormod.blockentity.NightlightLampBlockEntity;
-import net.themcbrothers.interiormod.init.InteriorBlockEntities;
+import net.themcbrothers.interiormod.init.InteriorBlockEntityTypes;
 
 import javax.annotation.Nullable;
 
@@ -45,13 +44,13 @@ public class NightlightLampBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return !level.isClientSide && level.dimensionType().hasSkyLight() ? createTickerHelper(blockEntityType, InteriorBlockEntities.LAMP, NightlightLampBlock::tickEntity) : null;
+        return !level.isClientSide && level.dimensionType().hasSkyLight() ? createTickerHelper(blockEntityType, InteriorBlockEntityTypes.LAMP.get(), NightlightLampBlock::tickEntity) : null;
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
-        return InteriorBlockEntities.LAMP.create(blockPos, blockState);
+        return InteriorBlockEntityTypes.LAMP.get().create(blockPos, blockState);
     }
 
     private static void updateSignalStrength(BlockState state, Level level, BlockPos pos) {

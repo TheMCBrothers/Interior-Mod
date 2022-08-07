@@ -11,7 +11,7 @@ import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.level.Level;
 import net.themcbrothers.interiormod.container.slot.FurnitureResultSlot;
 import net.themcbrothers.interiormod.init.InteriorBlocks;
-import net.themcbrothers.interiormod.init.InteriorContainers;
+import net.themcbrothers.interiormod.init.InteriorMenuTypes;
 import net.themcbrothers.interiormod.init.InteriorRecipeTypes;
 
 import java.util.Optional;
@@ -31,7 +31,7 @@ public class FurnitureWorkbenchMenu extends AbstractContainerMenu {
     }
 
     public FurnitureWorkbenchMenu(int id, Inventory playerInventory, ContainerLevelAccess worldPosCallable) {
-        super(InteriorContainers.FURNITURE_WORKBENCH, id);
+        super(InteriorMenuTypes.FURNITURE_WORKBENCH.get(), id);
         this.access = worldPosCallable;
         this.player = playerInventory.player;
         this.addSlot(new FurnitureResultSlot(playerInventory.player, this.craftSlots, this.resultSlots, 0, 124, 35));
@@ -89,7 +89,7 @@ public class FurnitureWorkbenchMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return stillValid(this.access, player, InteriorBlocks.FURNITURE_WORKBENCH);
+        return stillValid(this.access, player, InteriorBlocks.FURNITURE_WORKBENCH.get());
     }
 
     @Override

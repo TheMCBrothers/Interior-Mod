@@ -1,14 +1,13 @@
 package net.themcbrothers.interiormod.api.furniture;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraftforge.client.model.data.ModelData;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -18,7 +17,7 @@ import java.util.function.Supplier;
 /**
  * @author TheMCBrothers
  */
-public class FurnitureMaterial extends ForgeRegistryEntry<FurnitureMaterial> {
+public class FurnitureMaterial {
 
     @Nonnull
     private final Supplier<? extends Block> blockSupplier;
@@ -67,7 +66,7 @@ public class FurnitureMaterial extends ForgeRegistryEntry<FurnitureMaterial> {
      */
     @Nonnull
     public MutableComponent getDisplayName() {
-        return new TranslatableComponent(this.blockSupplier.get().getDescriptionId());
+        return Component.translatable(this.blockSupplier.get().getDescriptionId());
     }
 
     /**
@@ -77,7 +76,7 @@ public class FurnitureMaterial extends ForgeRegistryEntry<FurnitureMaterial> {
     public ResourceLocation getTextureLocation() {
         if (this.textureLocationOverride == null) {
             return Minecraft.getInstance().getBlockRenderer().getBlockModel(this.blockSupplier.get().defaultBlockState())
-                    .getParticleIcon(EmptyModelData.INSTANCE).getName();
+                    .getParticleIcon(ModelData.EMPTY).getName();
         }
         return this.textureLocationOverride;
     }
