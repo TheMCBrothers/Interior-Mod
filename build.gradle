@@ -9,7 +9,14 @@ plugins {
 group = 'net.themcbrothers'
 archivesBaseName = 'TheMCBrothersInteriorMod'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+
+    withJavadocJar()
+    withSourcesJar()
+}
 
 minecraft {
     mappings channel: 'official', version: project.minecraft_version
@@ -126,6 +133,7 @@ jar {
 }
 
 javadoc {
+    source = [sourceSets.main.allJava]
     failOnError = false
 }
 
@@ -135,16 +143,16 @@ task deobfJar(type: Jar) {
     from sourceSets.main.output
 }
 
-task sourcesJar(type: Jar) {
+sourcesJar {
     archiveAppendix.set("$project.minecraft_version")
     archiveClassifier.set('sources')
     from sourceSets.main.allJava
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
+javadocJar {
     archiveAppendix.set("$project.minecraft_version")
     archiveClassifier.set('javadoc')
-    from javadoc.getDestinationDir()
+    from javadoc.destinationDir
 }
 
 task apiJar(type: Jar) {
@@ -154,18 +162,10 @@ task apiJar(type: Jar) {
 }
 
 artifacts {
-    if (project.hasProperty('doDeobfJar')) {
-        archives deobfJar
-    }
-    if (project.hasProperty('doSourceJar')) {
-        archives sourcesJar
-    }
-    if (project.hasProperty('doJavadocJar')) {
-        archives javadocJar
-    }
-    if (project.hasProperty('doApiJar')) {
-        archives apiJar
-    }
+    archives deobfJar
+    archives sourcesJar
+    archives javadocJar
+    archives apiJar
 }
 
 jar.finalizedBy('reobfJar')
@@ -206,8 +206,8 @@ private String getChangelogText() {
                 temp = "<h2>$temp</h2>"
             } else if (it.startsWith('-')) {
                 temp = "&nbsp;&nbsp;&nbsp;$temp"
-                temp = temp.replaceAll("(\\S+/\\S+)#(\\d+)\\b", "<a href=\"https://github.com/\$1/issues/\$2\">\$0</a>");
-                temp = temp.replaceAll("#(\\d+)\\b(?!</a>)", "<a href=\"https://github.com/$github_project/issues/\$1\">\$0</a>");
+                temp = temp.replaceAll("(\\S+/\\S+)#(\\d+)\\b", "<a href=\"https://github.com/\$1/issues/\$2\">\$0</a>")
+                temp = temp.replaceAll("#(\\d+)\\b(?!</a>)", "<a href=\"https://github.com/$github_project/issues/\$1\">\$0</a>")
             } else {
                 temp = "<h4>$temp</h4>"
             }
@@ -222,7 +222,7 @@ private String getChangelogText() {
 }
 
 private String getSecret(String key) {
-    File secretFile = file('secret.properties')
+    File secretFile = file('secrets.properties')
     if (secretFile.canRead()) {
         Properties secretProps = new Properties()
         secretProps.load(new FileInputStream(secretFile))
@@ -232,7 +232,7 @@ private String getSecret(String key) {
 }
 
 curseforge {
-    apiKey = getSecret('cf_key');
+    apiKey = getSecret('cf_key')
 
     project {
         id = project.cf_project
@@ -264,3 +264,5 @@ modrinth {
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
+
+tasks.named("curseforge") { finalizedBy("publish") }
