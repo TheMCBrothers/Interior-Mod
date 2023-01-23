@@ -1,24 +1,6 @@
 {
-  "display": {
-    "icon": {
-      "item": "interiormod:chair",
-      "nbt": "{BlockEntityTag:{primaryMaterial:\"minecraft:birch_planks\",secondaryMaterial:\"minecraft:dark_oak_planks\"}}"
-    },
-    "title": {
-      "translate": "advancement.interiormod.root.title"
-    },
-    "description": {
-      "translate": "advancement.interiormod.root.description"
-    },
-    "frame": "task",
-    "show_toast": false,
-    "announce_to_chat": false,
-    "hidden": false,
-    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
-  },
   "criteria": {
     "crafting_table": {
-      "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
@@ -27,7 +9,25 @@
             ]
           }
         ]
-      }
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
+    "description": {
+      "translate": "advancement.interiormod.root.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "interiormod:chair",
+      "nbt": "{BlockEntityTag:{primaryMaterial:\"minecraft:birch_planks\",secondaryMaterial:\"minecraft:dark_oak_planks\"}}"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancement.interiormod.root.title"
     }
   },
   "requirements": [

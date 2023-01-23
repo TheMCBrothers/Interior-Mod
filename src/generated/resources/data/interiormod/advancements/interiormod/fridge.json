@@ -1,23 +1,7 @@
 {
   "parent": "interiormod:interiormod/root",
-  "display": {
-    "icon": {
-      "item": "interiormod:fridge"
-    },
-    "title": {
-      "translate": "advancement.interiormod.fridge.title"
-    },
-    "description": {
-      "translate": "advancement.interiormod.fridge.description"
-    },
-    "frame": "task",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
   "criteria": {
     "fridge": {
-      "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
@@ -26,7 +10,23 @@
             ]
           }
         ]
-      }
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancement.interiormod.fridge.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "interiormod:fridge"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.interiormod.fridge.title"
     }
   },
   "requirements": [

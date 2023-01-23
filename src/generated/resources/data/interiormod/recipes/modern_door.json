@@ -1,10 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "#G",
-    "##",
-    "##"
-  ],
+  "category": "misc",
   "key": {
     "#": {
       "item": "minecraft:white_concrete"
@@ -13,6 +9,11 @@
       "tag": "forge:glass_panes/colorless"
     }
   },
+  "pattern": [
+    "#G",
+    "##",
+    "##"
+  ],
   "result": {
     "item": "interiormod:modern_door"
   }

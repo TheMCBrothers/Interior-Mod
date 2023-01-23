@@ -1,20 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "ICI",
-    " B "
-  ],
+  "category": "misc",
   "key": {
-    "I": {
-      "tag": "forge:ingots/iron"
+    "B": {
+      "item": "minecraft:iron_bars"
     },
     "C": {
       "tag": "forge:chests/wooden"
     },
-    "B": {
-      "item": "minecraft:iron_bars"
+    "I": {
+      "tag": "forge:ingots/iron"
     }
   },
+  "pattern": [
+    "ICI",
+    " B "
+  ],
   "result": {
     "item": "interiormod:trash_can"
   }

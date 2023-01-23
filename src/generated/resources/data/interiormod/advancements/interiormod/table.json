@@ -1,24 +1,7 @@
 {
   "parent": "interiormod:interiormod/root",
-  "display": {
-    "icon": {
-      "item": "interiormod:table",
-      "nbt": "{BlockEntityTag:{primaryMaterial:\"minecraft:warped_planks\",secondaryMaterial:\"minecraft:warped_planks\"}}"
-    },
-    "title": {
-      "translate": "advancement.interiormod.table.title"
-    },
-    "description": {
-      "translate": "advancement.interiormod.table.description"
-    },
-    "frame": "task",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
   "criteria": {
     "table": {
-      "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
@@ -27,7 +10,24 @@
             ]
           }
         ]
-      }
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancement.interiormod.table.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "interiormod:table",
+      "nbt": "{BlockEntityTag:{primaryMaterial:\"minecraft:warped_planks\",secondaryMaterial:\"minecraft:warped_planks\"}}"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.interiormod.table.title"
     }
   },
   "requirements": [

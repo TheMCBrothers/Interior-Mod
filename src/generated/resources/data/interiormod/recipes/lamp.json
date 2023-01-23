@@ -1,9 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "D",
-    "L"
-  ],
+  "category": "misc",
   "key": {
     "D": {
       "item": "minecraft:daylight_detector"
@@ -12,6 +9,10 @@
       "item": "minecraft:redstone_lamp"
     }
   },
+  "pattern": [
+    "D",
+    "L"
+  ],
   "result": {
     "item": "interiormod:lamp"
   }

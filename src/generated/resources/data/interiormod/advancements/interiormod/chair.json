@@ -1,24 +1,7 @@
 {
   "parent": "interiormod:interiormod/root",
-  "display": {
-    "icon": {
-      "item": "interiormod:chair",
-      "nbt": "{BlockEntityTag:{primaryMaterial:\"minecraft:crimson_planks\",secondaryMaterial:\"minecraft:crimson_planks\"}}"
-    },
-    "title": {
-      "translate": "advancement.interiormod.chair.title"
-    },
-    "description": {
-      "translate": "advancement.interiormod.chair.description"
-    },
-    "frame": "task",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden": false
-  },
   "criteria": {
     "chair": {
-      "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
@@ -27,7 +10,24 @@
             ]
           }
         ]
-      }
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancement.interiormod.chair.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "interiormod:chair",
+      "nbt": "{BlockEntityTag:{primaryMaterial:\"minecraft:crimson_planks\",secondaryMaterial:\"minecraft:crimson_planks\"}}"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancement.interiormod.chair.title"
     }
   },
   "requirements": [

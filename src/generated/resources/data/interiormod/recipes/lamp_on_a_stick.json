@@ -1,10 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "L",
-    "S",
-    "S"
-  ],
+  "category": "misc",
   "key": {
     "L": {
       "item": "interiormod:lamp"
@@ -13,6 +9,11 @@
       "tag": "forge:rods/wooden"
     }
   },
+  "pattern": [
+    "L",
+    "S",
+    "S"
+  ],
   "result": {
     "item": "interiormod:lamp_on_a_stick"
   }

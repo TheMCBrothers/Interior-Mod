@@ -1,0 +1,9 @@
+// 1.19.3	2023-01-23T00:19:51.4900972	Loot Tables
+42021230c3de6baece11e16c32b7b417856cef30 data/interiormod/loot_tables/blocks/chair.json
+c3064307b4c7c2aa941d20b6d369d11f3a9dada1 data/interiormod/loot_tables/blocks/fridge.json
+dc22b57ec368495f7b6e603f47335cd57f1df410 data/interiormod/loot_tables/blocks/furniture_workbench.json
+31ca93f052ce7c02693ba5c0c0285e3f7f0ef745 data/interiormod/loot_tables/blocks/lamp.json
+fa2fd5f35684dab9543049bccf1caf3bdb27c682 data/interiormod/loot_tables/blocks/lamp_on_a_stick.json
+5ae5a6b8426b58abae673b9c6602f173358845d2 data/interiormod/loot_tables/blocks/modern_door.json
+4c083a07ea851df73e57825abbc51cd6e21a33ad data/interiormod/loot_tables/blocks/table.json
+0c87b637d4b0c49a1ffd33d14c804deff7abcf7c data/interiormod/loot_tables/blocks/trash_can.json
