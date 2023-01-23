@@ -1,6 +1,7 @@
 package net.themcbrothers.interiormod.init;
 
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.stats.StatFormatter;
 import net.minecraft.stats.Stats;
@@ -20,7 +21,7 @@ public class InteriorStats {
 
     private static ResourceLocation registerCustom(String key, StatFormatter formatter) {
         ResourceLocation resourcelocation = InteriorMod.getId(key);
-        Registry.register(Registry.CUSTOM_STAT, key, resourcelocation);
+        Registry.register(BuiltInRegistries.CUSTOM_STAT, key, resourcelocation);
         Stats.CUSTOM.get(resourcelocation, formatter);
         return resourcelocation;
     }

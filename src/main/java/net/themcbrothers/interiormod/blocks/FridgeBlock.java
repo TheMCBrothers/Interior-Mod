@@ -29,7 +29,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.EmptyHandler;
 import net.minecraftforge.network.NetworkHooks;
@@ -182,8 +182,8 @@ public class FridgeBlock extends Block implements EntityBlock {
             pos = pos.below();
         }
         BlockEntity blockEntity = level.getBlockEntity(pos);
-        if (blockEntity instanceof FridgeBlockEntity && blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).isPresent()) {
-            return ItemHandlerHelper.calcRedstoneFromInventory(blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+        if (blockEntity instanceof FridgeBlockEntity && blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).isPresent()) {
+            return ItemHandlerHelper.calcRedstoneFromInventory(blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER)
                     .orElse(EmptyHandler.INSTANCE));
         }
         return 0;

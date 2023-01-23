@@ -1,6 +1,6 @@
 package net.themcbrothers.interiormod.data;
 
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.themcbrothers.interiormod.init.InteriorBlocks;
 import net.themcbrothers.interiormod.init.InteriorEntityTypes;
@@ -10,8 +10,8 @@ import net.themcbrothers.interiormod.init.InteriorEntityTypes;
  */
 public class InteriorLanguageProvider extends LanguageProvider {
 
-    public InteriorLanguageProvider(DataGenerator gen, String modId) {
-        super(gen, modId, "en_us");
+    public InteriorLanguageProvider(PackOutput packOutput, String modId) {
+        super(packOutput, modId, "en_us");
     }
 
     @Override

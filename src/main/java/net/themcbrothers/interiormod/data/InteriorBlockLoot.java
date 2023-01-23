@@ -1,7 +1,8 @@
 package net.themcbrothers.interiormod.data;
 
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
-import net.minecraft.data.loot.BlockLoot;
+import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -16,15 +17,20 @@ import net.themcbrothers.interiormod.blocks.LampOnAStickBlock;
 import net.themcbrothers.interiormod.init.InteriorBlocks;
 import net.themcbrothers.interiormod.init.Registration;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public class InteriorBlockLoot extends BlockLoot {
+public class InteriorBlockLoot extends BlockLootSubProvider {
+    protected InteriorBlockLoot() {
+        super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+    }
+
     @Override
-    protected void addTables() {
-        this.add(InteriorBlocks.CHAIR.get(), InteriorBlockLoot::createFurnitureTable);
-        this.add(InteriorBlocks.TABLE.get(), InteriorBlockLoot::createFurnitureTable);
-        this.add(InteriorBlocks.FRIDGE.get(), BlockLoot::createDoorTable);
-        this.add(InteriorBlocks.MODERN_DOOR.get(), BlockLoot::createDoorTable);
+    protected void generate() {
+        this.add(InteriorBlocks.CHAIR.get(), this::createFurnitureTable);
+        this.add(InteriorBlocks.TABLE.get(), this::createFurnitureTable);
+        this.add(InteriorBlocks.FRIDGE.get(), this::createDoorTable);
+        this.add(InteriorBlocks.MODERN_DOOR.get(), this::createDoorTable);
         this.dropSelf(InteriorBlocks.LAMP.get());
         this.dropSelf(InteriorBlocks.TRASH_CAN.get());
         this.dropSelf(InteriorBlocks.FURNITURE_WORKBENCH.get());
@@ -42,7 +48,7 @@ public class InteriorBlockLoot extends BlockLoot {
                                         .hasProperty(LampOnAStickBlock.PART, LampOnAStickBlock.Part.TOP)))))));
     }
 
-    private static LootTable.Builder createFurnitureTable(Block block) {
+    private LootTable.Builder createFurnitureTable(Block block) {
         LootPool.Builder builder = applyExplosionCondition(block, LootPool.lootPool()
                 .setRolls(ConstantValue.exactly(1))
                 .add(LootItem.lootTableItem(block)

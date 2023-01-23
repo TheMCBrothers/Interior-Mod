@@ -7,12 +7,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Either;
-import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.*;
+import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.ModelBaker;
+import net.minecraft.client.resources.model.ModelState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -21,7 +23,10 @@ import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.IDynamicBakedModel;
 import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.client.model.geometry.*;
+import net.minecraftforge.client.model.geometry.BlockGeometryBakingContext;
+import net.minecraftforge.client.model.geometry.IGeometryBakingContext;
+import net.minecraftforge.client.model.geometry.IGeometryLoader;
+import net.minecraftforge.client.model.geometry.IUnbakedGeometry;
 import net.themcbrothers.interiormod.InteriorMod;
 import net.themcbrothers.interiormod.api.furniture.FurnitureMaterial;
 import net.themcbrothers.interiormod.blockentity.FurnitureBlockEntity;
@@ -30,7 +35,8 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 /**
@@ -40,7 +46,7 @@ import java.util.function.Function;
 public class FurnitureModel implements IDynamicBakedModel {
     private static final ItemOverrides ITEM_OVERRIDE = new FurnitureItemOverride();
 
-    private final ModelBakery modelBakery;
+    private final ModelBaker modelBaker;
     private final Function<Material, TextureAtlasSprite> spriteGetter;
     private final BlockModel model;
     private final BakedModel bakedModel;
@@ -48,11 +54,11 @@ public class FurnitureModel implements IDynamicBakedModel {
 
     private final Map<String, BakedModel> cache = Maps.newHashMap();
 
-    public FurnitureModel(ModelBakery modelBakery, Function<Material, TextureAtlasSprite> spriteGetter, BlockModel model, ModelState modelTransform) {
-        this.modelBakery = modelBakery;
+    public FurnitureModel(ModelBaker modelBaker, Function<Material, TextureAtlasSprite> spriteGetter, BlockModel model, ModelState modelTransform) {
+        this.modelBaker = modelBaker;
         this.spriteGetter = spriteGetter;
         this.model = model;
-        this.bakedModel = model.bake(modelBakery, model, spriteGetter, modelTransform, InteriorMod.getId("furniture"), true);
+        this.bakedModel = model.bake(modelBaker, model, spriteGetter, modelTransform, InteriorMod.getId("furniture"), true);
         this.modelTransform = modelTransform;
     }
 
@@ -88,7 +94,7 @@ public class FurnitureModel implements IDynamicBakedModel {
             newModel.textureMap.put("primary", Either.left(primaryMaterial));
             newModel.textureMap.put("particle", Either.left(primaryMaterial));
 
-            customModel = newModel.bake(this.modelBakery, this.spriteGetter,
+            customModel = newModel.bake(this.modelBaker, this.spriteGetter,
                     this.modelTransform, InteriorMod.getId("furniture_overriding"));
             this.cache.put(key, customModel);
         }
@@ -168,15 +174,10 @@ public class FurnitureModel implements IDynamicBakedModel {
 
     private static class Geometry implements IUnbakedGeometry<Geometry> {
         @Override
-        public BakedModel bake(IGeometryBakingContext context, ModelBakery bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
+        public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
             BlockModel model = ((BlockGeometryBakingContext) context).owner.parent;
             assert model != null;
-            return new FurnitureModel(bakery, spriteGetter, model, modelState);
-        }
-
-        @Override
-        public Collection<Material> getMaterials(IGeometryBakingContext context, Function<ResourceLocation, UnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
-            return Collections.emptyList();
+            return new FurnitureModel(baker, spriteGetter, model, modelState);
         }
     }
 

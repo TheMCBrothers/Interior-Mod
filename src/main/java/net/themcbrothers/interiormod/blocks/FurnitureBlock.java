@@ -1,13 +1,11 @@
 package net.themcbrothers.interiormod.blocks;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -17,7 +15,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.HitResult;
 import net.themcbrothers.interiormod.api.InteriorAPI;
-import net.themcbrothers.interiormod.api.furniture.FurnitureMaterial;
 import net.themcbrothers.interiormod.api.furniture.FurnitureType;
 import net.themcbrothers.interiormod.blockentity.ChairBlockEntity;
 import net.themcbrothers.interiormod.blockentity.FurnitureBlockEntity;
@@ -37,13 +34,6 @@ public abstract class FurnitureBlock extends BaseEntityBlock {
     @Override
     public RenderShape getRenderShape(BlockState p_49232_) {
         return RenderShape.MODEL;
-    }
-
-    @Override
-    public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> items) {
-        for (FurnitureMaterial material : InteriorAPI.furnitureRegistry()) {
-            items.add(FurnitureMaterials.createItemStack(this.furnitureType, material, material));
-        }
     }
 
     @Override

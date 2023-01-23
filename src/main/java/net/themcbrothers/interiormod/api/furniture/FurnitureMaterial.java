@@ -11,6 +11,7 @@ import net.minecraftforge.client.model.data.ModelData;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -29,7 +30,7 @@ public class FurnitureMaterial {
     private Function<FurnitureType, Boolean> typeValidator = type -> true;
 
     /**
-     * @param blockSupplier Block of the material.
+     * @param blockSupplier           Block of the material.
      * @param textureLocationOverride Optional texture override. Leave null for particle texture.
      */
     public FurnitureMaterial(@Nonnull Supplier<? extends Block> blockSupplier, @Nullable ResourceLocation textureLocationOverride) {
@@ -37,8 +38,8 @@ public class FurnitureMaterial {
     }
 
     /**
-     * @param blockSupplier Block of the material.
-     * @param itemProvider Item used for crafting.
+     * @param blockSupplier           Block of the material.
+     * @param itemProvider            Item used for crafting.
      * @param textureLocationOverride Optional texture override. Leave null for particle texture.
      */
     public FurnitureMaterial(@Nonnull Supplier<? extends Block> blockSupplier, @Nonnull Supplier<? extends ItemLike> itemProvider,
@@ -74,11 +75,9 @@ public class FurnitureMaterial {
      */
     @Nonnull
     public ResourceLocation getTextureLocation() {
-        if (this.textureLocationOverride == null) {
-            return Minecraft.getInstance().getBlockRenderer().getBlockModel(this.blockSupplier.get().defaultBlockState())
-                    .getParticleIcon(ModelData.EMPTY).getName();
-        }
-        return this.textureLocationOverride;
+        return Objects.requireNonNullElseGet(this.textureLocationOverride,
+                () -> Minecraft.getInstance().getBlockRenderer().getBlockModel(this.blockSupplier.get().defaultBlockState())
+                        .getParticleIcon(ModelData.EMPTY).atlasLocation());
     }
 
     /**
