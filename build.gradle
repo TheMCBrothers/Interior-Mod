@@ -2,6 +2,7 @@ plugins {
     id 'idea'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id 'com.matthewprenger.cursegradle' version '1.4.0'
     id 'com.modrinth.minotaur' version '2.4.3'
 }
@@ -19,7 +20,7 @@ java {
 }
 
 minecraft {
-    mappings channel: 'official', version: project.minecraft_version
+    mappings channel: 'parchment', version: "$mappings_version-$minecraft_version"
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
