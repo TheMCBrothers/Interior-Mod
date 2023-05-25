@@ -11,10 +11,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.*;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.Material;
-import net.minecraft.client.resources.model.ModelBaker;
-import net.minecraft.client.resources.model.ModelState;
+import net.minecraft.client.resources.model.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -178,6 +175,23 @@ public class FurnitureModel implements IDynamicBakedModel {
             BlockModel model = ((BlockGeometryBakingContext) context).owner.parent;
             assert model != null;
             return new FurnitureModel(baker, spriteGetter, model, modelState);
+        }
+
+        /**
+         * TODO look at {@link net.minecraftforge.client.model.CompositeModel}
+         *
+         * @param modelGetter Model getter
+         * @param context     Context
+         */
+        @Override
+        public void resolveParents(Function<ResourceLocation, UnbakedModel> modelGetter, IGeometryBakingContext context) {
+            if (context instanceof BlockGeometryBakingContext blockGeometryBakingContext) {
+                BlockModel parent = blockGeometryBakingContext.owner.parent;
+
+                if (parent != null) {
+                    parent.resolveParents(modelGetter);
+                }
+            }
         }
     }
 
