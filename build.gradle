@@ -4,7 +4,7 @@ plugins {
     id 'net.minecraftforge.gradle' version '5.1.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id 'com.matthewprenger.cursegradle' version '1.4.0'
-    id 'com.modrinth.minotaur' version '2.4.3'
+    id 'com.modrinth.minotaur' version '2.+'
 }
 
 group = 'net.themcbrothers'
@@ -82,34 +82,23 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-    maven {
-        name = 'prog'
-        url = 'https://dvs1.progwml6.com/files/maven'
-    }
-    maven {
-        name = 'tterrag'
-        url = 'https://maven.tterrag.com/'
-    }
-    maven {
-        // location of a maven mirror for JEI files, as a fallback
-        name = "ModMaven"
-        url = "https://modmaven.dev"
-    }
-    maven {
-        url = "https://cursemaven.com"
-        content {
-            includeGroup "curse.maven"
-        }
-    }
+    maven { url = "https://nexus.themcbrothers.net/repository/maven-blamejared" }
+    maven { url = "https://nexus.themcbrothers.net/repository/maven-mod" }
+    maven { url = "https://nexus.themcbrothers.net/repository/maven-k4you" }
+    maven { url = "https://nexus.themcbrothers.net/repository/maven-curse" }
 }
 
 dependencies {
     // Minecraft Forge
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    if (project.hasProperty('jei_version')) { // JEI
-        // Configured, optional dependency
+    // Configured
+    if (project.hasProperty('configured_file_id')) {
         runtimeOnly fg.deobf("curse.maven:configured-457570:$project.configured_file_id")
+    }
+
+    // Just Enough Items
+    if (project.hasProperty('jei_version')) {
         // compile against the JEI API but do not include it at runtime
         compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"))
         compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
@@ -223,6 +212,11 @@ private String getChangelogText() {
 }
 
 private String getSecret(String key) {
+    def secret = System.getenv(key)
+    if (secret != null) {
+        return secret.trim()
+    }
+
     File secretFile = file('secrets.properties')
     if (secretFile.canRead()) {
         Properties secretProps = new Properties()
@@ -265,5 +259,3 @@ modrinth {
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }
-
-tasks.named("curseforge") { finalizedBy("publish") }
