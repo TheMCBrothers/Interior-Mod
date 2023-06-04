@@ -22,7 +22,7 @@ public class FurnitureShapedRecipe extends ShapedRecipe {
     private final ShapedRecipe recipe;
 
     public FurnitureShapedRecipe(ShapedRecipe recipe) {
-        super(recipe.getId(), recipe.getGroup(), recipe.category(), recipe.getRecipeWidth(), recipe.getRecipeHeight(), recipe.getIngredients(), recipe.getResultItem());
+        super(recipe.getId(), recipe.getGroup(), recipe.category(), recipe.getRecipeWidth(), recipe.getRecipeHeight(), recipe.getIngredients(), recipe.getResultItem(null)); // TODO
         this.recipe = recipe;
     }
 

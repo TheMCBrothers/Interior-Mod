@@ -8,12 +8,14 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraftforge.common.crafting.IShapedRecipe;
 import net.themcbrothers.interiormod.init.InteriorBlocks;
+import net.themcbrothers.interiormod.util.RecipeUtil;
 
 import java.util.List;
 
@@ -62,7 +64,7 @@ public class FurnitureCraftingRecipeCategory implements IRecipeCategory<Crafting
         List<List<ItemStack>> inputs = recipe.getIngredients().stream()
                 .map(ingredient -> List.of(ingredient.getItems()))
                 .toList();
-        ItemStack resultItem = recipe.getResultItem();
+        ItemStack resultItem = RecipeUtil.getResultItem(recipe);
 
         int width = recipe instanceof IShapedRecipe<?> shapedRecipe ? shapedRecipe.getRecipeWidth() : 0;
         int height = recipe instanceof IShapedRecipe<?> shapedRecipe ? shapedRecipe.getRecipeHeight() : 0;

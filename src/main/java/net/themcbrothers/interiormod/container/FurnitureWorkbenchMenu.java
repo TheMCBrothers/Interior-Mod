@@ -62,7 +62,7 @@ public class FurnitureWorkbenchMenu extends AbstractContainerMenu {
             if (recipe.isPresent()) {
                 CraftingRecipe craftingRecipe = recipe.get();
                 if (resultContainer.setRecipeUsed(level, serverPlayer, craftingRecipe)) {
-                    itemStack = craftingRecipe.assemble(craftingContainer);
+                    itemStack = craftingRecipe.assemble(craftingContainer, level.registryAccess());
                 }
             }
 
