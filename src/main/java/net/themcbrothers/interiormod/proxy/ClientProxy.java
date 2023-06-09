@@ -10,6 +10,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.themcbrothers.interiormod.InteriorMod;
+import net.themcbrothers.interiormod.client.models.block.furniture.FurnitureModel;
 import net.themcbrothers.interiormod.client.models.block.furniture.NewFurnitureModel;
 import net.themcbrothers.interiormod.client.renderer.SeatRenderer;
 import net.themcbrothers.interiormod.client.screen.FurnitureWorkbenchScreen;
@@ -48,7 +49,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     private void modelLoading(final ModelEvent.RegisterGeometryLoaders event) {
-        event.register("furniture", NewFurnitureModel.Loader.INSTANCE);
+        event.register("furniture", FurnitureModel.Loader.INSTANCE);
     }
 
     private void entityRender(final EntityRenderersEvent.RegisterRenderers event) {

@@ -1,6 +1,5 @@
 package net.themcbrothers.interiormod.client.models.block.furniture;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
@@ -40,7 +39,6 @@ import java.util.function.Function;
 /**
  * @author TheMCBrothers
  */
-@SuppressWarnings("deprecation")
 public class FurnitureModel implements IDynamicBakedModel {
     private static final ItemOverrides ITEM_OVERRIDE = new FurnitureItemOverride();
 
@@ -48,16 +46,16 @@ public class FurnitureModel implements IDynamicBakedModel {
     private final Function<Material, TextureAtlasSprite> spriteGetter;
     private final BlockModel model;
     private final BakedModel bakedModel;
-    private final ModelState modelTransform;
+    private final ModelState modelState;
 
     private final Map<String, BakedModel> cache = Maps.newHashMap();
 
-    public FurnitureModel(ModelBaker modelBaker, Function<Material, TextureAtlasSprite> spriteGetter, BlockModel model, ModelState modelTransform) {
+    public FurnitureModel(ModelBaker modelBaker, Function<Material, TextureAtlasSprite> spriteGetter, BlockModel model, ModelState modelState) {
         this.modelBaker = modelBaker;
         this.spriteGetter = spriteGetter;
         this.model = model;
-        this.bakedModel = model.bake(modelBaker, model, spriteGetter, modelTransform, InteriorMod.getId("furniture"), true);
-        this.modelTransform = modelTransform;
+        this.bakedModel = model.bake(modelBaker, model, spriteGetter, modelState, InteriorMod.getId("furniture"), true);
+        this.modelState = modelState;
     }
 
     public BakedModel getCustomModel(@Nullable FurnitureMaterial primary, @Nullable FurnitureMaterial secondary) {
@@ -73,31 +71,18 @@ public class FurnitureModel implements IDynamicBakedModel {
         if (possibleModel != null) {
             customModel = possibleModel;
         } else {
-            List<BlockElement> elements = Lists.newArrayList();
-            for (BlockElement part : this.model.getElements()) {
-                elements.add(new BlockElement(part.from, part.to, Maps.newHashMap(part.faces),
-                        part.rotation, part.shade));
-            }
-
-            BlockModel newModel = new BlockModel(this.model.getParentLocation(), elements,
-                    Maps.newHashMap(this.model.textureMap), this.useAmbientOcclusion(), BlockModel.GuiLight.FRONT,
-                    this.model.getTransforms(), Lists.newArrayList(this.model.getOverrides()));
-            newModel.name = this.model.name;
-            newModel.parent = this.model.parent;
-
             Material primaryMaterial = new Material(TextureAtlas.LOCATION_BLOCKS, primary.getTextureLocation());
             Material secondaryMaterial = new Material(TextureAtlas.LOCATION_BLOCKS, secondary.getTextureLocation());
 
-            newModel.textureMap.put("secondary", Either.left(secondaryMaterial));
-            newModel.textureMap.put("primary", Either.left(primaryMaterial));
-            newModel.textureMap.put("particle", Either.left(primaryMaterial));
+            this.model.textureMap.put("secondary", Either.left(secondaryMaterial));
+            this.model.textureMap.put("primary", Either.left(primaryMaterial));
+            this.model.textureMap.put("particle", Either.left(primaryMaterial));
 
-            customModel = newModel.bake(this.modelBaker, this.spriteGetter,
-                    this.modelTransform, InteriorMod.getId("furniture_overriding"));
+            customModel = this.model.bake(this.modelBaker, this.model, this.spriteGetter,
+                    this.modelState, InteriorMod.getId("furniture_overriding"), this.isGui3d());
             this.cache.put(key, customModel);
         }
 
-        assert customModel != null;
         return customModel;
     }
 
@@ -176,23 +161,6 @@ public class FurnitureModel implements IDynamicBakedModel {
             BlockModel model = ((BlockGeometryBakingContext) context).owner.parent;
             assert model != null;
             return new FurnitureModel(baker, spriteGetter, model, modelState);
-        }
-
-        /**
-         * TODO look at {@link net.minecraftforge.client.model.CompositeModel}
-         *
-         * @param modelGetter Model getter
-         * @param context     Context
-         */
-        @Override
-        public void resolveParents(Function<ResourceLocation, UnbakedModel> modelGetter, IGeometryBakingContext context) {
-            if (context instanceof BlockGeometryBakingContext blockGeometryBakingContext) {
-                BlockModel parent = blockGeometryBakingContext.owner.parent;
-
-                if (parent != null) {
-                    parent.resolveParents(modelGetter);
-                }
-            }
         }
     }
 

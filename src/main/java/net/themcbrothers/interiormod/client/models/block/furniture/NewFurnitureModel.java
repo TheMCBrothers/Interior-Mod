@@ -11,10 +11,7 @@ import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.Material;
-import net.minecraft.client.resources.model.ModelBaker;
-import net.minecraft.client.resources.model.ModelState;
+import net.minecraft.client.resources.model.*;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
@@ -42,7 +39,9 @@ public class NewFurnitureModel implements IUnbakedGeometry<NewFurnitureModel> {
 
         BlockModel parent = ((BlockGeometryBakingContext) context).owner.parent;
         if (parent != null) {
-            parent.textureMap.put("primary", Either.left(new Material(TextureAtlas.LOCATION_BLOCKS, new ResourceLocation("blocks/diamond_block"))));
+            parent.textureMap.put("primary", Either.left(new Material(TextureAtlas.LOCATION_BLOCKS, new ResourceLocation("block/diamond_block"))));
+            parent.textureMap.put("secondary", Either.left(new Material(TextureAtlas.LOCATION_BLOCKS, new ResourceLocation("block/diamond_block"))));
+            parent.textureMap.put("particle", Either.left(new Material(TextureAtlas.LOCATION_BLOCKS, new ResourceLocation("block/diamond_block"))));
             bakedModel = parent.bake(baker, parent, spriteGetter, modelState, modelLocation, context.isGui3d());
         }
 
