@@ -137,6 +137,7 @@ task deobfJar(type: Jar) {
 }
 
 sourcesJar {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
     archiveAppendix.set(minecraft_version)
     archiveClassifier.set('sources')
     from sourceSets.main.allJava
@@ -151,6 +152,7 @@ javadocJar {
 task apiJar(type: Jar) {
     archiveAppendix.set(minecraft_version)
     archiveClassifier.set('api')
+    from sourceSets.main.allJava
     include 'net/themcbrothers/interiormod/api/**'
 }
 
@@ -183,7 +185,7 @@ publishing {
     }
 }
 
-private String getChangelogText() {
+private String getChangelogText(boolean hasTitle) {
     File changelogFile = file('changelog.txt')
     String str = ''
     int lineCount = 0
@@ -195,21 +197,24 @@ private String getChangelogText() {
         if (it.length() > 1) {
             String temp = it
             if (lineCount == 0) {
-                temp = "${modname} ${version}"
-                temp = "<h2>$temp</h2>"
+                if (hasTitle) {
+                    temp = "## $modname $version"
+                } else {
+                    temp = ''
+                }
             } else if (it.startsWith('-')) {
-                temp = "&nbsp;&nbsp;&nbsp;$temp"
-                temp = temp.replaceAll("(\\S+/\\S+)#(\\d+)\\b", "<a href=\"https://github.com/\$1/issues/\$2\">\$0</a>")
-                temp = temp.replaceAll("#(\\d+)\\b(?!</a>)", "<a href=\"https://github.com/$github_project/issues/\$1\">\$0</a>")
+                temp = temp.replaceAll("(\\S+/\\S+)#(\\d+)\\b", "[\$0](https://github.com/\$1/issues/\$2)")
+                temp = temp.replaceAll("#(\\d+)\\b(?!</a>)", "[\$0](https://github.com/$github_project/issues/\$1)")
             } else {
-                temp = "<h4>$temp</h4>"
+                temp = "#### $temp"
             }
-            str += "$temp<br/>"
+            str += temp
             lineCount++
             return
         } else {
             done = true
         }
+        return
     }
     return str
 }
@@ -237,18 +242,18 @@ if (curseForgeToken != null) {
         apiKey = curseForgeToken
 
         project {
-            id = project.cf_project
-            changelog = getChangelogText()
-            changelogType = 'html'
-            releaseType = project.artifact_type
-            addGameVersion(project.minecraft_version)
+            id = cf_project
+            changelog = getChangelogText(true)
+            changelogType = 'markdown'
+            releaseType = artifact_type
+            addGameVersion(minecraft_version)
             mainArtifact(jar) {
-                displayName = "${version} for ${minecraft_version}"
+                displayName = "$version for $minecraft_version"
                 relations {
                     optionalDependency 'jei'
                 }
             }
-            // addArtifact apiJar
+            addArtifact apiJar
         }
     }
 }
@@ -256,12 +261,13 @@ if (curseForgeToken != null) {
 if (modrinthToken != null) {
     modrinth {
         token = modrinthToken
-        projectId = project.modrinth_project
-        versionNumber = "$project.minecraft_version-$project.version"
-        versionName = project.version.toString()
-        versionType = project.artifact_type
-        changelog = getChangelogText()
+        projectId = modrinth_project
+        versionNumber = "$minecraft_version-$version"
+        versionName = version.toString()
+        versionType = artifact_type
+        changelog = getChangelogText(false)
         uploadFile = jar
+        additionalFiles.add(apiJar)
     }
 }
 
