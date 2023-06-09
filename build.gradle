@@ -1,14 +1,17 @@
 plugins {
     id 'idea'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'net.minecraftforge.gradle' version '6.+'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id 'com.matthewprenger.cursegradle' version '1.4.0'
     id 'com.modrinth.minotaur' version '2.+'
 }
 
 group = 'net.themcbrothers'
-archivesBaseName = 'TheMCBrothersInteriorMod'
+
+base {
+    archivesName = 'TheMCBrothersInteriorMod'
+}
 
 java {
     toolchain {
@@ -20,7 +23,7 @@ java {
 }
 
 minecraft {
-    mappings channel: "$mappings_channel", version: "$mappings_version"
+    mappings channel: mappings_channel, version: mappings_version
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -42,7 +45,7 @@ minecraft {
         }
 
         server {
-            workingDirectory project.file('run')
+            workingDirectory file('run')
 
             property 'forge.logging.markers', 'REGISTRIES'
 
@@ -90,32 +93,32 @@ repositories {
 
 dependencies {
     // Minecraft Forge
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    minecraft "net.minecraftforge:forge:$minecraft_version-$forge_version"
 
     // Configured
     if (project.hasProperty('configured_file_id')) {
-        runtimeOnly fg.deobf("curse.maven:configured-457570:$project.configured_file_id")
+        runtimeOnly fg.deobf("curse.maven:configured-457570:$configured_file_id")
     }
 
     // Just Enough Items
     if (project.hasProperty('jei_version')) {
         // compile against the JEI API but do not include it at runtime
-        compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"))
-        compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
+        compileOnly(fg.deobf("mezz.jei:jei-$minecraft_version-common-api:$jei_version"))
+        compileOnly(fg.deobf("mezz.jei:jei-$minecraft_version-forge-api:$jei_version"))
         // at runtime, use the full JEI jar for Forge
-        runtimeOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}"))
+        runtimeOnly(fg.deobf("mezz.jei:jei-$minecraft_version-forge:$jei_version"))
     }
 }
 
 jar {
-    archiveAppendix.set("$project.minecraft_version")
+    archiveAppendix.set(minecraft_version)
     manifest {
         attributes([
                 "Specification-Title"     : "interiormod",
                 "Specification-Vendor"    : "TheMCBrothers",
                 "Specification-Version"   : "1", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
-                "Implementation-Version"  : project.jar.archiveVersion,
+                "Implementation-Version"  : jar.archiveVersion,
                 "Implementation-Vendor"   : "TheMCBrothers",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
@@ -128,25 +131,25 @@ javadoc {
 }
 
 task deobfJar(type: Jar) {
-    archiveAppendix.set("$project.minecraft_version")
+    archiveAppendix.set(minecraft_version)
     archiveClassifier.set('deobf')
     from sourceSets.main.output
 }
 
 sourcesJar {
-    archiveAppendix.set("$project.minecraft_version")
+    archiveAppendix.set(minecraft_version)
     archiveClassifier.set('sources')
     from sourceSets.main.allJava
 }
 
 javadocJar {
-    archiveAppendix.set("$project.minecraft_version")
+    archiveAppendix.set(minecraft_version)
     archiveClassifier.set('javadoc')
     from javadoc.destinationDir
 }
 
 task apiJar(type: Jar) {
-    archiveAppendix.set("$project.minecraft_version")
+    archiveAppendix.set(minecraft_version)
     archiveClassifier.set('api')
     include 'net/themcbrothers/interiormod/api/**'
 }
@@ -226,34 +229,40 @@ private String getSecret(String key) {
     return null
 }
 
-curseforge {
-    apiKey = getSecret('cf_key')
+var curseForgeToken = getSecret("cf_key")
+var modrinthToken = getSecret("modrinth_token")
 
-    project {
-        id = project.cf_project
-        changelog = getChangelogText()
-        changelogType = 'html'
-        releaseType = project.artifact_type
-        addGameVersion(project.minecraft_version)
-        mainArtifact(jar) {
-            displayName = "${version} for ${minecraft_version}"
-            relations {
-                optionalDependency 'jei'
+if (curseForgeToken != null) {
+    curseforge {
+        apiKey = curseForgeToken
+
+        project {
+            id = project.cf_project
+            changelog = getChangelogText()
+            changelogType = 'html'
+            releaseType = project.artifact_type
+            addGameVersion(project.minecraft_version)
+            mainArtifact(jar) {
+                displayName = "${version} for ${minecraft_version}"
+                relations {
+                    optionalDependency 'jei'
+                }
             }
+            // addArtifact apiJar
         }
-        // addArtifact apiJar
     }
 }
 
-modrinth {
-    token = getSecret('modrinth_token')
-    projectId = project.modrinth_project
-    versionNumber = "$project.minecraft_version-$project.version"
-    versionName = project.version
-    versionType = project.artifact_type
-    changelog = getChangelogText()
-    uploadFile = jar
-    gameVersions = ["$project.minecraft_version"]
+if (modrinthToken != null) {
+    modrinth {
+        token = modrinthToken
+        projectId = project.modrinth_project
+        versionNumber = "$project.minecraft_version-$project.version"
+        versionName = project.version.toString()
+        versionType = project.artifact_type
+        changelog = getChangelogText()
+        uploadFile = jar
+    }
 }
 
 tasks.withType(JavaCompile).configureEach {
