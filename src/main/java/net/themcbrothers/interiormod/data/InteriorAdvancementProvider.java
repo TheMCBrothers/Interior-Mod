@@ -3,7 +3,7 @@ package net.themcbrothers.interiormod.data;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.FrameType;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.advancements.critereon.PlacedBlockTrigger;
+import net.minecraft.advancements.critereon.ItemUsedOnLocationTrigger;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.network.chat.Component;
@@ -38,8 +38,8 @@ public class InteriorAdvancementProvider extends ForgeAdvancementProvider {
             Advancement.Builder.advancement().display(this.furnitureWithType(FurnitureType.TABLE, FurnitureMaterials.WARPED_PLANKS), this.title("table"), this.description("table"), null, FrameType.TASK, true, true, false).addCriterion("table", InventoryChangeTrigger.TriggerInstance.hasItems(InteriorBlocks.TABLE.get())).parent(advancement).save(saver, this.id("table"), existingFileHelper);
             Advancement.Builder.advancement().display(InteriorBlocks.FRIDGE.get(), this.title("fridge"), this.description("fridge"), null, FrameType.TASK, true, true, false).addCriterion("fridge", InventoryChangeTrigger.TriggerInstance.hasItems(InteriorBlocks.FRIDGE.get())).parent(advancement).save(saver, this.id("fridge"), existingFileHelper);
             Advancement advancement1 = Advancement.Builder.advancement().display(InteriorBlocks.LAMP.get(), this.title("lamp"), this.description("lamp"), null, FrameType.TASK, true, true, false).addCriterion("lamp", InventoryChangeTrigger.TriggerInstance.hasItems(InteriorBlocks.LAMP.get())).parent(advancement).save(saver, this.id("lamp"), existingFileHelper);
-            Advancement.Builder.advancement().display(InteriorBlocks.LAMP_ON_A_STICK.get(), this.title("lamp_on_a_stick"), this.description("lamp_on_a_stick"), null, FrameType.TASK, true, true, false).addCriterion("lamp_on_a_stick", PlacedBlockTrigger.TriggerInstance.placedBlock(InteriorBlocks.LAMP_ON_A_STICK.get())).parent(advancement1).save(saver, this.id("lamp_on_a_stick"), existingFileHelper);
-            Advancement.Builder.advancement().display(InteriorBlocks.TRASH_CAN.get(), this.title("trash_can"), this.description("trash_can"), null, FrameType.TASK, true, true, false).addCriterion("trash_can", PlacedBlockTrigger.TriggerInstance.placedBlock(InteriorBlocks.TRASH_CAN.get())).parent(advancement).save(saver, this.id("trash_can"), existingFileHelper);
+            Advancement.Builder.advancement().display(InteriorBlocks.LAMP_ON_A_STICK.get(), this.title("lamp_on_a_stick"), this.description("lamp_on_a_stick"), null, FrameType.TASK, true, true, false).addCriterion("lamp_on_a_stick", ItemUsedOnLocationTrigger.TriggerInstance.placedBlock(InteriorBlocks.LAMP_ON_A_STICK.get())).parent(advancement1).save(saver, this.id("lamp_on_a_stick"), existingFileHelper);
+            Advancement.Builder.advancement().display(InteriorBlocks.TRASH_CAN.get(), this.title("trash_can"), this.description("trash_can"), null, FrameType.TASK, true, true, false).addCriterion("trash_can", ItemUsedOnLocationTrigger.TriggerInstance.placedBlock(InteriorBlocks.TRASH_CAN.get())).parent(advancement).save(saver, this.id("trash_can"), existingFileHelper);
             Advancement.Builder.advancement().display(InteriorBlocks.MODERN_DOOR.get(), this.title("modern_door"), this.description("modern_door"), null, FrameType.TASK, true, true, false).addCriterion("modern_door", InventoryChangeTrigger.TriggerInstance.hasItems(InteriorBlocks.MODERN_DOOR.get())).parent(advancement).save(saver, this.id("modern_door"), existingFileHelper);
         }
 

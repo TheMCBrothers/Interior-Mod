@@ -42,10 +42,10 @@ public class SeatEntity extends Entity {
         if (source == null) {
             source = this.blockPosition();
         }
-        if (!this.level.isClientSide) {
-            if (this.getPassengers().isEmpty() || this.level.getBlockState(source).isAir()) {
+        if (!this.level().isClientSide) {
+            if (this.getPassengers().isEmpty() || this.level().getBlockState(source).isAir()) {
                 this.remove(RemovalReason.KILLED);
-                level.updateNeighborsAt(getSource(), level.getBlockState(getSource()).getBlock());
+                level().updateNeighborsAt(getSource(), level().getBlockState(getSource()).getBlock());
             }
         }
     }

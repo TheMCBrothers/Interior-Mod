@@ -21,7 +21,7 @@ import java.util.Optional;
  */
 public class FurnitureWorkbenchMenu extends AbstractContainerMenu {
 
-    private final CraftingContainer craftSlots = new CraftingContainer(this, 3, 3);
+    private final CraftingContainer craftSlots = new TransientCraftingContainer(this, 3, 3);
     private final ResultContainer resultSlots = new ResultContainer();
     private final ContainerLevelAccess access;
     private final Player player;
@@ -96,7 +96,7 @@ public class FurnitureWorkbenchMenu extends AbstractContainerMenu {
     public ItemStack quickMoveStack(Player player, int index) {
         ItemStack itemStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
-        if (slot != null && slot.hasItem()) {
+        if (slot.hasItem()) {
             ItemStack itemStack1 = slot.getItem();
             itemStack = itemStack1.copy();
             if (index == 0) {
