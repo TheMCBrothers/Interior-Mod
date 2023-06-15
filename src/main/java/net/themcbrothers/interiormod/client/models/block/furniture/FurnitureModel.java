@@ -4,18 +4,19 @@ import com.google.common.collect.Maps;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.datafixers.util.Either;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.model.*;
-import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.BlockElement;
+import net.minecraft.client.renderer.block.model.BlockModel;
+import net.minecraft.client.renderer.block.model.ItemOverrides;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.IDynamicBakedModel;
@@ -25,15 +26,19 @@ import net.minecraftforge.client.model.geometry.IGeometryBakingContext;
 import net.minecraftforge.client.model.geometry.IGeometryLoader;
 import net.minecraftforge.client.model.geometry.IUnbakedGeometry;
 import net.themcbrothers.interiormod.InteriorMod;
+import net.themcbrothers.interiormod.api.InteriorAPI;
 import net.themcbrothers.interiormod.api.furniture.FurnitureMaterial;
 import net.themcbrothers.interiormod.blockentity.FurnitureBlockEntity;
 import net.themcbrothers.interiormod.init.FurnitureMaterials;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 
 /**
@@ -41,83 +46,115 @@ import java.util.function.Function;
  */
 public class FurnitureModel implements IDynamicBakedModel {
     private static final ItemOverrides ITEM_OVERRIDE = new FurnitureItemOverride();
+    private static final ResourceLocation MISSING_TEXTURE = new ResourceLocation("missingno");
 
-    private final ModelBaker modelBaker;
-    private final Function<Material, TextureAtlasSprite> spriteGetter;
     private final BlockModel model;
     private final BakedModel bakedModel;
     private final ModelState modelState;
 
-    private final Map<String, BakedModel> cache = Maps.newHashMap();
+    private final Map<Pair<FurnitureMaterial, FurnitureMaterial>, BakedModel> cache = Maps.newConcurrentMap();
 
-    public FurnitureModel(ModelBaker modelBaker, Function<Material, TextureAtlasSprite> spriteGetter, BlockModel model, ModelState modelState) {
-        this.modelBaker = modelBaker;
-        this.spriteGetter = spriteGetter;
+    public FurnitureModel(BlockModel model, BakedModel bakedModel, ModelState modelState) {
         this.model = model;
-        this.bakedModel = model.bake(modelBaker, model, spriteGetter, modelState, InteriorMod.getId("furniture"), true);
+        this.bakedModel = bakedModel;
         this.modelState = modelState;
     }
 
-    public BakedModel getCustomModel(@Nullable FurnitureMaterial primary, @Nullable FurnitureMaterial secondary) {
-        // make sure values not null
-        if (primary == null) primary = FurnitureMaterials.OAK_PLANKS.get();
-        if (secondary == null) secondary = FurnitureMaterials.OAK_PLANKS.get();
+    public BakedModel getModelVariant(@NotNull ModelData data) {
+        return this.getModelVariant(data.get(FurnitureBlockEntity.PRIMARY_MATERIAL), data.get(FurnitureBlockEntity.SECONDARY_MATERIAL));
+    }
 
-        BakedModel customModel;
-
-        String key = primary + "/" + secondary;
-        BakedModel possibleModel = this.cache.get(key);
-
-        if (possibleModel != null) {
-            customModel = possibleModel;
-        } else {
-            Material primaryMaterial = new Material(TextureAtlas.LOCATION_BLOCKS, primary.getTextureLocation());
-            Material secondaryMaterial = new Material(TextureAtlas.LOCATION_BLOCKS, secondary.getTextureLocation());
-
-            this.model.textureMap.put("secondary", Either.left(secondaryMaterial));
-            this.model.textureMap.put("primary", Either.left(primaryMaterial));
-            this.model.textureMap.put("particle", Either.left(primaryMaterial));
-
-            customModel = this.model.bake(this.modelBaker, this.model, this.spriteGetter,
-                    this.modelState, InteriorMod.getId("furniture_overriding"), this.isGui3d());
-            this.cache.put(key, customModel);
-        }
-
-        return customModel;
+    public BakedModel getModelVariant(@Nullable FurnitureMaterial primary, @Nullable FurnitureMaterial secondary) {
+        Pair<FurnitureMaterial, FurnitureMaterial> key = ImmutablePair.of(primary, secondary);
+        return this.cache.computeIfAbsent(key, k -> bakeModelVariant(k.getLeft(), k.getRight()));
     }
 
     @Override
-    public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull RandomSource rand) {
-        return this.getCustomModel(FurnitureMaterials.OAK_PLANKS.get(), FurnitureMaterials.OAK_PLANKS.get()).getQuads(state, side, rand);
+    public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @NotNull RandomSource rand, @NotNull ModelData extraData, @Nullable RenderType renderType) {
+        return this.getModelVariant(extraData).getQuads(state, side, rand, ModelData.EMPTY, renderType);
     }
 
     @Override
-    public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull RandomSource rand, @Nonnull ModelData extraData, @org.jetbrains.annotations.Nullable RenderType renderType) {
-        FurnitureMaterial primary = extraData.get(FurnitureBlockEntity.PRIMARY_MATERIAL);
-        FurnitureMaterial secondary = extraData.get(FurnitureBlockEntity.SECONDARY_MATERIAL);
-        return this.getCustomModel(primary, secondary).getQuads(state, side, rand);
+    public TextureAtlasSprite getParticleIcon(@NotNull ModelData data) {
+        return this.getModelVariant(data).getParticleIcon(data);
     }
 
     @Override
-    public TextureAtlasSprite getParticleIcon(@Nonnull ModelData data) {
-        FurnitureMaterial primary = data.get(FurnitureBlockEntity.PRIMARY_MATERIAL);
-        FurnitureMaterial secondary = data.get(FurnitureBlockEntity.SECONDARY_MATERIAL);
-        return this.getCustomModel(primary, secondary).getParticleIcon();
-    }
-
-    @Nonnull
-    @Override
-    public ModelData getModelData(@Nonnull BlockAndTintGetter world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull ModelData tileData) {
+    public @NotNull ModelData getModelData(@NotNull BlockAndTintGetter level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull ModelData modelData) {
         FurnitureMaterial primary = FurnitureMaterials.OAK_PLANKS.get();
         FurnitureMaterial secondary = FurnitureMaterials.OAK_PLANKS.get();
 
-        if (world.getBlockEntity(pos) instanceof FurnitureBlockEntity furniture) {
+        if (level.getBlockEntity(pos) instanceof FurnitureBlockEntity furniture) {
             primary = furniture.getPrimaryMaterial();
             secondary = furniture.getSecondaryMaterial();
         }
 
-        return tileData.derive().with(FurnitureBlockEntity.PRIMARY_MATERIAL, primary)
+        return modelData.derive().with(FurnitureBlockEntity.PRIMARY_MATERIAL, primary)
                 .with(FurnitureBlockEntity.SECONDARY_MATERIAL, secondary).build();
+    }
+
+    public BakedModel bakeModelVariant(@Nullable FurnitureMaterial primaryMaterial, @Nullable FurnitureMaterial secondaryMaterial) {
+        //noinspection deprecation
+        List<BlockElement> parts = this.model.getElements();
+        List<BlockElement> elements = new ArrayList<>(parts.size()); // We have to duplicate this, so we can edit it below.
+        for (BlockElement part : parts) {
+            elements.add(new BlockElement(part.from, part.to, Maps.newHashMap(part.faces), part.rotation, part.shade));
+        }
+
+        BlockModel newModel = new BlockModel(this.model.getParentLocation(), elements,
+                Maps.newHashMap(this.model.textureMap), this.model.hasAmbientOcclusion(), this.model.getGuiLight(),
+                this.model.getTransforms(), new ArrayList<>(this.model.getOverrides()));
+        newModel.name = this.model.name;
+        newModel.parent = this.model.parent;
+
+
+        Either<Material, String> primary = findTexture(primaryMaterial);
+        newModel.textureMap.put("particle", primary);
+        newModel.textureMap.put("primary", primary);
+        newModel.textureMap.put("secondary", findTexture(secondaryMaterial));
+
+        return Objects.requireNonNull(new ModelBaker() {
+            @Override
+            public BakedModel bake(@Nullable ResourceLocation location, @Nullable ModelState state, @Nullable Function<Material, TextureAtlasSprite> sprites) {
+                return newModel.bake(this, newModel, Material::sprite,
+                        modelState,
+                        createResourceVariant(primaryMaterial, secondaryMaterial),
+                        true
+                );
+            }
+
+            @Override
+            public Function<Material, TextureAtlasSprite> getModelTextureGetter() {
+                return Material::sprite;
+            }
+
+            @Override
+            public UnbakedModel getModel(ResourceLocation location) {
+                return newModel;
+            }
+
+            @Override
+            @Nullable
+            public BakedModel bake(ResourceLocation location, ModelState modelState1) {
+                return this.bake(location, modelState1, getModelTextureGetter());
+            }
+
+        }.bake(null, null, null));
+    }
+
+    private ResourceLocation createResourceVariant(@Nullable FurnitureMaterial primaryMaterial, @Nullable FurnitureMaterial secondaryMaterial) {
+        String primaryKey = secondaryMaterial != null
+                ? Objects.requireNonNull(InteriorAPI.furnitureRegistry().getKey(secondaryMaterial)).toString().replace(':', '.')
+                : "interiormod.furniture_material.missing";
+        String secondaryKey = secondaryMaterial != null
+                ? Objects.requireNonNull(InteriorAPI.furnitureRegistry().getKey(primaryMaterial)).toString().replace(':', '.')
+                : "interiormod.furniture_material.missing";
+        return new ModelResourceLocation(InteriorMod.getId("block/furniture"), "#primary=" + primaryKey + ",secondary=" + secondaryKey);
+    }
+
+    private Either<Material, String> findTexture(@Nullable FurnitureMaterial material) {
+        ResourceLocation resource = material == null ? MISSING_TEXTURE : material.getTextureLocation();
+        return Either.left(new Material(InventoryMenu.BLOCK_ATLAS, resource));
     }
 
     @Override
@@ -142,7 +179,7 @@ public class FurnitureModel implements IDynamicBakedModel {
 
     @Override
     public TextureAtlasSprite getParticleIcon() {
-        return this.bakedModel.getParticleIcon();
+        return this.bakedModel.getParticleIcon(ModelData.EMPTY);
     }
 
     @Override
@@ -150,17 +187,12 @@ public class FurnitureModel implements IDynamicBakedModel {
         return ITEM_OVERRIDE;
     }
 
-    @Override
-    public BakedModel applyTransform(ItemDisplayContext transformType, PoseStack poseStack, boolean applyLeftHandTransform) {
-        return this.bakedModel.applyTransform(transformType, poseStack, applyLeftHandTransform);
-    }
-
     private static class Geometry implements IUnbakedGeometry<Geometry> {
         @Override
         public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
             BlockModel model = ((BlockGeometryBakingContext) context).owner.parent;
             assert model != null;
-            return new FurnitureModel(baker, spriteGetter, model, modelState);
+            return new FurnitureModel(model, model.bake(baker, model, spriteGetter, modelState, InteriorMod.getId("furniture"), context.isGui3d()), modelState);
         }
     }
 
