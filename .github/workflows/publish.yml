@@ -1,0 +1,18 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    uses: TheMCBrothers/.github/.github/workflows/mod_publish.yml@main
+    secrets:
+      CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+      MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+      PUBLISH_USER: ${{ secrets.PUBLISH_USER }}
+      PUBLISH_PASSWORD: ${{ secrets.PUBLISH_PASSWORD }}
