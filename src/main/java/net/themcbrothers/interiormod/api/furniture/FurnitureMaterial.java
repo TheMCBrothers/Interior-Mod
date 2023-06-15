@@ -77,7 +77,7 @@ public class FurnitureMaterial {
     public ResourceLocation getTextureLocation() {
         return Objects.requireNonNullElseGet(this.textureLocationOverride,
                 () -> Minecraft.getInstance().getBlockRenderer().getBlockModel(this.blockSupplier.get().defaultBlockState())
-                        .getParticleIcon(ModelData.EMPTY).atlasLocation());
+                        .getParticleIcon(ModelData.EMPTY).contents().name());
     }
 
     /**
