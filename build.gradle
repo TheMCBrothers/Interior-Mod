@@ -208,7 +208,7 @@ private String getChangelogText(boolean hasTitle) {
             } else {
                 temp = "#### $temp"
             }
-            str += temp
+            str += "$temp\n"
             lineCount++
             return
         } else {
