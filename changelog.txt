@@ -1,6 +1,3 @@
-5.0.2:
-- Update data pack
-
 5.0.1:
 - Set icon for Catalogue
 - Fix crash when The One Probe is present
