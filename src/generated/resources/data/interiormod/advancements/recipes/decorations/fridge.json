@@ -28,5 +28,6 @@
     "recipes": [
       "interiormod:fridge"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

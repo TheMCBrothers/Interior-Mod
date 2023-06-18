@@ -51,5 +51,6 @@
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "interiormod:blocks/lamp_on_a_stick"
 }

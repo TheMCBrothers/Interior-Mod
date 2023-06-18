@@ -3,7 +3,12 @@
   "criteria": {
     "lamp_on_a_stick": {
       "conditions": {
-        "block": "interiormod:lamp_on_a_stick"
+        "location": [
+          {
+            "block": "interiormod:lamp_on_a_stick",
+            "condition": "minecraft:block_state_property"
+          }
+        ]
       },
       "trigger": "minecraft:placed_block"
     }
@@ -27,5 +32,6 @@
     [
       "lamp_on_a_stick"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

@@ -3,7 +3,12 @@
   "criteria": {
     "trash_can": {
       "conditions": {
-        "block": "interiormod:trash_can"
+        "location": [
+          {
+            "block": "interiormod:trash_can",
+            "condition": "minecraft:block_state_property"
+          }
+        ]
       },
       "trigger": "minecraft:placed_block"
     }
@@ -27,5 +32,6 @@
     [
       "trash_can"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

@@ -36,5 +36,6 @@
     "recipes": [
       "interiormod:trash_can"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

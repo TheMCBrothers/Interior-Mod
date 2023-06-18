@@ -33,5 +33,6 @@
     [
       "fridge"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

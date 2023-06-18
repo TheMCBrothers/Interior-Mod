@@ -15,5 +15,6 @@
   ],
   "result": {
     "item": "interiormod:furniture_workbench"
-  }
+  },
+  "show_notification": true
 }

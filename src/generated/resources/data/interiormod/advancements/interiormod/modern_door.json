@@ -33,5 +33,6 @@
     [
       "modern_door"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

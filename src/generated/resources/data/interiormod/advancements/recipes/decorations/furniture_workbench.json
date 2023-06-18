@@ -28,5 +28,6 @@
     "recipes": [
       "interiormod:furniture_workbench"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

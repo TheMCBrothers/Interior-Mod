@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "interiormod:modern_door"
-  }
+  },
+  "show_notification": true
 }

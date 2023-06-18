@@ -34,5 +34,6 @@
     [
       "crafting_table"
     ]
-  ]
+  ],
+  "sends_telemetry_event": true
 }

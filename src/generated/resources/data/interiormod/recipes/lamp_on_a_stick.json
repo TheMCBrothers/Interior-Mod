@@ -16,5 +16,6 @@
   ],
   "result": {
     "item": "interiormod:lamp_on_a_stick"
-  }
+  },
+  "show_notification": true
 }

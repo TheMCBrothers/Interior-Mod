@@ -1,9 +1,9 @@
-// 1.19.3	2023-01-23T00:19:51.4900972	Loot Tables
-42021230c3de6baece11e16c32b7b417856cef30 data/interiormod/loot_tables/blocks/chair.json
-c3064307b4c7c2aa941d20b6d369d11f3a9dada1 data/interiormod/loot_tables/blocks/fridge.json
-dc22b57ec368495f7b6e603f47335cd57f1df410 data/interiormod/loot_tables/blocks/furniture_workbench.json
-31ca93f052ce7c02693ba5c0c0285e3f7f0ef745 data/interiormod/loot_tables/blocks/lamp.json
-fa2fd5f35684dab9543049bccf1caf3bdb27c682 data/interiormod/loot_tables/blocks/lamp_on_a_stick.json
-5ae5a6b8426b58abae673b9c6602f173358845d2 data/interiormod/loot_tables/blocks/modern_door.json
-4c083a07ea851df73e57825abbc51cd6e21a33ad data/interiormod/loot_tables/blocks/table.json
-0c87b637d4b0c49a1ffd33d14c804deff7abcf7c data/interiormod/loot_tables/blocks/trash_can.json
+// 1.20.1	2023-06-18T20:01:30.6150425	Loot Tables
+1cf43ee83b364597ad591dc790a460388a7fe3f4 data/interiormod/loot_tables/blocks/chair.json
+6af5c31e44c50cae4505c28dec193d90d3986037 data/interiormod/loot_tables/blocks/fridge.json
+00f6a218469d6dcaadeaffac644ce16bfc38e2c2 data/interiormod/loot_tables/blocks/furniture_workbench.json
+882adec0bde08a82d7c72873d1f2b0b6ecd002d1 data/interiormod/loot_tables/blocks/lamp.json
+ea62bb63ca26041c6dab174caeebbee6adafe9ee data/interiormod/loot_tables/blocks/lamp_on_a_stick.json
+97ba53dfa6db9815e5a61cc84d1f834b8af2831a data/interiormod/loot_tables/blocks/modern_door.json
+f7ab7d89d54e564470eba45727f7207b19b9c667 data/interiormod/loot_tables/blocks/table.json
+fa04581dda08ed5c030f5b62af5a5b8167d1ec4f data/interiormod/loot_tables/blocks/trash_can.json
