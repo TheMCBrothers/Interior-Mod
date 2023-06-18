@@ -1,14 +1,6 @@
-3.0.0:
-- Updated to 1.18.2
-- Reworked JEI Plugin
-- Some "API" changes
-- Technical changes
-- Plans for adding Recipe Book
+5.0.1:
+- Set icon for Catalogue
+- Fix crash when The One Probe is present
 
-2.2.1:
-- Fixed Furniture Workbench result slot (duplication glitch)
-
-2.2.0:
-- Updated to 1.18.1
-- Same features as for 1.16.5
-- Removed The One Probe Integration
+5.0.0:
+- Updated to 1.20.1
