@@ -88,11 +88,6 @@ dependencies {
     // Minecraft Forge
     minecraft "net.minecraftforge:forge:$minecraft_version-$forge_version"
 
-    // Configured
-    if (project.hasProperty('configured_file_id')) {
-        runtimeOnly fg.deobf("curse.maven:configured-457570:$configured_file_id")
-    }
-
     // Just Enough Items
     if (project.hasProperty('jei_version')) {
         // compile against the JEI API but do not include it at runtime
