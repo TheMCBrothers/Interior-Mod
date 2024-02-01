@@ -10,7 +10,7 @@ plugins {
 group = 'net.themcbrothers'
 
 base {
-    archivesName = 'TheMCBrothersInteriorMod'
+    archivesName = artifact_base
 }
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
@@ -135,7 +135,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             version = "$project.minecraft_version-$project.version"
-            artifactId = "$project.mavenname"
+            artifactId = "$project.artifact_base"
             artifact jar
         }
     }
