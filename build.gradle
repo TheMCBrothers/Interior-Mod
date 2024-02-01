@@ -13,13 +13,7 @@ base {
     archivesName = 'TheMCBrothersInteriorMod'
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
-
-    withSourcesJar()
-}
+java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 
 minecraft {
     mappings channel: mappings_channel, version: mappings_version
@@ -110,7 +104,7 @@ dependencies {
 }
 
 jar {
-    archiveAppendix.set(minecraft_version)
+    archiveAppendix = minecraft_version
     manifest {
         attributes([
                 "Specification-Title"     : "interiormod",
@@ -124,29 +118,14 @@ jar {
     }
 }
 
-tasks.register('deobfJar', Jar) {
-    archiveAppendix.set(minecraft_version)
-    archiveClassifier.set('deobf')
-    from sourceSets.main.output
-}
-
-sourcesJar {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-    archiveAppendix.set(minecraft_version)
-    archiveClassifier.set('sources')
-    from sourceSets.main.allJava
-}
-
 tasks.register('apiJar', Jar) {
-    archiveAppendix.set(minecraft_version)
-    archiveClassifier.set('api')
+    archiveAppendix = minecraft_version
+    archiveClassifier = 'api'
     from sourceSets.main.allJava
     include 'net/themcbrothers/interiormod/api/**'
 }
 
 artifacts {
-    archives deobfJar
-    archives sourcesJar
     archives apiJar
 }
 
