@@ -18,7 +18,6 @@ java {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
 
-    withJavadocJar()
     withSourcesJar()
 }
 
@@ -125,12 +124,7 @@ jar {
     }
 }
 
-javadoc {
-    source = [sourceSets.main.allJava]
-    failOnError = false
-}
-
-task deobfJar(type: Jar) {
+tasks.register('deobfJar', Jar) {
     archiveAppendix.set(minecraft_version)
     archiveClassifier.set('deobf')
     from sourceSets.main.output
@@ -143,13 +137,7 @@ sourcesJar {
     from sourceSets.main.allJava
 }
 
-javadocJar {
-    archiveAppendix.set(minecraft_version)
-    archiveClassifier.set('javadoc')
-    from javadoc.destinationDir
-}
-
-task apiJar(type: Jar) {
+tasks.register('apiJar', Jar) {
     archiveAppendix.set(minecraft_version)
     archiveClassifier.set('api')
     from sourceSets.main.allJava
@@ -159,7 +147,6 @@ task apiJar(type: Jar) {
 artifacts {
     archives deobfJar
     archives sourcesJar
-    archives javadocJar
     archives apiJar
 }
 
