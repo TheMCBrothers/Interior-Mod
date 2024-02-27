@@ -220,8 +220,8 @@ unifiedPublishing {
 
         mainPublication tasks.jar
 
-        var curseforgeToken = System.getenv("CURSEFORGE_TOKEN")
-        var modrinthToken = System.getenv("MODRINTH_TOKEN")
+        var curseforgeToken = System.getenv('CURSEFORGE_TOKEN')
+        var modrinthToken = System.getenv('MODRINTH_TOKEN')
 
         if (curseforgeToken != null) {
             curseforge {
