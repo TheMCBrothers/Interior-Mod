@@ -160,16 +160,17 @@ jar.finalizedBy('reobfJar')
 
 publishing {
     publications { PublicationContainer publicationContainer ->
-        publicationContainer.register("maven", MavenPublication) { MavenPublication publication ->
+        publicationContainer.register('mavenJava', MavenPublication) { MavenPublication publication ->
             from components.java
+            publication.artifactId = archive_base
             publication.version = "$minecraft_version-$mod_version"
         }
     }
     repositories {
         maven {
             credentials {
-                username = System.getenv("PUBLISH_USER")
-                password = System.getenv("PUBLISH_PASSWORD")
+                username = System.getenv('PUBLISH_USER')
+                password = System.getenv('PUBLISH_PASSWORD')
             }
 
             url 'https://nexus.themcbrothers.net/repository/maven-releases/'
