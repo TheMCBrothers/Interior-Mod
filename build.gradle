@@ -18,7 +18,13 @@ base {
     archivesName = archive_base
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+
+    withSourcesJar()
+}
 
 minecraft {
     mappings channel: mappings_channel, version: mappings_version
@@ -145,23 +151,22 @@ jar {
     exclude('.cache/**')
 }
 
-tasks.register('sourcesJar', Jar) {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-    archiveAppendix.set(minecraft_version)
-    archiveClassifier.set('sources')
-    from sourceSets.main.allJava
+sourcesJar {
+    archiveAppendix = minecraft_version
+    include('net/themcbrothers/**')
 }
 
 tasks.register('apiJar', Jar) {
     archiveAppendix = minecraft_version
     archiveClassifier = 'api'
-    from sourceSets.main.allJava
+    from sourceSets.main.output
     include 'net/themcbrothers/interiormod/api/**'
 }
 
 artifacts {
-    archives sourcesJar
     archives apiJar
+    archives jar
+    archives sourcesJar
 }
 
 jar.finalizedBy('reobfJar')
