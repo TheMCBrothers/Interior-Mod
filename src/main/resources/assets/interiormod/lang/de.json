@@ -23,17 +23,5 @@
     "advancement.interiormod.chair.title": "Einfach hinsetzen",
     "advancement.interiormod.table.title": "Tisch-Alarm",
     "block.interiormod.lamp": "Nachtlicht-Lampe",
-    "block.interiormod.modern_door": "Moderne Tür",
-    "advancement.interiormod.lamp.description": "",
-    "advancement.interiormod.lamp_on_a_stick.description": "",
-    "advancement.interiormod.lamp_on_a_stick.title": "",
-    "advancement.interiormod.modern_door.description": "",
-    "advancement.interiormod.root.description": "",
-    "advancement.interiormod.trash_can.description": "",
-    "advancement.interiormod.trash_can.title": "",
-    "block.interiormod.furniture_workbench.tooltip": "",
-    "block.interiormod.lamp.tooltip": "",
-    "block.interiormod.lamp_on_a_stick.tooltip": "",
-    "block.interiormod.modern_door.tooltip": "",
-    "block.interiormod.trash_can.tooltip": ""
+    "block.interiormod.modern_door": "Moderne Tür"
 }
