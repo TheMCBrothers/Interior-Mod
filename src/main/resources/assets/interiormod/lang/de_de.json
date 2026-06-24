@@ -23,5 +23,6 @@
   "entity.interiormod.seat": "Sitz",
   "itemGroup.interiormod": "TheMCBrothers Interior Mod",
   "stat.interiormod.interact_with_furniture_workbench": "Möbel-Werbänke benutzt",
-  "stat.interiormod.sit_down": "Auf Stühlen hingesetzt"
+  "stat.interiormod.sit_down": "Auf Stühlen hingesetzt",
+  "advancement.interiormod.root.description": "Möbel sind frei anpassbar"
 }
