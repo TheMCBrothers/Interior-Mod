@@ -1,6 +1,6 @@
 {
-  "advancement.interiormod.chair.description": "Bau dir en Stuel",
-  "advancement.interiormod.chair.title": "Hock ab",
+  "advancement.interiormod.chair.description": "Bau en Stuel",
+  "advancement.interiormod.chair.title": "Hock eifach ab",
   "advancement.interiormod.fridge.description": "Bau dir en Chüelschrank für dini Chuchi",
   "advancement.interiormod.fridge.title": "Versorg din Fras",
   "advancement.interiormod.lamp.description": "Bau dir ä Nachtliechtlampe",
@@ -28,7 +28,7 @@
   "block.interiormod.modern_door.tooltip": "Ä moderni Variante vonere Vanilla Tüür",
   "block.interiormod.table": "Tisch",
   "block.interiormod.trash_can": "Chübel",
-  "block.interiormod.trash_can.tooltip": "Zerstört jedes Zügs wo ineta wird",
+  "block.interiormod.trash_can.tooltip": "Zerstört jede Seich wo ineta wird",
   "container.interiormod.fridge": "Chüelschrank",
   "container.interiormod.furniture_crafting": "Möbel Konstruktion",
   "container.interiormod.trash_can": "Chübel",
