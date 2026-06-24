@@ -1,1 +1,27 @@
-{}
+{
+  "advancement.interiormod.chair.description": "Stelle einen Stuhl her",
+  "advancement.interiormod.chair.title": "Einfach hinsetzen",
+  "advancement.interiormod.fridge.description": "Stelle einen Kühlschrank für deine Küche her",
+  "advancement.interiormod.fridge.title": "Bewahre Essen auf",
+  "advancement.interiormod.lamp.title": "Automatische Lichter",
+  "advancement.interiormod.modern_door.title": "Modernisiere dein Zuhause",
+  "advancement.interiormod.root.title": "TheMCBrothers Interior Mod",
+  "advancement.interiormod.table.description": "Stelle einen Tisch her",
+  "advancement.interiormod.table.title": "Tisch-Alarm",
+  "block.interiormod.chair": "Stuhl",
+  "block.interiormod.fridge": "Kühlschrank",
+  "block.interiormod.fridge.tooltip": "Kann Essen aufbewahren",
+  "block.interiormod.furniture_workbench": "Möbel-Werkbank",
+  "block.interiormod.lamp": "Nachtlicht-Lampe",
+  "block.interiormod.lamp_on_a_stick": "Lampe auf Stock",
+  "block.interiormod.modern_door": "Moderne Tür",
+  "block.interiormod.table": "Tisch",
+  "block.interiormod.trash_can": "Abfalleimer",
+  "container.interiormod.fridge": "Kühlschrank",
+  "container.interiormod.furniture_crafting": "Möbel-Handwerk",
+  "container.interiormod.trash_can": "Abfall",
+  "entity.interiormod.seat": "Sitz",
+  "itemGroup.interiormod": "TheMCBrothers Interior Mod",
+  "stat.interiormod.interact_with_furniture_workbench": "Möbel-Werbänke benutzt",
+  "stat.interiormod.sit_down": "Auf Stühlen hingesetzt"
+}
